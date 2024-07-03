@@ -1,0 +1,31 @@
+var MedicalQuestionCategories;
+(function (MedicalQuestionCategories) {
+    MedicalQuestionCategories["SICK_LEAVE"] = "SICK_LEAVE";
+    MedicalQuestionCategories["PRESCRIPTION"] = "PRESCRIPTION";
+    MedicalQuestionCategories["CONTRACEPTION"] = "CONTRACEPTION";
+})(MedicalQuestionCategories || (MedicalQuestionCategories = {}));
+export var AnamnesisQuestionType;
+(function (AnamnesisQuestionType) {
+    AnamnesisQuestionType[AnamnesisQuestionType["ACCOMPANYING_SYMPTOMS"] = 0] = "ACCOMPANYING_SYMPTOMS";
+    AnamnesisQuestionType[AnamnesisQuestionType["ONSET"] = 1] = "ONSET";
+    AnamnesisQuestionType[AnamnesisQuestionType["LOCATION"] = 2] = "LOCATION";
+    AnamnesisQuestionType[AnamnesisQuestionType["DURATION"] = 3] = "DURATION";
+    AnamnesisQuestionType[AnamnesisQuestionType["CHARACTER"] = 4] = "CHARACTER";
+    AnamnesisQuestionType[AnamnesisQuestionType["ALLEVIATING_AGGRAVATING"] = 5] = "ALLEVIATING_AGGRAVATING";
+    AnamnesisQuestionType[AnamnesisQuestionType["SEVERITY"] = 6] = "SEVERITY";
+    AnamnesisQuestionType[AnamnesisQuestionType["HPI"] = 7] = "HPI";
+    AnamnesisQuestionType[AnamnesisQuestionType["SUBJECTIVE"] = 8] = "SUBJECTIVE";
+    AnamnesisQuestionType[AnamnesisQuestionType["SYMPTOMS"] = 9] = "SYMPTOMS";
+    AnamnesisQuestionType[AnamnesisQuestionType["HISTORY"] = 10] = "HISTORY";
+    AnamnesisQuestionType[AnamnesisQuestionType["ALLERGIES"] = 11] = "ALLERGIES";
+    AnamnesisQuestionType[AnamnesisQuestionType["MEDS"] = 12] = "MEDS";
+    AnamnesisQuestionType[AnamnesisQuestionType["SENSATIONS"] = 13] = "SENSATIONS";
+    AnamnesisQuestionType[AnamnesisQuestionType["TIMELINE"] = 14] = "TIMELINE";
+    AnamnesisQuestionType[AnamnesisQuestionType["CHANGES"] = 15] = "CHANGES";
+    AnamnesisQuestionType[AnamnesisQuestionType["LIFESTYLE"] = 16] = "LIFESTYLE";
+    AnamnesisQuestionType[AnamnesisQuestionType["HABITS"] = 17] = "HABITS";
+    AnamnesisQuestionType[AnamnesisQuestionType["DIAGNOSTIC_TESTS"] = 18] = "DIAGNOSTIC_TESTS";
+    AnamnesisQuestionType[AnamnesisQuestionType["MENTAL_STATE"] = 19] = "MENTAL_STATE";
+    AnamnesisQuestionType[AnamnesisQuestionType["ENVIRONMENTAL"] = 20] = "ENVIRONMENTAL";
+    AnamnesisQuestionType[AnamnesisQuestionType["OTHER"] = 21] = "OTHER";
+})(AnamnesisQuestionType || (AnamnesisQuestionType = {}));
