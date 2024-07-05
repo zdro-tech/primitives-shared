@@ -18,46 +18,38 @@ export interface ProducerOrImporter {
     countryName: string;
 }
 export interface MedicinalProduct {
-    id: string;
-    count: string;
-    medicinalProductName: string;
-    commonName: string;
-    medicinalProductPower: string;
-    pharmaceuticalFormName: string;
-    registryNumber: string;
-    expirationDateString: string;
-    subjectMedicinalProductName: string;
-    procedureTypeName: string;
-    specimenType: string;
-    activeSubstanceName: string;
+    productId: string;
+    productName: string;
+    commonName?: string;
+    preparationType?: string;
+    potency?: string;
+    pharmaceuticalForm?: string;
+    procedureType?: string;
+    authorizationNumber?: string;
+    authorizationValidity?: string;
     atcCode: string;
-    gracePeriod: string;
-    characteristicFileName: boolean;
-    leafletFileName: boolean;
-    packageFileName: boolean;
-    parallelImportLeafletFileName: boolean;
-    parallelImportPackageMarkingFileName: boolean;
-    parallelImportAdditionalDocumentOneFileName: boolean;
-    parallelImportAdditionalDocumentTwoFileName: boolean;
-    decisionsAttachment: boolean;
-    rmpSummary: string;
-    targetSpecies: string;
-    packaging: string;
-    distributor: string;
+    responsibleEntity?: string;
+    activeSubstance?: string;
+    manufacturerName?: string;
+    manufacturerCountry?: string;
+    importerName?: string;
+    importerCountry?: string;
+    manufacturerImporterName?: string;
+    manufacturerImporterCountry?: string;
+    responsibleEntityInExportCountry?: string;
+    exportCountry?: string;
+    leafletUrl?: string;
+    characteristicsUrl?: string;
+    parallelImportLeafletUrl?: string;
+    parallelImportPackagingMarking?: string;
+}
+export interface PackagingOption {
+    productId: number;
+    gtin: string;
     euNumber: string;
     accessibilityCategory: string;
-    gtin: string;
-    parallelPackaging: string;
-    parallelDistributor: string;
-    parallelEuNumber: string;
-    parallelAccessibilityCategory: string;
-    parallelGtin: string;
-    deletedPackaging: string;
-    deletedDistributor: string;
-    deletedEuNumber: string;
-    deletedAccessibilityCategory: string;
-    deletedGtin: string;
-    producersOrImporters: ProducerOrImporter[];
+    packagingDescription: string;
+    recordNumber?: string;
 }
 export interface ResponseData {
     content: MedicinalProduct[];
