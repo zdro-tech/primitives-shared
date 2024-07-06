@@ -10,9 +10,12 @@ export interface ShrankMedicinalProduct {
 }
 
 export interface ShrankMedicinalProductVariations {
-    packaging: string;
+    productId: number;
     gtin: string
+    euNumber?: string;
     accessibilityCategory: string;
+    packaging: string;
+    packagingDescription?: string;
 }
 
 export interface ProducerOrImporter {

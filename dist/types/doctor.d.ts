@@ -131,6 +131,10 @@ export interface ICDCodeSearchResult {
     hash: string;
     creation_date: Date;
 }
+export interface DiagnosisWithICDCodes extends Diagnosis, Partial<ICDCodeSearchResult> {
+}
+export interface SymptomWithICDCodes extends Symptom, Partial<ICDCodeSearchResult> {
+}
 export interface DoctorContext {
     doctorID: string;
     threadID: string;
