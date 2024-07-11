@@ -33,11 +33,11 @@ export const saveBase64File = async (bucket, fileData) => {
         stream.end(buffer);
     });
 };
-export const getFileLink = async (bucket, fileName) => {
+export const getFileLink = async (bucket, fileName, expiresInMinutes = 1) => {
     const options = {
         version: 'v4',
         action: 'read',
-        expires: Date.now() + 60 * 60 * 1000, // 60 minutes, but what's about server timezone?
+        expires: Date.now() + expiresInMinutes * 60 * 1000, // 1 minute
     };
     try {
         const [url] = await bucket.file(fileName).getSignedUrl(options);

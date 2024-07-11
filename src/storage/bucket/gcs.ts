@@ -41,11 +41,11 @@ export const saveBase64File = async (bucket: Bucket, fileData: FileData) => {
   });
 };
 
-export const getFileLink = async (bucket: Bucket, fileName: string): Promise<string> => {
+export const getFileLink = async (bucket: Bucket, fileName: string, expiresInMinutes = 1): Promise<string> => {
   const options: GetSignedUrlConfig = {
     version: 'v4',
     action: 'read',
-    expires: Date.now() + 60 * 60 * 1000, // 60 minutes, but what's about server timezone?
+    expires: Date.now() + expiresInMinutes * 60 * 1000, // 1 minute
   };
 
   try {
