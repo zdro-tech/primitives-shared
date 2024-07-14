@@ -1,5 +1,5 @@
 
-import { ChatMessage, ChatMessageRequest } from "./chat-message.js"
+import { ChatMessage, ChatMessageRequest, MessageAuthor } from "./chat-message.js"
 import { ChatThread } from "./thread.js"
 
 
@@ -54,21 +54,4 @@ export interface GetMessagesResponse {
     messages: Array<ChatMessage>
 }
 
-// export interface OpenAIChatClassifictionResponse {
-//     intent: string
-//     clarifyingQuestion: string
-// }
 
-// export interface ChatClassifictionResponse {
-//     intent: ThreadClass
-//     clarifyingQuestion: string
-// }
-
-
-// export interface OpenAIThreadSummaryResponse {
-//     title: string
-// }
-
-// export interface ThreadSummaryResponse {
-//     title: string
-// }

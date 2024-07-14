@@ -62,7 +62,7 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.19.1",
-    "@google-cloud/storage": "^7.9.0",
+    "@google-cloud/storage": "^7.11.3",
     "aws-cdk-lib": "^2.147.0",
     "axios": "^1.6.8",
     "dotenv": "^16.4.5",
