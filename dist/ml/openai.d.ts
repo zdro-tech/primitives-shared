@@ -1,6 +1,5 @@
 import OpenAI from 'openai';
 import { ChatCompletionCreateParamsNonStreaming } from 'openai/resources/index.mjs';
-declare const openAIClient: OpenAI;
-declare const defaultOpenAISettings: ChatCompletionCreateParamsNonStreaming;
-export { openAIClient, defaultOpenAISettings };
+export declare const getOpenAIClient: () => OpenAI;
+export declare const defaultOpenAISettings: ChatCompletionCreateParamsNonStreaming;
 //# sourceMappingURL=openai.d.ts.map

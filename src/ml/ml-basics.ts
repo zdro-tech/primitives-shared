@@ -1,12 +1,12 @@
 import { ChatCompletionMessageParam, ChatCompletion, ChatCompletionCreateParamsNonStreaming, ChatCompletionMessage, } from "openai/resources/index"
 import { backOff, BackoffOptions } from "exponential-backoff";
-import { defaultOpenAISettings, openAIClient } from "./openai.js";
+import { defaultOpenAISettings, getOpenAIClient } from "./openai.js";
 import { logger } from "../logger/logger.js";
 import { ChatRequestMessage, GetChatCompletionsOptions } from "@azure/openai";
-import { azureOpenai, defaultAzureSettings } from "./azure-openai.js";
+import { defaultAzureSettings, getAzureOpenaiClient } from "./azure-openai.js";
 import { ChatMessage, MessageAuthor } from "../types/chat-message.js";
 import { Message, TextContentBlock } from "openai/resources/beta/threads/index.mjs";
-import { anthropic, defaultCloudeSettings } from "./anthropic-cloude.js";
+import { defaultCloudeSettings, getAnthropicClient } from "./anthropic-cloude.js";
 import { MessageCreateParamsNonStreaming, MessageParam } from "@anthropic-ai/sdk/resources/messages.mjs";
 
 const retryOptions: BackoffOptions = {
@@ -68,14 +68,14 @@ export const newCloudeCompletion = async (messages: Array<ChatCompletionMessageP
         "role": "assistant",
         "content": "{"
     })
-    const message = await anthropic.messages.create({
+    const message = await getAnthropicClient().messages.create({
         ...defaultCloudeSettings, ...{ model, messages: cloudeMessages, system: systemMessage }
     } as MessageCreateParamsNonStreaming);
     return [{ message: { content: message.content[0].text } as ChatCompletionMessage }] as ChatCompletion.Choice[]
 }
 
 export const new4AzureCompletition = async (messages: Array<ChatCompletionMessageParam>): Promise<ChatCompletion.Choice[]> => {
-    const { choices } = await azureOpenai.getChatCompletions(
+    const { choices } = await getAzureOpenaiClient().getChatCompletions(
         "aloe-chat", messages as ChatRequestMessage[],
         {
             ...defaultAzureSettings as GetChatCompletionsOptions
@@ -85,7 +85,7 @@ export const new4AzureCompletition = async (messages: Array<ChatCompletionMessag
 
 const new35Completition = async (messages: Array<ChatCompletionMessageParam>): Promise<ChatCompletion.Choice[]> => {
     return await backOff(async () => {
-        const reply = await openAIClient.chat.completions.create({
+        const reply = await getOpenAIClient().chat.completions.create({
             ...defaultOpenAISettings,
             model: "gpt-3.5-turbo-0125",
             max_tokens: 1000,
@@ -97,7 +97,7 @@ const new35Completition = async (messages: Array<ChatCompletionMessageParam>): P
 
 const new4oCompletition = async (messages: Array<ChatCompletionMessageParam>): Promise<ChatCompletion.Choice[]> => {
     return await backOff(async () => {
-        const reply = await openAIClient.chat.completions.create({
+        const reply = await getOpenAIClient().chat.completions.create({
             ...defaultOpenAISettings,
             model: "gpt-4o",
             messages: messages
@@ -108,7 +108,7 @@ const new4oCompletition = async (messages: Array<ChatCompletionMessageParam>): P
 
 const new4Completition = async (messages: Array<ChatCompletionMessageParam>): Promise<ChatCompletion.Choice[]> => {
     return await backOff(async () => {
-        const reply = await openAIClient.chat.completions.create({
+        const reply = await getOpenAIClient().chat.completions.create({
             ...defaultOpenAISettings,
             model: "gpt-4-turbo",
             messages: messages
@@ -156,7 +156,7 @@ export const addPostInstructions = (messages: Array<ChatCompletionMessageParam>,
 
 export const visionCompletion = async (messages: Array<ChatCompletionMessageParam>): Promise<ChatCompletion.Choice[]> => {
     return await backOff(async () => {
-        const reply = await openAIClient.chat.completions.create({
+        const reply = await getOpenAIClient().chat.completions.create({
             model: "gpt-4-vision-preview",
             max_tokens: 1000,
             messages: messages

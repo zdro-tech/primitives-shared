@@ -1,2 +1,2 @@
 export * from './ml-basics.js';
-export { openAIClient } from './openai.js';
+export * from './openai.js';

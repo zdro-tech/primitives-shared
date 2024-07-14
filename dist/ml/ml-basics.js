@@ -1,9 +1,9 @@
 import { backOff } from "exponential-backoff";
-import { defaultOpenAISettings, openAIClient } from "./openai.js";
+import { defaultOpenAISettings, getOpenAIClient } from "./openai.js";
 import { logger } from "../logger/logger.js";
-import { azureOpenai, defaultAzureSettings } from "./azure-openai.js";
+import { defaultAzureSettings, getAzureOpenaiClient } from "./azure-openai.js";
 import { MessageAuthor } from "../types/chat-message.js";
-import { anthropic, defaultCloudeSettings } from "./anthropic-cloude.js";
+import { defaultCloudeSettings, getAnthropicClient } from "./anthropic-cloude.js";
 const retryOptions = {
     retry: (error, attemptNumber) => {
         logger.debug("Retrying openai request, attempt: " + attemptNumber + " error: ", error);
@@ -61,20 +61,20 @@ export const newCloudeCompletion = async (messages, model) => {
         "role": "assistant",
         "content": "{"
     });
-    const message = await anthropic.messages.create({
+    const message = await getAnthropicClient().messages.create({
         ...defaultCloudeSettings, ...{ model, messages: cloudeMessages, system: systemMessage }
     });
     return [{ message: { content: message.content[0].text } }];
 };
 export const new4AzureCompletition = async (messages) => {
-    const { choices } = await azureOpenai.getChatCompletions("aloe-chat", messages, {
+    const { choices } = await getAzureOpenaiClient().getChatCompletions("aloe-chat", messages, {
         ...defaultAzureSettings
     });
     return choices;
 };
 const new35Completition = async (messages) => {
     return await backOff(async () => {
-        const reply = await openAIClient.chat.completions.create({
+        const reply = await getOpenAIClient().chat.completions.create({
             ...defaultOpenAISettings,
             model: "gpt-3.5-turbo-0125",
             max_tokens: 1000,
@@ -85,7 +85,7 @@ const new35Completition = async (messages) => {
 };
 const new4oCompletition = async (messages) => {
     return await backOff(async () => {
-        const reply = await openAIClient.chat.completions.create({
+        const reply = await getOpenAIClient().chat.completions.create({
             ...defaultOpenAISettings,
             model: "gpt-4o",
             messages: messages
@@ -95,7 +95,7 @@ const new4oCompletition = async (messages) => {
 };
 const new4Completition = async (messages) => {
     return await backOff(async () => {
-        const reply = await openAIClient.chat.completions.create({
+        const reply = await getOpenAIClient().chat.completions.create({
             ...defaultOpenAISettings,
             model: "gpt-4-turbo",
             messages: messages
@@ -137,7 +137,7 @@ export const addPostInstructions = (messages, language) => {
 };
 export const visionCompletion = async (messages) => {
     return await backOff(async () => {
-        const reply = await openAIClient.chat.completions.create({
+        const reply = await getOpenAIClient().chat.completions.create({
             model: "gpt-4-vision-preview",
             max_tokens: 1000,
             messages: messages

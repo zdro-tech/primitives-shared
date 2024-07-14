@@ -1,5 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
-export declare const anthropic: Anthropic;
+export declare const getAnthropicClient: () => Anthropic;
 export declare const defaultCloudeSettings: {
     model: string;
     max_tokens: number;
