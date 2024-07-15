@@ -1,12 +1,10 @@
-import { ChatCompletionMessageParam, ChatCompletion, ChatCompletionCreateParamsNonStreaming, ChatCompletionMessage, } from "openai/resources/index"
-import { backOff, BackoffOptions } from "exponential-backoff";
-import { defaultOpenAISettings, getOpenAIClient, new35Completition, new4Completition, new4oCompletition, visionCompletion } from "./openai.js";
+import { ChatCompletionMessageParam, ChatCompletion, } from "openai/resources/index"
+import { new35Completition, new4Completition, new4oCompletition, visionCompletion } from "./openai.js";
 import { logger } from "../logger/logger.js";
 
 import { ChatMessage, MessageAuthor } from "../types/chat-message.js";
 import { Message, TextContentBlock } from "openai/resources/beta/threads/index.mjs";
-import { defaultCloudeSettings, getAnthropicClient, newCloudeCompletion } from "./anthropic-cloude.js";
-import { MessageCreateParamsNonStreaming, MessageParam } from "@anthropic-ai/sdk/resources/messages.mjs";
+import { newCloudeCompletion } from "./anthropic-cloude.js";
 import { new4AzureCompletition } from "./azure-openai.js";
 import { newGroqCompletion } from "./groq.js";
 
@@ -50,7 +48,7 @@ export const newMLCompletion = async (messages: Array<ChatCompletionMessageParam
             return await newCloudeCompletion(messages, ExecutionModel.CLOUDE_3_SONNET);
         }
         if (model === ExecutionModel.GROQ_LLAMA_3_70B_8192) {
-            return await newGroqCompletion(messages, ExecutionModel.CLOUDE_3_SONNET);
+            return await newGroqCompletion(messages, ExecutionModel.GROQ_LLAMA_3_70B_8192);
         }
     } catch (e) {
         logger.error(`Error in newMLCompletion ${model}`, e);

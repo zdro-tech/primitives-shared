@@ -43,7 +43,7 @@ export const newMLCompletion = async (messages, model) => {
             return await newCloudeCompletion(messages, ExecutionModel.CLOUDE_3_SONNET);
         }
         if (model === ExecutionModel.GROQ_LLAMA_3_70B_8192) {
-            return await newGroqCompletion(messages, ExecutionModel.CLOUDE_3_SONNET);
+            return await newGroqCompletion(messages, ExecutionModel.GROQ_LLAMA_3_70B_8192);
         }
     }
     catch (e) {
