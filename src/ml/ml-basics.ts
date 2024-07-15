@@ -1,21 +1,14 @@
 import { ChatCompletionMessageParam, ChatCompletion, ChatCompletionCreateParamsNonStreaming, ChatCompletionMessage, } from "openai/resources/index"
 import { backOff, BackoffOptions } from "exponential-backoff";
-import { defaultOpenAISettings, getOpenAIClient } from "./openai.js";
+import { defaultOpenAISettings, getOpenAIClient, new35Completition, new4Completition, new4oCompletition, visionCompletion } from "./openai.js";
 import { logger } from "../logger/logger.js";
-import { ChatRequestMessage, GetChatCompletionsOptions } from "@azure/openai";
-import { defaultAzureSettings, getAzureOpenaiClient } from "./azure-openai.js";
+
 import { ChatMessage, MessageAuthor } from "../types/chat-message.js";
 import { Message, TextContentBlock } from "openai/resources/beta/threads/index.mjs";
-import { defaultCloudeSettings, getAnthropicClient } from "./anthropic-cloude.js";
+import { defaultCloudeSettings, getAnthropicClient, newCloudeCompletion } from "./anthropic-cloude.js";
 import { MessageCreateParamsNonStreaming, MessageParam } from "@anthropic-ai/sdk/resources/messages.mjs";
-
-const retryOptions: BackoffOptions = {
-    retry: (error: Error, attemptNumber: number) => {
-        logger.debug("Retrying openai request, attempt: " + attemptNumber + " error: ", error);
-        return error.message.includes('timed out');
-    },
-    numOfAttempts: 2
-};
+import { new4AzureCompletition } from "./azure-openai.js";
+import { newGroqCompletion } from "./groq.js";
 
 export enum ExecutionModel {
     AZURE_4_0 = "azure",
@@ -25,6 +18,7 @@ export enum ExecutionModel {
     CLOUDE_3_OPUS = "claude-3-opus-20240229",
     CLOUDE_3_SONNET = "claude-3-sonnet-20240229",
     CLOUDE_3_HAIKU = "claude-3-haiku-20240307",
+    GROQ_LLAMA_3_70B_8192 = "llama3-70b-8192",
 }
 
 export const anyOfModels = (array: ExecutionModel[]): ExecutionModel => {
@@ -55,66 +49,13 @@ export const newMLCompletion = async (messages: Array<ChatCompletionMessageParam
         if (model === ExecutionModel.CLOUDE_3_SONNET) {
             return await newCloudeCompletion(messages, ExecutionModel.CLOUDE_3_SONNET);
         }
+        if (model === ExecutionModel.GROQ_LLAMA_3_70B_8192) {
+            return await newGroqCompletion(messages, ExecutionModel.CLOUDE_3_SONNET);
+        }
     } catch (e) {
         logger.error(`Error in newMLCompletion ${model}`, e);
     }
     return await new4Completition(messages);
-}
-
-export const newCloudeCompletion = async (messages: Array<ChatCompletionMessageParam>, model: string): Promise<ChatCompletion.Choice[]> => {
-    const systemMessage = messages.filter(m => m.role === "system").map(m => m.content).join(". ") + " Return only valid JSON and nothng else."
-    const cloudeMessages = messages.filter(m => m.role !== "system") as Array<MessageParam>
-    cloudeMessages.push({
-        "role": "assistant",
-        "content": "{"
-    })
-    const message = await getAnthropicClient().messages.create({
-        ...defaultCloudeSettings, ...{ model, messages: cloudeMessages, system: systemMessage }
-    } as MessageCreateParamsNonStreaming);
-    return [{ message: { content: message.content[0].text } as ChatCompletionMessage }] as ChatCompletion.Choice[]
-}
-
-export const new4AzureCompletition = async (messages: Array<ChatCompletionMessageParam>): Promise<ChatCompletion.Choice[]> => {
-    const { choices } = await getAzureOpenaiClient().getChatCompletions(
-        "aloe-chat", messages as ChatRequestMessage[],
-        {
-            ...defaultAzureSettings as GetChatCompletionsOptions
-        });
-    return choices as unknown as ChatCompletion.Choice[]
-}
-
-const new35Completition = async (messages: Array<ChatCompletionMessageParam>): Promise<ChatCompletion.Choice[]> => {
-    return await backOff(async () => {
-        const reply = await getOpenAIClient().chat.completions.create({
-            ...defaultOpenAISettings,
-            model: "gpt-3.5-turbo-0125",
-            max_tokens: 1000,
-            messages: messages
-        })
-        return reply?.choices
-    }, retryOptions)
-}
-
-const new4oCompletition = async (messages: Array<ChatCompletionMessageParam>): Promise<ChatCompletion.Choice[]> => {
-    return await backOff(async () => {
-        const reply = await getOpenAIClient().chat.completions.create({
-            ...defaultOpenAISettings,
-            model: "gpt-4o",
-            messages: messages
-        })
-        return reply?.choices
-    }, retryOptions)
-}
-
-const new4Completition = async (messages: Array<ChatCompletionMessageParam>): Promise<ChatCompletion.Choice[]> => {
-    return await backOff(async () => {
-        const reply = await getOpenAIClient().chat.completions.create({
-            ...defaultOpenAISettings,
-            model: "gpt-4-turbo",
-            messages: messages
-        })
-        return reply?.choices
-    }, retryOptions)
 }
 
 export const processMessages = async <T>(messages: Array<ChatCompletionMessageParam>, language: string, model: ExecutionModel): Promise<T> => {
@@ -153,17 +94,6 @@ export const addPostInstructions = (messages: Array<ChatCompletionMessageParam>,
     messages.push({ "role": "system", "content": `Use and reply strictly in ${language} language.` } as ChatCompletionMessageParam)
     return messages
 }
-
-export const visionCompletion = async (messages: Array<ChatCompletionMessageParam>): Promise<ChatCompletion.Choice[]> => {
-    return await backOff(async () => {
-        const reply = await getOpenAIClient().chat.completions.create({
-            model: "gpt-4-vision-preview",
-            max_tokens: 1000,
-            messages: messages
-        });
-        return reply?.choices;
-    }, retryOptions);
-};
 
 export const processImage = async <T>(base64Image: string, instructions: string, language: string): Promise<T> => {
     const messagesToSend = [{ "role": "system", "content": instructions }] as Array<ChatCompletionMessageParam>;

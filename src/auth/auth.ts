@@ -26,6 +26,9 @@ export const parseCognitoToken = async (token: string, awsRegion: string, poolID
 }
 
 export const parseToken = async (token: string, jwks: any): Promise<AccessToken> => {
+  if (!token) {
+    throw new Error('Token is empty');
+  }
   if (token.startsWith('Bearer ')) {
     token = token.replace('Bearer ', '');
   }

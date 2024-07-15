@@ -1,16 +1,9 @@
-import { backOff } from "exponential-backoff";
-import { defaultOpenAISettings, getOpenAIClient } from "./openai.js";
+import { new35Completition, new4Completition, new4oCompletition, visionCompletion } from "./openai.js";
 import { logger } from "../logger/logger.js";
-import { defaultAzureSettings, getAzureOpenaiClient } from "./azure-openai.js";
 import { MessageAuthor } from "../types/chat-message.js";
-import { defaultCloudeSettings, getAnthropicClient } from "./anthropic-cloude.js";
-const retryOptions = {
-    retry: (error, attemptNumber) => {
-        logger.debug("Retrying openai request, attempt: " + attemptNumber + " error: ", error);
-        return error.message.includes('timed out');
-    },
-    numOfAttempts: 2
-};
+import { newCloudeCompletion } from "./anthropic-cloude.js";
+import { new4AzureCompletition } from "./azure-openai.js";
+import { newGroqCompletion } from "./groq.js";
 export var ExecutionModel;
 (function (ExecutionModel) {
     ExecutionModel["AZURE_4_0"] = "azure";
@@ -20,6 +13,7 @@ export var ExecutionModel;
     ExecutionModel["CLOUDE_3_OPUS"] = "claude-3-opus-20240229";
     ExecutionModel["CLOUDE_3_SONNET"] = "claude-3-sonnet-20240229";
     ExecutionModel["CLOUDE_3_HAIKU"] = "claude-3-haiku-20240307";
+    ExecutionModel["GROQ_LLAMA_3_70B_8192"] = "llama3-70b-8192";
 })(ExecutionModel || (ExecutionModel = {}));
 export const anyOfModels = (array) => {
     const randomIndex = Math.floor(Math.random() * array.length);
@@ -48,60 +42,14 @@ export const newMLCompletion = async (messages, model) => {
         if (model === ExecutionModel.CLOUDE_3_SONNET) {
             return await newCloudeCompletion(messages, ExecutionModel.CLOUDE_3_SONNET);
         }
+        if (model === ExecutionModel.GROQ_LLAMA_3_70B_8192) {
+            return await newGroqCompletion(messages, ExecutionModel.CLOUDE_3_SONNET);
+        }
     }
     catch (e) {
         logger.error(`Error in newMLCompletion ${model}`, e);
     }
     return await new4Completition(messages);
-};
-export const newCloudeCompletion = async (messages, model) => {
-    const systemMessage = messages.filter(m => m.role === "system").map(m => m.content).join(". ") + " Return only valid JSON and nothng else.";
-    const cloudeMessages = messages.filter(m => m.role !== "system");
-    cloudeMessages.push({
-        "role": "assistant",
-        "content": "{"
-    });
-    const message = await getAnthropicClient().messages.create({
-        ...defaultCloudeSettings, ...{ model, messages: cloudeMessages, system: systemMessage }
-    });
-    return [{ message: { content: message.content[0].text } }];
-};
-export const new4AzureCompletition = async (messages) => {
-    const { choices } = await getAzureOpenaiClient().getChatCompletions("aloe-chat", messages, {
-        ...defaultAzureSettings
-    });
-    return choices;
-};
-const new35Completition = async (messages) => {
-    return await backOff(async () => {
-        const reply = await getOpenAIClient().chat.completions.create({
-            ...defaultOpenAISettings,
-            model: "gpt-3.5-turbo-0125",
-            max_tokens: 1000,
-            messages: messages
-        });
-        return reply?.choices;
-    }, retryOptions);
-};
-const new4oCompletition = async (messages) => {
-    return await backOff(async () => {
-        const reply = await getOpenAIClient().chat.completions.create({
-            ...defaultOpenAISettings,
-            model: "gpt-4o",
-            messages: messages
-        });
-        return reply?.choices;
-    }, retryOptions);
-};
-const new4Completition = async (messages) => {
-    return await backOff(async () => {
-        const reply = await getOpenAIClient().chat.completions.create({
-            ...defaultOpenAISettings,
-            model: "gpt-4-turbo",
-            messages: messages
-        });
-        return reply?.choices;
-    }, retryOptions);
 };
 export const processMessages = async (messages, language, model) => {
     return parseFirstCompletion(await newMLCompletion(addPostInstructions(messages, language), model));
@@ -134,16 +82,6 @@ export const getMessageRole = (message) => {
 export const addPostInstructions = (messages, language) => {
     messages.push({ "role": "system", "content": `Use and reply strictly in ${language} language.` });
     return messages;
-};
-export const visionCompletion = async (messages) => {
-    return await backOff(async () => {
-        const reply = await getOpenAIClient().chat.completions.create({
-            model: "gpt-4-vision-preview",
-            max_tokens: 1000,
-            messages: messages
-        });
-        return reply?.choices;
-    }, retryOptions);
 };
 export const processImage = async (base64Image, instructions, language) => {
     const messagesToSend = [{ "role": "system", "content": instructions }];

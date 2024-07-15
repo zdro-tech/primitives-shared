@@ -1,8 +1,14 @@
 import OpenAI from 'openai';
 import { ChatCompletionCreateParamsNonStreaming } from 'openai/resources/index.mjs';
+import { retryOptions } from './shared.js';
+import { ChatCompletionMessageParam, ChatCompletion, ChatCompletionMessage, } from "openai/resources/index"
+import { backOff } from 'exponential-backoff';
 
 let openAIClient: OpenAI;
 export const getOpenAIClient = () => {
+  if (!process.env.OPENAI_API_KEY) {
+    throw new Error('OPENAI_API_KEY is not set')
+  }
   if (!openAIClient) {
     openAIClient = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
@@ -20,3 +26,48 @@ export const defaultOpenAISettings = {
   max_tokens: 1000,
 } as ChatCompletionCreateParamsNonStreaming
 
+
+export const new4oCompletition = async (messages: Array<ChatCompletionMessageParam>): Promise<ChatCompletion.Choice[]> => {
+  return await backOff(async () => {
+      const reply = await getOpenAIClient().chat.completions.create({
+          ...defaultOpenAISettings,
+          model: "gpt-4o",
+          messages: messages
+      })
+      return reply?.choices
+  }, retryOptions)
+}
+
+export const new4Completition = async (messages: Array<ChatCompletionMessageParam>): Promise<ChatCompletion.Choice[]> => {
+  return await backOff(async () => {
+      const reply = await getOpenAIClient().chat.completions.create({
+          ...defaultOpenAISettings,
+          model: "gpt-4-turbo",
+          messages: messages
+      })
+      return reply?.choices
+  }, retryOptions)
+}
+
+export const new35Completition = async (messages: Array<ChatCompletionMessageParam>): Promise<ChatCompletion.Choice[]> => {
+  return await backOff(async () => {
+      const reply = await getOpenAIClient().chat.completions.create({
+          ...defaultOpenAISettings,
+          model: "gpt-3.5-turbo-0125",
+          max_tokens: 1000,
+          messages: messages
+      })
+      return reply?.choices
+  }, retryOptions)
+}
+
+export const visionCompletion = async (messages: Array<ChatCompletionMessageParam>): Promise<ChatCompletion.Choice[]> => {
+  return await backOff(async () => {
+      const reply = await getOpenAIClient().chat.completions.create({
+          model: "gpt-4-vision-preview",
+          max_tokens: 1000,
+          messages: messages
+      });
+      return reply?.choices;
+  }, retryOptions);
+};
