@@ -6,8 +6,7 @@ export const getFileStorage = (projectId: string): Storage => {
     throw new Error('Project ID is empty');
   }
   return new Storage({
-    projectId: process.env.PROJECT_ID ?? undefined,
-    keyFilename: process.env.GCP_SA_KEYFILE_LOCAL,
+    projectId: process.env.PROJECT_ID
   });
 }
 
