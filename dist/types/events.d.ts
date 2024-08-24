@@ -4,11 +4,12 @@ export interface OutgoingMessageEvent {
     payload: ChatMessage;
     callback?: Callback;
 }
-export interface Callback {
-    forwardBack: any;
+export interface OutgoingSavedMessageEvent {
+    context: Context;
+    payload: ChatMessage;
+    callback?: Callback;
 }
-export interface OutgoingtMesssageConfirmationEvent {
-    message: ChatMessage;
+export interface Callback {
     forwardBack: any;
 }
 export interface PatientMesssageEvent {

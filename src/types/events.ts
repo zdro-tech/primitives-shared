@@ -6,16 +6,15 @@ export interface OutgoingMessageEvent {
     callback?: Callback
 }
 
+export interface OutgoingSavedMessageEvent {
+  context: Context
+  payload: ChatMessage
+  callback?: Callback
+}
+
 export interface Callback {
     forwardBack: any
 }
-
-
-export interface OutgoingtMesssageConfirmationEvent {
-    message: ChatMessage,
-    forwardBack: any
-}
-
 
 export interface PatientMesssageEvent {
     context: Context,
