@@ -1,4 +1,4 @@
-import { ChatMessage, ChatThread, Context, Patient, ProposedAnswersResponse, ThreadClass } from "./index.js"
+import { ChatMessage, ChatThread, Context, DoctorContext, Patient, ProposedAnswersResponse, ThreadClass } from "./index.js"
 
 export interface OutgoingMessageEvent {
     context: Context
@@ -10,6 +10,18 @@ export interface OutgoingSavedMessageEvent {
   context: Context
   payload: ChatMessage
   callback?: Callback
+}
+
+export interface OutgoingDoctorMessageEvent {
+  context: DoctorContext
+  payload: ChatMessage
+  callback?: Callback
+}
+
+export interface OutgoingSavedDoctorMessageEvent {
+context: DoctorContext
+payload: ChatMessage
+callback?: Callback
 }
 
 export interface Callback {
