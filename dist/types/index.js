@@ -12,3 +12,5 @@ export * from './appointment.js';
 export * from './prescriptions.js';
 export * from './tenant.js';
 export * from './payments.js';
+export * from './unread-messages.js';
+export * from './email-notifications.js';
