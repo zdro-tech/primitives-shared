@@ -26,5 +26,10 @@ export const newCloudeCompletion = async (messages, model) => {
     const message = await getAnthropicClient().messages.create({
         ...defaultCloudeSettings, ...{ model, messages: cloudeMessages, system: systemMessage }
     });
-    return [{ message: { content: message.content[0].text } }];
+    const stringContent = message.content
+        .filter((block) => block.type === 'text')
+        .map(block => block.text)
+        .join(' ');
+    message.content.reduce;
+    return [{ message: { content: stringContent } }];
 };

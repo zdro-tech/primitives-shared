@@ -1,24 +1,26 @@
-import { AzureKeyCredential, OpenAIClient } from "@azure/openai";
+import { AzureOpenAI } from "openai";
+import { defaultOpenAISettings } from "./openai.js";
 let azureOpenai;
 export const getAzureOpenaiClient = () => {
     if (!process.env.AZURE_OPENAI_ENDPOINT || !process.env.AZURE_OPENAI_CREDENTIALS) {
         throw new Error('AZURE_OPENAI_ENDPOINT or AZURE_OPENAI_CREDENTIALS are not set');
     }
     if (!azureOpenai) {
-        azureOpenai = new OpenAIClient(process.env.AZURE_OPENAI_ENDPOINT ?? '', new AzureKeyCredential(process.env.AZURE_OPENAI_CREDENTIALS ?? ''), { apiVersion: '2024-02-15-preview' });
+        azureOpenai = new AzureOpenAI({
+            baseURL: process.env.AZURE_OPENAI_ENDPOINT,
+            apiKey: process.env.AZURE_OPENAI_CREDENTIALS,
+            apiVersion: process.env.OPENAI_API_VERSION ?? '2024-04-01-preview',
+            dangerouslyAllowBrowser: false
+        });
     }
     return azureOpenai;
 };
-export const defaultAzureSettings = {
-    responseFormat: { type: 'json_object' },
-    temperature: 0.3,
-    n: 1,
-    topP: 0.5,
-    maxTokens: 1000,
-};
 export const new4AzureCompletition = async (messages) => {
-    const { choices } = await getAzureOpenaiClient().getChatCompletions("aloe-chat", messages, {
-        ...defaultAzureSettings
-    });
-    return choices;
+    const client = getAzureOpenaiClient();
+    const result = await client.chat.completions.create({
+        ...defaultOpenAISettings,
+        messages,
+        model: "aloe-chat",
+    }, { maxRetries: 1 });
+    return result.choices;
 };

@@ -62,3 +62,10 @@ export const visionCompletion = async (messages) => {
         return reply?.choices;
     }, retryOptions);
 };
+export const createEmbeddings = async (input, model = "text-embedding-3-small") => {
+    const reply = await getOpenAIClient().embeddings.create({
+        model: model,
+        input: input
+    });
+    return reply?.data.map(item => item.embedding);
+};

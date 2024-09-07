@@ -7,7 +7,7 @@ export const getAnthropicClient = () => {
     if (!process.env.ANTHROPIC_API_KEY) {
         throw new Error('ANTHROPIC_API_KEY is not set');
     }
-    
+
     if (!anthropic) {
         anthropic = new Anthropic({
             apiKey: process.env.ANTHROPIC_API_KEY
@@ -32,5 +32,10 @@ export const newCloudeCompletion = async (messages: Array<ChatCompletionMessageP
     const message = await getAnthropicClient().messages.create({
         ...defaultCloudeSettings, ...{ model, messages: cloudeMessages, system: systemMessage }
     } as MessageCreateParamsNonStreaming);
-    return [{ message: { content: message.content[0].text } as ChatCompletionMessage }] as ChatCompletion.Choice[]
+    const stringContent = message.content
+        .filter((block) => block.type === 'text')
+        .map(block => block.text)
+        .join(' ');
+    message.content.reduce
+    return [{ message: { content: stringContent } as ChatCompletionMessage }] as ChatCompletion.Choice[]
 }

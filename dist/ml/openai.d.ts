@@ -7,4 +7,5 @@ export declare const new4oCompletition: (messages: Array<ChatCompletionMessagePa
 export declare const new4Completition: (messages: Array<ChatCompletionMessageParam>) => Promise<ChatCompletion.Choice[]>;
 export declare const new35Completition: (messages: Array<ChatCompletionMessageParam>) => Promise<ChatCompletion.Choice[]>;
 export declare const visionCompletion: (messages: Array<ChatCompletionMessageParam>) => Promise<ChatCompletion.Choice[]>;
+export declare const createEmbeddings: (input: string | string[], model?: string) => Promise<number[][]>;
 //# sourceMappingURL=openai.d.ts.map

@@ -14,7 +14,7 @@ export const newGroqCompletion = async (messages, model) => {
     const reply = await getGroqClient().chat.completions.create({
         ...defaultOpenAISettings,
         messages: messages,
-        model: model,
+        model: model
     });
     return reply?.choices;
 };

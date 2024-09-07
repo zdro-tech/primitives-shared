@@ -71,3 +71,11 @@ export const visionCompletion = async (messages: Array<ChatCompletionMessagePara
       return reply?.choices;
   }, retryOptions);
 };
+
+export const createEmbeddings = async (input: string | string[], model = "text-embedding-3-small"): Promise<number[][]> => {
+  const reply = await getOpenAIClient().embeddings.create({
+    model: model,
+    input: input
+  })
+  return reply?.data.map(item => item.embedding)
+}
