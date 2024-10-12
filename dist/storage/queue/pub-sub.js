@@ -1,16 +1,26 @@
 import { PubSub } from '@google-cloud/pubsub';
 import axios from 'axios';
 import { logger } from '../../logger/logger.js';
-if (!process.env.PROJECT_ID) {
-    throw new Error('PROJECT_ID environment variable is not defined, but required for pub/sub.');
-}
-let pubSubClient = new PubSub({ projectId: process.env.PROJECT_ID });
-export const publish = async (topicName, payload, fallbackURL) => {
+let pubSubClient = null;
+const initPubSubClient = () => {
+    if (pubSubClient) {
+        return pubSubClient;
+    }
+    if (!process.env.PROJECT_ID) {
+        throw new Error('PROJECT_ID environment variable is not defined, but required for pub/sub.');
+    }
+    pubSubClient = new PubSub({ projectId: process.env.PROJECT_ID });
+    return pubSubClient;
+};
+export const publish = async (topicName, payload, fallbackURL, client) => {
     const fullTopicName = `projects/${process.env.PROJECT_ID}/topics/${topicName}`;
     logger.debug(`Publishing to topic ${fullTopicName} with payload ${JSON.stringify(payload)} and fallback URL ${fallbackURL}`);
+    if (!client) {
+        client = initPubSubClient();
+    }
     if (process.env.NODE_ENV === 'production') {
         try {
-            await pubSubClient.topic(fullTopicName, { enableOpenTelemetryTracing: true })
+            await client.topic(fullTopicName, { enableOpenTelemetryTracing: true })
                 .publishMessage({ data: Buffer.from(JSON.stringify(payload)) });
             return;
         }
@@ -26,9 +36,9 @@ export const publish = async (topicName, payload, fallbackURL) => {
         logger.debug(`Error while delivering message to the fallback URL ${fallbackURL}`, e);
     }
 };
-export const publishToMultipleDestinations = async (topicName, payload, fallbackURLs) => {
+export const publishToMultipleDestinations = async (topicName, payload, fallbackURLs, client) => {
     if (process.env.NODE_ENV === 'production') {
-        return await publish(topicName, payload, "");
+        return await publish(topicName, payload, "", client);
     }
     for (const url of fallbackURLs) {
         try {

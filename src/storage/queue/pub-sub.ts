@@ -2,21 +2,35 @@ import { PubSub } from '@google-cloud/pubsub';
 import axios from 'axios';
 import { logger } from '../../logger/logger.js';
 
-if (!process.env.PROJECT_ID) {
-    throw new Error('PROJECT_ID environment variable is not defined, but required for pub/sub.');
-}
-let pubSubClient = new PubSub({ projectId: process.env.PROJECT_ID });
+let pubSubClient: PubSub | null = null;
+
+const initPubSubClient = (): PubSub => {
+    if (pubSubClient) {
+        return pubSubClient;
+    }
+    if (!process.env.PROJECT_ID) {
+        throw new Error('PROJECT_ID environment variable is not defined, but required for pub/sub.');
+    }
+    pubSubClient = new PubSub({ projectId: process.env.PROJECT_ID });
+    return pubSubClient;
+};
+
 
 export const publish = async (
     topicName: string,
     payload: any,
-    fallbackURL: string
+    fallbackURL: string,
+    client?: PubSub
 ): Promise<void> => {
     const fullTopicName = `projects/${process.env.PROJECT_ID}/topics/${topicName}`;
     logger.debug(`Publishing to topic ${fullTopicName} with payload ${JSON.stringify(payload)} and fallback URL ${fallbackURL}`);
+    if (!client) {
+        client = initPubSubClient()
+    }
+
     if (process.env.NODE_ENV === 'production') {
         try {
-            await pubSubClient.topic(fullTopicName, { enableOpenTelemetryTracing: true })
+            await client.topic(fullTopicName, { enableOpenTelemetryTracing: true })
                 .publishMessage({ data: Buffer.from(JSON.stringify(payload)) });
             return;
         } catch (e) {
@@ -34,11 +48,12 @@ export const publish = async (
 export const publishToMultipleDestinations = async (
     topicName: string,
     payload: any,
-    fallbackURLs: Array<string>
+    fallbackURLs: Array<string>,
+    client?: PubSub
 ): Promise<void> => {
-    
+
     if (process.env.NODE_ENV === 'production') {
-        return await publish(topicName, payload, "");
+        return await publish(topicName, payload, "", client);
     }
 
     for (const url of fallbackURLs) {
