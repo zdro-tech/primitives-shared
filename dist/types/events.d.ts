@@ -58,4 +58,7 @@ export interface SignInAuthCodeVariables {
     authCode: string;
     language: string;
 }
+export interface ThreadUpdateVariables {
+    threadID: string;
+}
 //# sourceMappingURL=events.d.ts.map

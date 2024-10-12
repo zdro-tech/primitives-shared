@@ -69,3 +69,7 @@ export interface PatientMesssageEvent {
     authCode: string;
     language: string;
 }
+
+export interface ThreadUpdateVariables {
+  threadID: string;
+}
