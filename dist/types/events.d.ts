@@ -47,10 +47,10 @@ export interface PatientReplySuggestionsEvent {
     context: Context;
     payload: ProposedAnswersResponse;
 }
-export interface EmailNotificationEvent {
-    emailType: 'patient-unread-message' | 'doctor-unread-message';
+export interface EmailNotificationEvent<T> {
+    emailType: 'patient-unread-message' | 'doctor-unread-message' | 'patient-sign-in-code';
     initiatorID?: string;
-    variables?: Object;
+    variables?: T;
     serviceID?: string;
 }
 //# sourceMappingURL=events.d.ts.map

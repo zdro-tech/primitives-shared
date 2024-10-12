@@ -57,9 +57,9 @@ export interface PatientMesssageEvent {
     payload: ProposedAnswersResponse
   }
 
-  export interface EmailNotificationEvent {
-    emailType: 'patient-unread-message' | 'doctor-unread-message';
+  export interface EmailNotificationEvent<T> {
+    emailType: 'patient-unread-message' | 'doctor-unread-message' | 'user-sign-in-code';
     initiatorID?: string;
-    variables?: Object;
+    variables?: T;
     serviceID?: string;
   }
