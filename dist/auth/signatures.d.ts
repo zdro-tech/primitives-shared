@@ -3,5 +3,6 @@ export declare const getKmsClient: (kmsOptions?: {}) => KeyManagementServiceClie
 export declare const signPayload: (payload: object, keyName: string, header?: {
     alg: string;
     typ: string;
+    kid: string;
 }) => Promise<string>;
 //# sourceMappingURL=signatures.d.ts.map

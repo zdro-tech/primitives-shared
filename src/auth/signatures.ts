@@ -13,7 +13,7 @@ export const getKmsClient = (kmsOptions = {}): KeyManagementServiceClient => {
 export const signPayload = async (
   payload: object,
   keyName: string,
-  header = { alg: 'RS256', typ: 'JWT' }
+  header = { alg: 'RS256', typ: 'JWT', kid: '' }
 ): Promise<string> => {
   const kmsClient = getKmsClient();
   const encodedHeader = Buffer.from(JSON.stringify(header)).toString('base64url');

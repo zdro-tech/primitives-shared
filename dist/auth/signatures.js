@@ -7,7 +7,7 @@ export const getKmsClient = (kmsOptions = {}) => {
     }
     return kmsClientInstance;
 };
-export const signPayload = async (payload, keyName, header = { alg: 'RS256', typ: 'JWT' }) => {
+export const signPayload = async (payload, keyName, header = { alg: 'RS256', typ: 'JWT', kid: '' }) => {
     const kmsClient = getKmsClient();
     const encodedHeader = Buffer.from(JSON.stringify(header)).toString('base64url');
     const encodedPayload = Buffer.from(JSON.stringify(payload)).toString('base64url');
