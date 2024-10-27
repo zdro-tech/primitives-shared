@@ -62,6 +62,7 @@ export interface Patient {
     email: string;
     city: string;
     tenantId: number;
+    signUpLanguage: string;
     createdAt: Date;
 }
 export interface ChangeInThreadEvent {
