@@ -55,6 +55,7 @@ export interface EmailNotificationEvent<T> {
 }
 export interface SignInAuthCodeVariables {
     email: string;
+    sub: string;
     authCode: string;
     language: string;
 }

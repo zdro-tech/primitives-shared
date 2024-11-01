@@ -66,6 +66,7 @@ export interface PatientMesssageEvent {
 
   export interface SignInAuthCodeVariables {
     email: string;
+    sub: string;  
     authCode: string;
     language: string;
 }
