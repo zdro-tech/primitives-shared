@@ -7,6 +7,7 @@ export * from './storage/bucket/index.js';
 export * from './storage/db/index.js';
 export * from './storage/queue/index.js';
 export * from './storage/ram/index.js';
+export * from './storage/secrets/index.js';
 export * from './tracing/index.js';
 export * from './types/index.js';
 export * from './types/prescriptions.js';
