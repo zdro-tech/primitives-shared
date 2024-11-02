@@ -15,6 +15,7 @@
     "./i18n": "./dist/i18n/index.js",
     "./bucket": "./dist/storage/bucket/index.js",
     "./db": "./dist/storage/db/index.js",
+    "./secrets": "./dist/storage/secrets/index.js",
     "./queue": "./dist/storage/queue/index.js",
     "./ram": "./dist/storage/ram/index.js"
   },
