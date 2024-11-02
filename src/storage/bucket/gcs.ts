@@ -8,7 +8,7 @@ export const getFileStorage = (projectId: string): Storage => {
   }
   logger.debug(`Initializing Storage with projectId: ${projectId}`);
   return new Storage({
-    projectId: process.env.PROJECT_ID
+    projectId: projectId
   });
 }
 
