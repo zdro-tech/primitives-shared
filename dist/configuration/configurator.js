@@ -17,22 +17,30 @@ export const loadConfigurations = (configPaths = ['./.shared.env']) => {
     logger.debug("Config files loaded: " + JSON.stringify(process.env, null, 2));
 };
 export const loadSecretsFromVolumes = (secretPath = DEFAULT_SECRET_PATH) => {
-    if (!fs.existsSync(secretPath)) {
-        logger.error(`Secrets directory not found: ${secretPath}`);
-        return;
-    }
+    const loadSecrets = (currentPath) => {
+        if (!fs.existsSync(currentPath)) {
+            logger.error(`Secrets directory not found: ${currentPath}`);
+            return;
+        }
+        const items = fs.readdirSync(currentPath);
+        items.forEach((item) => {
+            const itemPath = path.join(currentPath, item);
+            const key = item.toUpperCase();
+            try {
+                if (fs.lstatSync(itemPath).isDirectory()) {
+                    loadSecrets(itemPath);
+                }
+                else {
+                    const value = fs.readFileSync(itemPath, 'utf8').trim();
+                    process.env[key] = value;
+                    logger.debug(`Loaded secret: ${key} from ${itemPath}`);
+                }
+            }
+            catch (error) {
+                logger.error(`Failed to load secret from ${itemPath}:`, error);
+            }
+        });
+    };
     logger.debug(`Loading secrets from volume: ${secretPath}`);
-    const files = fs.readdirSync(secretPath);
-    files.forEach((file) => {
-        const filePath = path.join(secretPath, file);
-        const key = file.toUpperCase();
-        try {
-            const value = fs.readFileSync(filePath, 'utf8').trim();
-            process.env[key] = value;
-            logger.debug(`Loaded secret: ${key} from ${filePath}`);
-        }
-        catch (error) {
-            logger.error(`Failed to load secret from ${filePath}:`, error);
-        }
-    });
+    loadSecrets(secretPath);
 };

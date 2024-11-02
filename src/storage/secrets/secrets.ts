@@ -12,17 +12,17 @@ const getSecretManagerClient = (): SecretManagerServiceClient => {
 };
 
 export const getSecretWithEnvCache = async (projectId: string, secretName: string): Promise<string> => {
-    if (process.env[secretName]) {
-      logger.debug(`Secret ${secretName} found in environment variables.`);
-      return process.env[secretName]!;
-    }
-    const secretValue = await getSecret(projectId, secretName);
-    process.env[secretName] = secretValue;
-    return secretValue;
-  };
+  if (process.env[secretName]) {
+    logger.debug(`Secret ${secretName} found in environment variables.`);
+    return process.env[secretName]!;
+  }
+  const secretValue = await getSecret(projectId, secretName);
+  process.env[secretName] = secretValue;
+  return secretValue;
+};
 
-  
-export const getSecret = async (projectId: string, secretName: string): Promise<string> => {
+
+export const getSecret = async (projectId: string, secretName: string, version = "latest"): Promise<string> => {
   if (!projectId) {
     throw new Error('Project ID is empty');
   }
@@ -31,7 +31,7 @@ export const getSecret = async (projectId: string, secretName: string): Promise<
   }
 
   const client = getSecretManagerClient();
-  const name = `projects/${projectId}/secrets/${secretName}/versions/latest`;
+  const name = `projects/${projectId}/secrets/${secretName}/versions/${version}`;
 
   try {
     logger.debug(`Accessing secret: ${secretName}`);
