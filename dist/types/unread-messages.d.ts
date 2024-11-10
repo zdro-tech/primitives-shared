@@ -1,6 +1,8 @@
 export interface StoredUnreadMessage {
-    userID: string;
     messageID: number;
+    userID?: string;
+    storedAt?: number;
+    userType?: 'patient' | 'doctor';
 }
 export interface ThreadUnreadMessages {
     threadID: string;
