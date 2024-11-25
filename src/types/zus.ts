@@ -201,7 +201,7 @@ export interface SicknessCode {
   export interface PobierzDaneUbezpieczonegoResponse {
     DaneUbezpieczonego?: Ubezpieczony;
     Rezultat: DocTypeRefRezultat;
-    PrzekroczonyDziennyLimitDostepow?: boolean;
+    PrzekroczonyDziennyLimitDostepow?: string;
   }
   
   export interface IdentyfikacjaPlatnika {
