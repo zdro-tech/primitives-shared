@@ -53,7 +53,7 @@ export const createJwtPayload = (sub: string, issuer: string, expirationInSecond
   };
 };
 
-export const createJwtHeader = (algorithm: string, type: string, kid: string): JwtHeader => {
+export const createJwtHeader = (kid: string, algorithm = 'RS256', type = 'JWT'): JwtHeader => {
   return {
       alg: algorithm,
       typ: type,
@@ -64,3 +64,7 @@ export const createJwtHeader = (algorithm: string, type: string, kid: string): J
 export const generateSignedToken = async (payload: JwtPayload, keyName: string, header: JwtHeader): Promise<string> => {
   return await signPayload(payload, keyName, header);
 };
+
+export const getFullKeyName = (projectID: string, keyRing: string) : string => {
+  return `projects/${projectID}/locations/global/keyRings/${keyRing}`;
+}
