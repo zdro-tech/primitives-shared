@@ -82,6 +82,32 @@ export interface WyszukanieReceptUslugobiorcyResponse {
     };
     wynik: FailureResponseResultDetails;
 }
+export interface RozszerzoneWyszukiwanieReceptUslugobiorcyResponse {
+    wynikiRozszerzonegoWyszukiwaniaReceptUslugobiorcy?: {
+        wynikRozszerzonegoWyszukiwaniaReceptUslugobiorcy: {
+            dataWystawieniaRecepty: string;
+            dataRealizacjiOd: string;
+            identyfikatorOpakowaniaLeku: string;
+            iloscLeku: string;
+            kluczRecepty: string;
+            nazwaPrzepisanegoLeku: string;
+            numerRecepty: {
+                extension: string;
+                root: string;
+            };
+            rodzajLeku: string;
+            statusMozliwosciRealizacjiRecepty: string;
+            statusRecepty: string;
+            wielkoscOpakowania: string;
+            poziomOdplatnosciRecepty: string;
+        }[];
+    };
+    wynik: {
+        major: string;
+        minor?: string;
+        komunikat: string;
+    };
+}
 export interface FailureResponseResultDetails {
     major: string;
     minor?: string;

@@ -27,3 +27,40 @@ export const signPayload = async (
   const signature = Buffer.from(signResponse.signature as Uint8Array).toString('base64url');
   return `${message}.${signature}`;
 };
+
+export interface JwtPayload {
+  sub: string;
+  iss: string;
+  exp: number;
+}
+
+export interface JwtHeader {
+  alg: string;
+  typ: string;
+  kid: string;
+}
+
+export interface EnvVariable {
+  key: string;
+  message?: string;
+}
+
+export const createJwtPayload = (sub: string, issuer: string, expirationInSeconds = 3601): JwtPayload => {
+  return {
+      sub,
+      iss: issuer,
+      exp: Math.floor(Date.now() / 1000) + expirationInSeconds
+  };
+};
+
+export const createJwtHeader = (algorithm: string, type: string, kid: string): JwtHeader => {
+  return {
+      alg: algorithm,
+      typ: type,
+      kid
+  };
+};
+
+export const generateSignedToken = async (payload: JwtPayload, keyName: string, header: JwtHeader): Promise<string> => {
+  return await signPayload(payload, keyName, header);
+};

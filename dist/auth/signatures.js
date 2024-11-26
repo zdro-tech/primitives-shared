@@ -20,3 +20,20 @@ export const signPayload = async (payload, keyName, header = { alg: 'RS256', typ
     const signature = Buffer.from(signResponse.signature).toString('base64url');
     return `${message}.${signature}`;
 };
+export const createJwtPayload = (sub, issuer, expirationInSeconds = 3601) => {
+    return {
+        sub,
+        iss: issuer,
+        exp: Math.floor(Date.now() / 1000) + expirationInSeconds
+    };
+};
+export const createJwtHeader = (algorithm, type, kid) => {
+    return {
+        alg: algorithm,
+        typ: type,
+        kid
+    };
+};
+export const generateSignedToken = async (payload, keyName, header) => {
+    return await signPayload(payload, keyName, header);
+};
