@@ -87,7 +87,7 @@ export interface WyszukanieReceptUslugobiorcyResponse {
     wynik: FailureResponseResultDetails
 }
 
-interface RozszerzoneWyszukiwanieReceptUslugobiorcyResponse {
+export interface RozszerzoneWyszukiwanieReceptUslugobiorcyResponse {
     wynikiRozszerzonegoWyszukiwaniaReceptUslugobiorcy?: {
         wynikRozszerzonegoWyszukiwaniaReceptUslugobiorcy: {
             dataWystawieniaRecepty: string;
