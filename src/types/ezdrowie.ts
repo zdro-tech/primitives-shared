@@ -132,7 +132,7 @@ export interface ApiResponse<T> {
 export interface HL7PrescriptionConfig {
     serviceRecipient: HL7ServiceRecipient;
     drugs: Array<HL7DrugConfig>;
-    collectionVersionNumberExt: string;
+    collectionVersionNumberExt?: string;
     effectiveTime: string;
     authorTime: string;
     legalAuthenticatorTime: string;
