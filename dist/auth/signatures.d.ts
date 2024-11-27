@@ -20,6 +20,7 @@ export interface EnvVariable {
     message?: string;
 }
 export declare const createJwtPayload: (sub: string, issuer: string, expirationInSeconds?: number) => JwtPayload;
-export declare const createJwtHeader: (algorithm: string, type: string, kid: string) => JwtHeader;
+export declare const createJwtHeader: (kid: string, algorithm?: string, type?: string) => JwtHeader;
 export declare const generateSignedToken: (payload: JwtPayload, keyName: string, header: JwtHeader) => Promise<string>;
+export declare const getFullKeyName: (projectID: string, keyRing: string) => string;
 //# sourceMappingURL=signatures.d.ts.map

@@ -15,4 +15,5 @@ export * from './payments.js';
 export * from './unread-messages.js';
 export * from './email-notifications.js';
 export * from './zus.js';
+export * from './organization.js';
 //# sourceMappingURL=index.d.ts.map

@@ -27,7 +27,7 @@ export const createJwtPayload = (sub, issuer, expirationInSeconds = 3601) => {
         exp: Math.floor(Date.now() / 1000) + expirationInSeconds
     };
 };
-export const createJwtHeader = (algorithm, type, kid) => {
+export const createJwtHeader = (kid, algorithm = 'RS256', type = 'JWT') => {
     return {
         alg: algorithm,
         typ: type,
@@ -36,4 +36,7 @@ export const createJwtHeader = (algorithm, type, kid) => {
 };
 export const generateSignedToken = async (payload, keyName, header) => {
     return await signPayload(payload, keyName, header);
+};
+export const getFullKeyName = (projectID, keyRing) => {
+    return `projects/${projectID}/locations/global/keyRings/${keyRing}`;
 };
