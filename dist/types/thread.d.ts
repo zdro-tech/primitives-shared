@@ -61,6 +61,11 @@ export interface Patient {
     phoneNumber: string;
     email: string;
     city: string;
+    postalCode: string;
+    streetName: string;
+    houseNumber: string;
+    unitId: string;
+    country: string;
     tenantId: number;
     signUpLanguage: string;
     createdAt: Date;

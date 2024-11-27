@@ -187,7 +187,7 @@ export interface SicknessCode {
   export interface Ubezpieczony {
     Imie: string;
     Nazwisko: string;
-    DataUrodzenia?: string;
+    DataUrodzenia?: string;//Format 1997-12-11
     DataZgonu?: string;
     Adres?: PatientAdres[];
   }
