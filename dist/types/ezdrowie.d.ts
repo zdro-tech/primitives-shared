@@ -117,7 +117,7 @@ export interface VerificationResult {
     wynikWeryfikacji: string;
     identyfikatorZbioruRegul: string;
 }
-export interface ApiResponse<T> {
+export interface ZdroApiResponse<T> {
     success: boolean;
     message: T;
 }
@@ -137,11 +137,10 @@ export interface HL7ServiceRecipient {
     lastName: string;
     country: string;
     postalCode: string;
-    postCity: string;
     city: string;
     streetName: string;
     houseNumber: string;
-    unitId: string;
+    unitId?: string;
 }
 export interface HL7PrescriptionSearchCriteria {
     prescriptionIssuanceDateTo?: string;
@@ -210,23 +209,23 @@ export interface HL7Dosage {
 }
 export interface HL7MedicationDetails {
     medicationCode: string;
-    ean?: string | null;
+    ean: string;
     medicationName: string;
-    package: HL7Quantity | null;
-    activeSubstances: HL7ActiveSubstance[];
+    package: HL7Quantity;
+    activeSubstances?: HL7ActiveSubstance[];
 }
 export interface HL7BillingDetails {
     paymentStatus?: '100%' | '50%' | '30%' | 'B' | 'R';
 }
 export interface HL7Quantity {
-    quantity?: number | null;
+    quantity?: number;
     unit?: string;
     numberOfMedicationsInPackage?: number;
 }
 export interface HL7ActiveSubstance {
     name: string;
-    code?: string | null;
-    quantity?: number | null;
+    code?: string;
+    quantity?: number;
     unit?: string;
 }
 //# sourceMappingURL=ezdrowie.d.ts.map

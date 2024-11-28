@@ -124,7 +124,7 @@ export interface VerificationResult {
     wynikWeryfikacji: string;
     identyfikatorZbioruRegul: string;
 }
-export interface ApiResponse<T> {
+export interface ZdroApiResponse<T> {
     success: boolean;
     message: T;
 }
@@ -142,17 +142,15 @@ export interface HL7PrescriptionConfig {
 export interface HL7ServiceRecipient {
     pesel: string;
     gender: "UN" | "M" | "F";
-    //YYYYMMDD
-    birthDate: string;
+    birthDate: string; //YYYYMMDD
     firstName: string;
     lastName: string;
     country: string;
     postalCode: string;
-    postCity: string;
     city: string;
     streetName: string;
     houseNumber: string;
-    unitId: string;
+    unitId?: string;
 }
 
 export interface HL7PrescriptionSearchCriteria {
@@ -217,7 +215,6 @@ export interface HL7EffectiveTime {
     repeatNumber?: number; // number of treatment cycles, default 0
 }
 
-
 export interface HL7Dosage {
     doseQuantity?: number;  //num of medication unit (i.e tablets) per 1 intake (określa ilość leku, którą pacjent powinien brać przy jednym podaniu)
     rateQuantityUnit?: string; //injection speed (eg. inhales)
@@ -231,10 +228,10 @@ export interface HL7Dosage {
 
 export interface HL7MedicationDetails {
     medicationCode: string;
-    ean?: string | null;
+    ean: string;
     medicationName: string; //Here also provide name + dosage + packaging i.e Mestinon 60 mg Tabletki drażowane
-    package: HL7Quantity | null;
-    activeSubstances: HL7ActiveSubstance[];
+    package: HL7Quantity;
+    activeSubstances?: HL7ActiveSubstance[];
 }
 
 export interface HL7BillingDetails {
@@ -242,14 +239,14 @@ export interface HL7BillingDetails {
 }
 
 export interface HL7Quantity {
-    quantity?: number | null; // Number of packages
+    quantity?: number; // Number of packages
     unit?: string; // Type of package
     numberOfMedicationsInPackage?: number; //when it's absent, unit is used
 }
 
 export interface HL7ActiveSubstance {
     name: string;
-    code?: string | null;
-    quantity?: number | null;
+    code?: string;
+    quantity?: number;
     unit?: string;
 }
