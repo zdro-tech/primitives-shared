@@ -15,19 +15,18 @@ export interface Doctor {
 }
 
 export interface Prescription {
-    id: number;
+    id?: number;
     localThreadId: number;
+    medicationName: string;
     medicationAtcCode: string;
-    gtin: string;
     dosageAmount: number;
     dosageUnit: DosageUnit;
-    numberOfPackages: number;
     frequency: Frequency;
+    periodUnit?: string; // New field for frequency unit (e.g., "h", "d")
+    periodValue?: number; // New field for frequency value (e.g., "8")
     duration: number;
     specialInstructions: string;
-    createdAt: Date;
-    updatedBy: string;
-    updatedAt: Date;
+    createdAt?: Date;
 }
 
 

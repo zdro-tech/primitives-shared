@@ -13,19 +13,18 @@ export interface Doctor {
     photoURL: string;
 }
 export interface Prescription {
-    id: number;
+    id?: number;
     localThreadId: number;
+    medicationName: string;
     medicationAtcCode: string;
-    gtin: string;
     dosageAmount: number;
     dosageUnit: DosageUnit;
-    numberOfPackages: number;
     frequency: Frequency;
+    periodUnit?: string;
+    periodValue?: number;
     duration: number;
     specialInstructions: string;
-    createdAt: Date;
-    updatedBy: string;
-    updatedAt: Date;
+    createdAt?: Date;
 }
 export interface ConfirmedPrescription extends Prescription {
     gtin: string;
