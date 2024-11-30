@@ -95,7 +95,7 @@ export interface OpenAIPrescriptions {
 export interface OpenAIPrescription {
     medicationName: string;
     medicationAtcCode: string;
-    dosageAmount: number;
+    doseQuantity: number;
     dosageUnit: string;
     frequency: string;
     duration: number;

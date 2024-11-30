@@ -19,7 +19,7 @@ export interface Prescription {
     localThreadId: number;
     medicationName: string;
     medicationAtcCode: string;
-    dosageAmount: number;
+    doseQuantity: number;
     dosageUnit: DosageUnit;
     frequency: Frequency;
     periodUnit?: string; // New field for frequency unit (e.g., "h", "d")
