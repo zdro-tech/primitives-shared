@@ -15,17 +15,21 @@ export interface Doctor {
 }
 
 export interface Prescription {
-    id?: number;
+    id: number;
     localThreadId: number;
-    medicationName: string;
     medicationAtcCode: string;
+    gtin: string;
     dosageAmount: number;
     dosageUnit: DosageUnit;
+    numberOfPackages: number;
     frequency: Frequency;
     duration: number;
     specialInstructions: string;
-    createdAt?: Date;
+    createdAt: Date;
+    updatedBy: string;
+    updatedAt: Date;
 }
+
 
 export interface ConfirmedPrescription extends Prescription {
     gtin: string
