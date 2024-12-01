@@ -180,7 +180,7 @@ export interface PackagePrescriptionRecordResponse {
 }
 
 //WeryfikacjaPakietuReceptResponse
-export interface ValidationSuccessResponse {
+export interface PrescriptionValidationResponse {
     WeryfikacjaPakietuReceptResponse: {
         potwierdzenieOperacjiWeryfikacji: {
             wynikWeryfikacjiRecept: {

@@ -162,7 +162,7 @@ export interface PackagePrescriptionRecordResponse {
         wynik: FailureResponseResultDetails;
     };
 }
-export interface ValidationSuccessResponse {
+export interface PrescriptionValidationResponse {
     WeryfikacjaPakietuReceptResponse: {
         potwierdzenieOperacjiWeryfikacji: {
             wynikWeryfikacjiRecept: {
