@@ -1,48 +1,6 @@
-export interface WeryfikacjaPakietuReceptResponse {
-    potwierdzenieOperacjiWeryfikacji?: {
-        wynikWeryfikacjiRecept: {
-            weryfikowanaRecepta: {
-                numerReceptyWPakiecie: string;
-                wynikWeryfikacjiZbioruRegul: VerificationResult;
-            }[];
-        };
-    };
-    wynik: FailureResponseResultDetails;
-}
-export interface ZapisPakietuReceptResponse {
-    potwierdzenieOperacjiZapisu?: {
-        wynikZapisuPakietuRecept: {
-            kluczPakietuRecept: string;
-            kodPakietuRecept: string;
-            wynikWeryfikacji: {
-                weryfikowanaRecepta: {
-                    numerReceptyWPakiecie: string;
-                    kluczRecepty: string;
-                    wynikWeryfikacjiZbioruRegul: VerificationResult;
-                };
-            }[];
-        };
-    };
-    wynik: FailureResponseResultDetails;
-}
-export interface OdczytReceptyResponse {
-    receptaIWynikWeryfikacji?: {
-        statusRecepty: string;
-        weryfikowanyDokument: {
-            numerReceptyWPakiecie: string;
-            kluczRecepty: string;
-            wynikWeryfikacjiZbioruRegul: VerificationResult;
-        };
-        recepta: {
-            identyfikatorDokumentuWPakiecie: string;
-            tresc: string;
-        };
-    };
-    wynik: FailureResponseResultDetails;
-}
-export interface OdczytPakietuReceptResponse {
-    pakietReceptIWynikowWeryfikacji?: {
-        receptaIWynikWeryfikacji: {
+export interface PrescriptionReadResponse {
+    OdczytReceptyResponse: {
+        receptaIWynikWeryfikacji?: {
             statusRecepty: string;
             weryfikowanyDokument: {
                 numerReceptyWPakiecie: string;
@@ -53,59 +11,78 @@ export interface OdczytPakietuReceptResponse {
                 identyfikatorDokumentuWPakiecie: string;
                 tresc: string;
             };
-        }[];
+        };
+        wynik: FailureResponseResultDetails;
     };
-    wynik: FailureResponseResultDetails;
 }
-export interface WyszukanieReceptUslugobiorcyResponse {
-    wynikiWyszukiwaniaReceptUslugobiorcy?: {
-        wynikWyszukiwaniaReceptUslugobiorcy: {
-            kluczRecepty: string;
-            kluczPakietu: string;
-            dataWystawieniaRecepty: string;
-            numerRecepty: {
-                extension: string;
-                root: string;
-            };
-            statusRecepty: string;
-            podmiotNazwa: string;
-            wystawcaNazwa: string;
-            identyfikatorPracownikaWystawcy: {
-                extension: string;
-                root: string;
-            };
-            identyfikatorPodmiotuWystawcy: {
-                extension: string;
-                root: string;
-            };
-        }[];
+export interface PackagePrescriptionReadResponse {
+    OdczytPakietuReceptResponse: {
+        pakietReceptIWynikowWeryfikacji?: {
+            receptaIWynikWeryfikacji: {
+                statusRecepty: string;
+                weryfikowanyDokument: {
+                    numerReceptyWPakiecie: string;
+                    kluczRecepty: string;
+                    wynikWeryfikacjiZbioruRegul: VerificationResult;
+                };
+                recepta: {
+                    identyfikatorDokumentuWPakiecie: string;
+                    tresc: string;
+                };
+            }[];
+        };
+        wynik: FailureResponseResultDetails;
     };
-    wynik: FailureResponseResultDetails;
 }
-export interface RozszerzoneWyszukiwanieReceptUslugobiorcyResponse {
-    wynikiRozszerzonegoWyszukiwaniaReceptUslugobiorcy?: {
-        wynikRozszerzonegoWyszukiwaniaReceptUslugobiorcy: {
-            dataWystawieniaRecepty: string;
-            dataRealizacjiOd: string;
-            identyfikatorOpakowaniaLeku: string;
-            iloscLeku: string;
-            kluczRecepty: string;
-            nazwaPrzepisanegoLeku: string;
-            numerRecepty: {
-                extension: string;
-                root: string;
-            };
-            rodzajLeku: string;
-            statusMozliwosciRealizacjiRecepty: string;
-            statusRecepty: string;
-            wielkoscOpakowania: string;
-            poziomOdplatnosciRecepty: string;
-        }[];
+export interface PrescriptionSearchResponse {
+    WyszukanieReceptUslugobiorcyResponse: {
+        wynikiWyszukiwaniaReceptUslugobiorcy?: {
+            wynikWyszukiwaniaReceptUslugobiorcy: {
+                kluczRecepty: string;
+                kluczPakietu: string;
+                dataWystawieniaRecepty: string;
+                numerRecepty: {
+                    extension: string;
+                    root: string;
+                };
+                statusRecepty: string;
+                podmiotNazwa: string;
+                wystawcaNazwa: string;
+                identyfikatorPracownikaWystawcy: {
+                    extension: string;
+                    root: string;
+                };
+                identyfikatorPodmiotuWystawcy: {
+                    extension: string;
+                    root: string;
+                };
+            }[];
+        };
+        wynik: FailureResponseResultDetails;
     };
-    wynik: {
-        major: string;
-        minor?: string;
-        komunikat: string;
+}
+export interface ExtendedPrescriptionSearchResponse {
+    RozszerzoneWyszukiwanieReceptUslugobiorcyResponse: {
+        wynikiRozszerzonegoWyszukiwaniaReceptUslugobiorcy?: {
+            wynikRozszerzonegoWyszukiwaniaReceptUslugobiorcy: {
+                dataWystawieniaRecepty: string;
+                dataRealizacjiOd: string;
+                identyfikatorOpakowaniaLeku: string;
+                iloscLeku: string;
+                kluczRecepty: string;
+                nazwaPrzepisanegoLeku: string;
+                numerRecepty: {
+                    extension: string;
+                    root: string;
+                };
+                rodzajLeku: string;
+                statusMozliwosciRealizacjiRecepty: string;
+                statusRecepty: string;
+                wielkoscOpakowania: string;
+                poziomOdplatnosciRecepty: string;
+            }[];
+        };
+        wynik: FailureResponseResultDetails;
     };
 }
 export interface FailureResponseResultDetails {
@@ -167,6 +144,24 @@ export interface AdvancedPrescriptionSearchCriteria {
     };
     lifeThreateningSituation?: boolean;
 }
+export interface PackagePrescriptionRecordResponse {
+    ZapisPakietuReceptResponse: {
+        potwierdzenieOperacjiZapisu?: {
+            wynikZapisuPakietuRecept: {
+                kluczPakietuRecept: string;
+                kodPakietuRecept: string;
+                wynikWeryfikacji: {
+                    weryfikowanaRecepta: {
+                        numerReceptyWPakiecie: string;
+                        kluczRecepty: string;
+                        wynikWeryfikacjiZbioruRegul: VerificationResult;
+                    };
+                }[];
+            };
+        };
+        wynik: FailureResponseResultDetails;
+    };
+}
 export interface ValidationSuccessResponse {
     WeryfikacjaPakietuReceptResponse: {
         potwierdzenieOperacjiWeryfikacji: {
@@ -180,11 +175,7 @@ export interface ValidationSuccessResponse {
                 };
             };
         };
-        wynik: {
-            major: string;
-            minor: string;
-            komunikat: string;
-        };
+        wynik: FailureResponseResultDetails;
     };
 }
 export interface HL7DrugConfig {
