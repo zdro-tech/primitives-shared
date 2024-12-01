@@ -40,3 +40,9 @@ export const generateSignedToken = async (payload, keyName, header) => {
 export const getFullKeyName = (projectID, keyRing) => {
     return `projects/${projectID}/locations/global/keyRings/${keyRing}`;
 };
+export const generateAuthToken = async (doctorId, jwtIssuer, jwtHeaderKid, privateKeyPath, projectId, tokenLifetime = 3600) => {
+    const payload = createJwtPayload(doctorId, jwtIssuer, tokenLifetime);
+    const header = createJwtHeader(jwtHeaderKid, "RS256", "JWT");
+    const keyName = getFullKeyName(projectId, privateKeyPath);
+    return await generateSignedToken(payload, keyName, header);
+};

@@ -23,4 +23,5 @@ export declare const createJwtPayload: (sub: string, issuer: string, expirationI
 export declare const createJwtHeader: (kid: string, algorithm?: string, type?: string) => JwtHeader;
 export declare const generateSignedToken: (payload: JwtPayload, keyName: string, header: JwtHeader) => Promise<string>;
 export declare const getFullKeyName: (projectID: string, keyRing: string) => string;
+export declare const generateAuthToken: (doctorId: string, jwtIssuer: string, jwtHeaderKid: string, privateKeyPath: string, projectId: string, tokenLifetime?: number) => Promise<string>;
 //# sourceMappingURL=signatures.d.ts.map

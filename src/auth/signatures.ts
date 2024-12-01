@@ -68,3 +68,17 @@ export const generateSignedToken = async (payload: JwtPayload, keyName: string, 
 export const getFullKeyName = (projectID: string, keyRing: string) : string => {
   return `projects/${projectID}/locations/global/keyRings/${keyRing}`;
 }
+
+export const generateAuthToken = async (
+  doctorId: string,
+  jwtIssuer: string,
+  jwtHeaderKid: string,
+  privateKeyPath: string,
+  projectId: string,
+  tokenLifetime: number = 3600
+): Promise<string> => {
+  const payload = createJwtPayload(doctorId, jwtIssuer, tokenLifetime);
+  const header = createJwtHeader(jwtHeaderKid, "RS256", "JWT");
+  const keyName = getFullKeyName(projectId, privateKeyPath);
+  return await generateSignedToken(payload, keyName, header);
+};
