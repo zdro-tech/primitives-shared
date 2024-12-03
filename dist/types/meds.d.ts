@@ -83,8 +83,7 @@ export interface ResponseData {
     empty: boolean;
 }
 export interface SearchParams {
-    name?: string;
-    substanceName?: string;
+    searchString?: string;
     atcCode?: string;
     gtin?: string;
     limit?: number;
