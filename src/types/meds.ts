@@ -94,7 +94,7 @@ export interface SearchParams {
     substanceName?: string;
     atcCode?: string;
     gtin?: string;
-    size?: number;
+    limit?: number;
     page?: number;
     sorting?: string;
   }
