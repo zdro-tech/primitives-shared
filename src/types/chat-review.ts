@@ -116,13 +116,13 @@ export interface OpenAIPrescriptions {
 }
 
 export interface OpenAIPrescription {
-    medicationName: string;
-    medicationAtcCode: string;
-    doseQuantity: number;
-    dosageUnit: string;
-    frequency: string;
-    duration: number;
-    specialInstructions: string;
+    medicationName: string; // Name of the medication
+    medicationAtcCode: string; // ATC code for the medication
+    doseQuantity: number; // Number of medication units per intake
+    periodUnit: string; // Frequency unit, e.g., "h" for hours or "d" for days
+    periodValue: number; // Frequency value, e.g., every 24 hours
+    numberOfPackages: number; // Number of packages required
+    specialInstructions: string; // Special instructions in the specified language
 }
 
 export interface OpenAISickLeaveResponse {
