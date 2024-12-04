@@ -118,6 +118,8 @@ export interface OpenAIPrescriptions {
 export interface OpenAIPrescription {
     medicationName: string; // Name of the medication
     medicationAtcCode: string; // ATC code for the medication
+    activeSubstanceUnit: string; // Dosage unit, e.g., mg
+    activeSubstanceQuantity: number; // Dosage quantity, e.g., 200
     doseQuantity: number; // Number of medication units per intake
     periodUnit: string; // Frequency unit, e.g., "h" for hours or "d" for days
     periodValue: number; // Frequency value, e.g., every 24 hours
@@ -175,4 +177,4 @@ export interface AnalyzedFileSummaryResponse {
     internalUuid: string
     responseCode: string
     summary: string
-  }
+}

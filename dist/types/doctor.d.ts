@@ -24,6 +24,8 @@ export interface Prescription {
     periodValue?: number;
     duration: number;
     specialInstructions: string;
+    activeSubstanceUnit?: string;
+    activeSubstanceQuantity?: number;
     createdAt?: Date;
 }
 export interface ConfirmedPrescription extends Prescription {

@@ -22,12 +22,15 @@ export interface Prescription {
     doseQuantity: number;
     dosageUnit: DosageUnit;
     frequency: Frequency;
-    periodUnit?: string; // New field for frequency unit (e.g., "h", "d")
-    periodValue?: number; // New field for frequency value (e.g., "8")
+    periodUnit?: string; // frequency unit (e.g., "h", "d")
+    periodValue?: number; // frequency value (e.g., "8")
     duration: number;
     specialInstructions: string;
+    activeSubstanceUnit?: string; // Dosage unit, e.g., mg
+    activeSubstanceQuantity?: number; // Dosage quantity, e.g., 200
     createdAt?: Date;
 }
+
 
 
 export interface ConfirmedPrescription extends Prescription {
