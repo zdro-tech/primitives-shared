@@ -20,8 +20,7 @@ export interface Prescription {
     medicationName: string;
     medicationAtcCode: string;
     doseQuantity: number;
-    dosageUnit: DosageUnit;
-    frequency: Frequency;
+    dosageUnit: string;
     periodUnit?: string; // frequency unit (e.g., "h", "d")
     periodValue?: number; // frequency value (e.g., "8")
     duration: number;
@@ -42,30 +41,6 @@ export interface ConfirmedPrescription extends Prescription {
 
 export interface ConfirmedPrescriptionWithMeds extends ConfirmedPrescription {
     searchResult: ShrankMedicinalProduct[];
-}
-
-enum DosageUnit {
-    mg = "mg",
-    g = "g",
-    IU = "IU",
-    ml = "ml",
-    drops = "drops",
-    capsules = "capsules",
-    tablets = "tablets",
-    puffs = "puffs",
-    patches = "patches",
-    units = "units",
-    teaspoons = "teaspoons",
-    tablespoons = "tablespoons",
-    ounces = "ounces"
-}
-
-enum Frequency {
-    ONCE_DAILY = "ONCE_DAILY",
-    TWICE_DAILY = "TWICE_DAILY",
-    THREE_TIMES_DAILY = "THREE_TIMES_DAILY",
-    FOUR_TIMES_DAILY = "FOUR_TIMES_DAILY",
-    AS_DESCRIBED = "AS_DESCRIBED"
 }
 
 interface ShrankMedicinalProduct {

@@ -14,7 +14,10 @@ export interface ChatThread {
 export enum ThreadClass {
     DOCTOR_CONSULTATION,
     PRESCRIPTION_RELATED,
-    APPOINTMENT_SCHEDULING
+    SICK_LEAVE_RELATED,
+    TESTS_INTERPRETATION,
+    APPOINTMENT_SCHEDULING,
+    OTHER_QUESTIONS
 }
 
 export enum RegularComplaintThreadStage {

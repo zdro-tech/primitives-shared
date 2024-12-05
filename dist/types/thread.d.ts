@@ -12,7 +12,10 @@ export interface ChatThread {
 export declare enum ThreadClass {
     DOCTOR_CONSULTATION = 0,
     PRESCRIPTION_RELATED = 1,
-    APPOINTMENT_SCHEDULING = 2
+    SICK_LEAVE_RELATED = 2,
+    TESTS_INTERPRETATION = 3,
+    APPOINTMENT_SCHEDULING = 4,
+    OTHER_QUESTIONS = 5
 }
 export declare enum RegularComplaintThreadStage {
     Initiation = "Initiation",
