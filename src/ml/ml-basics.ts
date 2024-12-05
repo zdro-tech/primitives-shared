@@ -63,7 +63,12 @@ export const processMessages = async <T>(messages: Array<ChatCompletionMessagePa
 export const processChatMessages = async <T>(messages: Array<ChatMessage>, instructions: string, language: string, model: ExecutionModel): Promise<T> => {
     const messagesToSend = [{ "role": "system", "content": instructions }] as Array<ChatCompletionMessageParam>;
     messages.forEach(m => {
-        messagesToSend.push({ "role": getMessageRole(m), "content": m.text } as ChatCompletionMessageParam);
+        let messageText = m.text
+        if (Array.isArray(m?.files) && m.files.length) {
+            const fileNames = m.files.map(file => file.fileName).join(', ')
+            messageText = `${messageText} Attached Files: ${fileNames}`
+        }
+        messagesToSend.push({ "role": getMessageRole(m), "content": messageText } as ChatCompletionMessageParam);
     });
     return parseFirstCompletion(await newMLCompletion(addPostInstructions(messagesToSend, language), model)) as T
 };

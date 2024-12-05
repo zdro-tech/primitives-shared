@@ -57,7 +57,12 @@ export const processMessages = async (messages, language, model) => {
 export const processChatMessages = async (messages, instructions, language, model) => {
     const messagesToSend = [{ "role": "system", "content": instructions }];
     messages.forEach(m => {
-        messagesToSend.push({ "role": getMessageRole(m), "content": m.text });
+        let messageText = m.text;
+        if (Array.isArray(m?.files) && m.files.length) {
+            const fileNames = m.files.map(file => file.fileName).join(', ');
+            messageText = `${messageText} Attached Files: ${fileNames}`;
+        }
+        messagesToSend.push({ "role": getMessageRole(m), "content": messageText });
     });
     return parseFirstCompletion(await newMLCompletion(addPostInstructions(messagesToSend, language), model));
 };
