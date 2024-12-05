@@ -73,12 +73,6 @@ export const processChatMessages = async <T>(messages: Array<ChatMessage>, instr
     return parseFirstCompletion(await newMLCompletion(addPostInstructions(messagesToSend, language), model)) as T
 };
 
-export const processChatMessage = async <T>(message: ChatMessage, instructions: string, language: string, model: ExecutionModel): Promise<T> => {
-    const messagesToSend = [{ "role": "system", "content": instructions }] as Array<ChatCompletionMessageParam>;
-    messagesToSend.push({ "role": getMessageRole(message), "content": message.text } as ChatCompletionMessageParam);
-    return parseFirstCompletion(await newMLCompletion(addPostInstructions(messagesToSend, language), model)) as T
-};
-
 export const parseFirstCompletion = (choices: Array<ChatCompletion.Choice>): any => {
     const stringifiedJson = choices[0]?.message?.content ?? "{}";
     try {

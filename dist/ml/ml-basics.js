@@ -66,11 +66,6 @@ export const processChatMessages = async (messages, instructions, language, mode
     });
     return parseFirstCompletion(await newMLCompletion(addPostInstructions(messagesToSend, language), model));
 };
-export const processChatMessage = async (message, instructions, language, model) => {
-    const messagesToSend = [{ "role": "system", "content": instructions }];
-    messagesToSend.push({ "role": getMessageRole(message), "content": message.text });
-    return parseFirstCompletion(await newMLCompletion(addPostInstructions(messagesToSend, language), model));
-};
 export const parseFirstCompletion = (choices) => {
     const stringifiedJson = choices[0]?.message?.content ?? "{}";
     try {
