@@ -60,15 +60,19 @@ export const processMessages = async <T>(messages: Array<ChatCompletionMessagePa
     return parseFirstCompletion(await newMLCompletion(addPostInstructions(messages, language), model)) as T
 };
 
+export const chatMessageWithFilesToText = (message: ChatMessage) => {
+    let messageText = message.text
+    if (Array.isArray(message?.files) && message.files.length) {
+        const fileNames = message.files.map(file => file.fileName).join(', ')
+        messageText = `${messageText} Attached Files: ${fileNames}`
+    }
+    return messageText
+}
+
 export const processChatMessages = async <T>(messages: Array<ChatMessage>, instructions: string, language: string, model: ExecutionModel): Promise<T> => {
     const messagesToSend = [{ "role": "system", "content": instructions }] as Array<ChatCompletionMessageParam>;
     messages.forEach(m => {
-        let messageText = m.text
-        if (Array.isArray(m?.files) && m.files.length) {
-            const fileNames = m.files.map(file => file.fileName).join(', ')
-            messageText = `${messageText} Attached Files: ${fileNames}`
-        }
-        messagesToSend.push({ "role": getMessageRole(m), "content": messageText } as ChatCompletionMessageParam);
+        messagesToSend.push({ "role": getMessageRole(m), "content": chatMessageWithFilesToText(m) } as ChatCompletionMessageParam);
     });
     return parseFirstCompletion(await newMLCompletion(addPostInstructions(messagesToSend, language), model)) as T
 };

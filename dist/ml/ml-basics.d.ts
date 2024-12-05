@@ -14,6 +14,7 @@ export declare enum ExecutionModel {
 export declare const anyOfModels: (array: ExecutionModel[]) => ExecutionModel;
 export declare const newMLCompletion: (messages: Array<ChatCompletionMessageParam>, model: ExecutionModel) => Promise<ChatCompletion.Choice[]>;
 export declare const processMessages: <T>(messages: Array<ChatCompletionMessageParam>, language: string, model: ExecutionModel) => Promise<T>;
+export declare const chatMessageWithFilesToText: (message: ChatMessage) => string;
 export declare const processChatMessages: <T>(messages: Array<ChatMessage>, instructions: string, language: string, model: ExecutionModel) => Promise<T>;
 export declare const parseFirstCompletion: (choices: Array<ChatCompletion.Choice>) => any;
 export declare const getMessageRole: (message: any) => string;
