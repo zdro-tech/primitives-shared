@@ -56,15 +56,15 @@ export const processMessages = async (messages, language, model) => {
 };
 export const filesToText = (message) => {
     if (Array.isArray(message?.files) && message.files.length) {
-        return message.files.map(file => `${file.fileName}${file.fileDescription ?? ` : ${file.fileDescription}`}: ''`).join(', ');
+        return message.files.map(file => `${file.fileName}${file.fileDescription ? ` : """ ${file.fileDescription} """ ` : ''}`).join(', ');
     }
     return '';
 };
 export const chatMessageWithFilesToText = (message) => {
     let messageText = message.text;
     if (Array.isArray(message?.files) && message.files.length) {
-        const fileNamesAndDescription = message.files.map(file => `${file.fileName}${file.fileDescription ?? ` : ${file.fileDescription}`}: ''`).join(', ');
-        messageText = `${messageText}, attached files: ### ${fileNamesAndDescription} ###.`;
+        const fileNamesAndDescription = message.files.map(file => `${file.fileName}${file.fileDescription ? ` : ${file.fileDescription}` : ''}`).join(', ');
+        messageText = `${messageText}, attached files: """ ${fileNamesAndDescription} """.`;
     }
     return messageText;
 };
