@@ -1,3 +1,4 @@
+import { ChatMessage } from './chat-message.js';
 import { PrescriptionThreadStage } from './prescriptions.js'
 
 export type ThreadStageTypes = RegularComplaintThreadStage | PrescriptionThreadStage;
@@ -99,4 +100,13 @@ export interface ChangeInThreadEvent {
     patientID?: string
     doctorID?: string
     thread: ChatThread
+}
+
+export interface ChangeInMessageEvent {
+    type: "UPDATE" | "DELETE"
+    threadID: string
+    messageID: string
+    patientID?: string
+    doctorID?: string
+    message: ChatMessage
 }
