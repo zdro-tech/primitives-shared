@@ -57,8 +57,8 @@ export const processMessages = async (messages, language, model) => {
 export const chatMessageWithFilesToText = (message) => {
     let messageText = message.text;
     if (Array.isArray(message?.files) && message.files.length) {
-        const fileNames = message.files.map(file => file.fileName).join(', ');
-        messageText = `${messageText} Attached Files: ${fileNames}`;
+        const fileNamesAndDescription = message.files.map(file => `${file.fileName}${file.fileDescription ?? ` : ${file.fileDescription}`}: ''`).join(', ');
+        messageText = `${messageText} Attached Files: ${fileNamesAndDescription}`;
     }
     return messageText;
 };
