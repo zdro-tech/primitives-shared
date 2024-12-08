@@ -1,4 +1,4 @@
-import { ChatMessage, ChatThread, Context, DoctorContext, Patient, ProposedAnswersResponse, ThreadClass } from "./index.js"
+import { ChatMessage, ChatThread, Context, DoctorContext, FileData, Patient, ProposedAnswersResponse, ThreadClass } from "./index.js"
 
 export interface OutgoingMessageEvent {
     context: Context
@@ -50,6 +50,8 @@ export interface PatientMesssageEvent {
     offtopic: boolean;
     tooShort: boolean;
     joke: boolean;
+
+    files?: FileData[]
   }
 
   export interface PatientReplySuggestionsEvent {
