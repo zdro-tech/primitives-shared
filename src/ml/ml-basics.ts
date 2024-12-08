@@ -2,7 +2,7 @@ import { ChatCompletionMessageParam, ChatCompletion, } from "openai/resources/in
 import { new35Completition, new4Completition, new4oCompletition, visionCompletion } from "./openai.js";
 import { logger } from "../logger/logger.js";
 
-import { ChatMessage, MessageAuthor } from "../types/chat-message.js";
+import { ChatMessage, FileData, MessageAuthor } from "../types/chat-message.js";
 import { Message, TextContentBlock } from "openai/resources/beta/threads/index.mjs";
 import { newCloudeCompletion } from "./anthropic-cloude.js";
 import { new4AzureCompletition } from "./azure-openai.js";
@@ -60,20 +60,21 @@ export const processMessages = async <T>(messages: Array<ChatCompletionMessagePa
     return parseFirstCompletion(await newMLCompletion(addPostInstructions(messages, language), model)) as T
 };
 
-export const filesToText = (message: ChatMessage) => {
-    if (Array.isArray(message?.files) && message.files.length) {
-        return message.files.map(file => `${file.fileName}${file.fileDescription ? ` : """ ${file.fileDescription} """ ` : ''}`).join(', ')
-    }
-    return '';
+const fileNameFileDescription = (file: FileData) => {
+    return `""" ${file.fileName}${file.fileDescription ? ` : ${file.fileDescription}` : ''} """`
 }
 
 export const chatMessageWithFilesToText = (message: ChatMessage) => {
     let messageText = message.text
     if (Array.isArray(message?.files) && message.files.length) {
-        const fileNamesAndDescription = message.files.map(file => `${file.fileName}${file.fileDescription ? ` : ${file.fileDescription}` : ''}`).join(', ')
-        messageText = `${messageText}, attached files: """ ${fileNamesAndDescription} """.`
+        const fileNamesAndDescription = message.files.map(file => fileNameFileDescription(file)).join(', ')
+        messageText = `""" ${messageText}, attached files: ${fileNamesAndDescription} """`
     }
     return messageText
+}
+
+export const filesToText = (message: ChatMessage) => {
+    return message?.files?.map(file => fileNameFileDescription(file)).join(', ') ?? ''
 }
 
 export const processChatMessages = async <T>(messages: Array<ChatMessage>, instructions: string, language: string, model: ExecutionModel): Promise<T> => {
