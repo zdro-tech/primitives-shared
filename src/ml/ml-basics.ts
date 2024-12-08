@@ -62,7 +62,7 @@ export const processMessages = async <T>(messages: Array<ChatCompletionMessagePa
 
 export const chatMessageWithFilesToText = (message: ChatMessage) => {
     let messageText = message.text
-    if (Array.isArray(message?.files) && message.files.length) {
+if (Array.isArray(message?.files) && message.files.length) {
         const fileNames = message.files.map(file => file.fileName).join(', ')
         messageText = `${messageText} Attached Files: ${fileNames}`
     }

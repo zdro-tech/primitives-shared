@@ -21,6 +21,7 @@ export interface FileData {
     threadId: string;
     fileData?: string;
     fileName: string; // original file name
+    fileDescription?; string;
     uuid: string; // short file name in bucket
     bucketFileName: string; // full path in bucket
 }

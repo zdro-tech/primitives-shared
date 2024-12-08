@@ -32,11 +32,13 @@
   "author": "",
   "license": "ISC",
   "peerDependencies": {
-    "@anthropic-ai/sdk": "^0.27.2",
-    "@azure/openai": "^2.0.0-beta.1",
-    "@google-cloud/opentelemetry-cloud-trace-exporter": "^2.2.0",
+    "@anthropic-ai/sdk": "^0.32.1",
+    "@azure/openai": "^2.0.0",
+    "@google-cloud/opentelemetry-cloud-trace-exporter": "^2.4.1",
     "@google-cloud/pubsub": "^4.4.0",
     "@google-cloud/storage": "^7.11.3",
+    "@google-cloud/kms": "^4.5.0",
+    "@google-cloud/secret-manager": "^5.6.0",
     "@opentelemetry/api": "^1.8.0",
     "@opentelemetry/instrumentation": "^0.51.1",
     "@opentelemetry/instrumentation-express": "^0.38.0",
@@ -62,19 +64,15 @@
     "winston": "^3.13.0"
   },
   "devDependencies": {
-    "@types/express": "^4.17.21",
-    "@types/jsonwebtoken": "^9.0.6",
+    "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.7",
     "@types/jwk-to-pem": "^2.0.3",
-    "@types/node": "^20.6.4",
-    "@typescript-eslint/eslint-plugin": "^7.3.1",
-    "@typescript-eslint/parser": "^7.3.1",
-    "constructs": "^10.3.0",
-    "eslint": "^8.57.0",
-    "eslint-plugin-import": "^2.29.1",
-    "typescript": "^5.2.2"
-  },
-  "dependencies": {
-    "@google-cloud/kms": "^4.5.0",
-    "@google-cloud/secret-manager": "^5.6.0"
+    "@types/node": "^22.10.1",
+    "@typescript-eslint/eslint-plugin": "^8.17.0",
+    "@typescript-eslint/parser": "^8.17.0",
+    "constructs": "^10.4.2",
+    "eslint": "^9.16.0",
+    "eslint-plugin-import": "^2.31.0",
+    "typescript": "^5.7.2"
   }
 }
