@@ -18,8 +18,7 @@ export interface FileData {
     threadId: string;
     fileData?: string;
     fileName: string;
-    fileDescription?: any;
-    string: any;
+    fileDescription?: string;
     uuid: string;
     bucketFileName: string;
 }
