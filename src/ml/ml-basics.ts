@@ -61,20 +61,17 @@ export const processMessages = async <T>(messages: Array<ChatCompletionMessagePa
 };
 
 export const filesToText = (message: ChatMessage) => {
-    let filesText = ''
     if (Array.isArray(message?.files) && message.files.length) {
-        const fileNamesAndDescription = message.files.map(file => `${file.fileName}${file.fileDescription ?? ` : ${file.fileDescription}`}: ''`).join(', ')
-        filesText = `${filesText}. Attached Files: ${fileNamesAndDescription}.`
+        return message.files.map(file => `${file.fileName}${file.fileDescription ?? ` : ${file.fileDescription}`}: ''`).join(', ')
     }
-    return filesText
+    return '';
 }
-
 
 export const chatMessageWithFilesToText = (message: ChatMessage) => {
     let messageText = message.text
     if (Array.isArray(message?.files) && message.files.length) {
         const fileNamesAndDescription = message.files.map(file => `${file.fileName}${file.fileDescription ?? ` : ${file.fileDescription}`}: ''`).join(', ')
-        messageText = `${messageText}. Attached Files: ${fileNamesAndDescription}.`
+        messageText = `${messageText}, attached files: ### ${fileNamesAndDescription} ###.`
     }
     return messageText
 }
