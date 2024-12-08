@@ -54,11 +54,19 @@ export const newMLCompletion = async (messages, model) => {
 export const processMessages = async (messages, language, model) => {
     return parseFirstCompletion(await newMLCompletion(addPostInstructions(messages, language), model));
 };
+export const filesToText = (message) => {
+    let filesText = '';
+    if (Array.isArray(message?.files) && message.files.length) {
+        const fileNamesAndDescription = message.files.map(file => `${file.fileName}${file.fileDescription ?? ` : ${file.fileDescription}`}: ''`).join(', ');
+        filesText = `${filesText}. Attached Files: ${fileNamesAndDescription}.`;
+    }
+    return filesText;
+};
 export const chatMessageWithFilesToText = (message) => {
     let messageText = message.text;
     if (Array.isArray(message?.files) && message.files.length) {
         const fileNamesAndDescription = message.files.map(file => `${file.fileName}${file.fileDescription ?? ` : ${file.fileDescription}`}: ''`).join(', ');
-        messageText = `${messageText} Attached Files: ${fileNamesAndDescription}`;
+        messageText = `${messageText}. Attached Files: ${fileNamesAndDescription}.`;
     }
     return messageText;
 };
