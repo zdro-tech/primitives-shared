@@ -84,7 +84,7 @@ export interface ChangeInThreadEvent {
 export interface ChangeInMessageEvent {
     type: "UPDATE" | "DELETE";
     threadID: string;
-    messageID: string;
+    messageID: number;
     patientID?: string;
     doctorID?: string;
     message: ChatMessage;
