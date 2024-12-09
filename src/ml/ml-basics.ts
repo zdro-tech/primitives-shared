@@ -61,20 +61,20 @@ export const processMessages = async <T>(messages: Array<ChatCompletionMessagePa
 };
 
 const fileNameFileDescription = (file: FileData) => {
-    return `""" ${file.fileName}${file.fileDescription ? ` : ${file.fileDescription}` : ''} """`
+    return `${file.fileName}${file.fileDescription ? ` : ${file.fileDescription}` : ''}`
 }
 
 export const chatMessageWithFilesToText = (message: ChatMessage) => {
     let messageText = message.text
     if (Array.isArray(message?.files) && message.files.length) {
         const fileNamesAndDescription = message.files.map(file => fileNameFileDescription(file)).join(', ')
-        messageText = `""" ${messageText}, attached files: ${fileNamesAndDescription} """`
+        messageText = `message: """ ${messageText} """, attached files: """ ${fileNamesAndDescription} """`
     }
     return messageText
 }
 
 export const filesToText = (message: ChatMessage) => {
-    return message?.files?.map(file => fileNameFileDescription(file)).join(', ') ?? ''
+    return `""" ${message?.files?.map(file => fileNameFileDescription(file)).join(', ') ?? ''} """`
 }
 
 export const processChatMessages = async <T>(messages: Array<ChatMessage>, instructions: string, language: string, model: ExecutionModel): Promise<T> => {

@@ -55,18 +55,18 @@ export const processMessages = async (messages, language, model) => {
     return parseFirstCompletion(await newMLCompletion(addPostInstructions(messages, language), model));
 };
 const fileNameFileDescription = (file) => {
-    return `""" ${file.fileName}${file.fileDescription ? ` : ${file.fileDescription}` : ''} """`;
+    return `${file.fileName}${file.fileDescription ? ` : ${file.fileDescription}` : ''}`;
 };
 export const chatMessageWithFilesToText = (message) => {
     let messageText = message.text;
     if (Array.isArray(message?.files) && message.files.length) {
         const fileNamesAndDescription = message.files.map(file => fileNameFileDescription(file)).join(', ');
-        messageText = `""" ${messageText}, attached files: ${fileNamesAndDescription} """`;
+        messageText = `message: """ ${messageText} """, attached files: """ ${fileNamesAndDescription} """`;
     }
     return messageText;
 };
 export const filesToText = (message) => {
-    return message?.files?.map(file => fileNameFileDescription(file)).join(', ') ?? '';
+    return `""" ${message?.files?.map(file => fileNameFileDescription(file)).join(', ') ?? ''} """`;
 };
 export const processChatMessages = async (messages, instructions, language, model) => {
     const messagesToSend = [{ "role": "system", "content": instructions }];
