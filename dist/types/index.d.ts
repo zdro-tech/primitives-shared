@@ -16,4 +16,5 @@ export * from './unread-messages.js';
 export * from './email-notifications.js';
 export * from './zus.js';
 export * from './organization.js';
+export * from './ezdrowie.js';
 //# sourceMappingURL=index.d.ts.map
