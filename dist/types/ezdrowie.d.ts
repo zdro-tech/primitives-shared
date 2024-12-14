@@ -155,8 +155,8 @@ export interface PackagePrescriptionRecordResponse {
                         numerReceptyWPakiecie: string;
                         kluczRecepty: string;
                         wynikWeryfikacjiZbioruRegul: VerificationResult;
-                    };
-                }[];
+                    }[];
+                };
             };
         };
         wynik: FailureResponseResultDetails;
@@ -172,7 +172,7 @@ export interface PrescriptionValidationResponse {
                         wynikWeryfikacji: string;
                         identyfikatorZbioruRegul: string;
                     };
-                };
+                }[];
             };
         };
         wynik: FailureResponseResultDetails;
