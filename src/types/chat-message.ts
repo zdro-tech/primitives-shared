@@ -20,9 +20,10 @@ export enum MessageType {
 export interface FileData {
     threadId: string;
     fileData?: string;
+    fileBuffer?: Buffer; //for base64 altermative
     fileName: string; // original file name
     fileDescription?: string;
-    uuid: string; // short file name in bucket
+    uuid: string;  // short file name in bucket
     bucketFileName: string; // full path in bucket
 }
 

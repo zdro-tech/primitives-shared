@@ -51,6 +51,24 @@ export const saveBase64File = async (bucket: Bucket, fileData: FileData) => {
   });
 };
 
+export const saveFileBuffer = async (bucket: Bucket, fileData: FileData) => {
+  if (!fileData.fileBuffer) {
+    throw new Error(`No file buffer provided for file ${fileData.fileName}`);
+  }
+
+  const file = bucket.file(fileData.bucketFileName);
+  const stream = file.createWriteStream({
+    metadata: { contentType: 'auto', predefinedAcl: 'private' },
+  });
+
+  return new Promise((resolve, reject) => {
+    stream.on('error', reject);
+    stream.on('finish', () => resolve(file.publicUrl()));
+    stream.end(fileData.fileBuffer);
+  });
+};
+
+
 export const getFileLink = async (bucket: Bucket, fileName: string, expiresInMinutes = 1): Promise<string> => {
   logger.debug(`Generating signed URL for file: ${fileName} in bucket: ${bucket.name}`);
 

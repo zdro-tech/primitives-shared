@@ -17,6 +17,7 @@ export declare enum MessageType {
 export interface FileData {
     threadId: string;
     fileData?: string;
+    fileBuffer?: Buffer;
     fileName: string;
     fileDescription?: string;
     uuid: string;
