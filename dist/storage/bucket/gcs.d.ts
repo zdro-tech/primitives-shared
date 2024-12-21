@@ -6,4 +6,5 @@ export declare const saveBase64File: (bucket: Bucket, fileData: FileData) => Pro
 export declare const saveFileBuffer: (bucket: Bucket, fileData: FileData) => Promise<unknown>;
 export declare const getFileLink: (bucket: Bucket, fileName: string, expiresInMinutes?: number) => Promise<string>;
 export declare const getFile: (bucket: Bucket, fileName: string) => File;
+export declare const getFileStream: (bucket: Bucket, fileName: string) => NodeJS.ReadableStream;
 //# sourceMappingURL=gcs.d.ts.map

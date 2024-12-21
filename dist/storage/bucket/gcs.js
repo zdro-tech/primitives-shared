@@ -76,3 +76,6 @@ export const getFileLink = async (bucket, fileName, expiresInMinutes = 1) => {
 export const getFile = (bucket, fileName) => {
     return bucket.file(fileName);
 };
+export const getFileStream = (bucket, fileName) => {
+    return getFile(bucket, fileName).createReadStream();
+};

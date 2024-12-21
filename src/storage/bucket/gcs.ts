@@ -1,6 +1,7 @@
 import { Storage, File, GetSignedUrlConfig, Bucket } from "@google-cloud/storage";
 import { FileData } from "../../types/chat-message.js";
 import { logger } from "../../logger/logger.js";
+import { Readable } from "stream";
 
 export const getFileStorage = (projectId: string): Storage => {
   if (!projectId) {
@@ -90,4 +91,8 @@ export const getFileLink = async (bucket: Bucket, fileName: string, expiresInMin
 
 export const getFile = (bucket: Bucket, fileName: string): File => {
   return bucket.file(fileName)
+};
+
+export const getFileStream = (bucket: Bucket, fileName: string): NodeJS.ReadableStream => {
+  return getFile(bucket, fileName).createReadStream();
 };
