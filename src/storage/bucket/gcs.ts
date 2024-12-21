@@ -1,4 +1,4 @@
-import { Storage, GetSignedUrlConfig, Bucket } from "@google-cloud/storage";
+import { Storage, File, GetSignedUrlConfig, Bucket } from "@google-cloud/storage";
 import { FileData } from "../../types/chat-message.js";
 import { logger } from "../../logger/logger.js";
 
@@ -86,4 +86,8 @@ export const getFileLink = async (bucket: Bucket, fileName: string, expiresInMin
     logger.error(`Error generating signed URL for file ${fileName} in bucket ${bucket.name}`, error);
     throw new Error(`Failed to generate signed URL for file ${fileName} in bucket ${bucket.name}: ${error.message}`);
   }
+};
+
+export const getFile = (bucket: Bucket, fileName: string): File => {
+  return bucket.file(fileName)
 };

@@ -73,3 +73,6 @@ export const getFileLink = async (bucket, fileName, expiresInMinutes = 1) => {
         throw new Error(`Failed to generate signed URL for file ${fileName} in bucket ${bucket.name}: ${error.message}`);
     }
 };
+export const getFile = (bucket, fileName) => {
+    return bucket.file(fileName);
+};
