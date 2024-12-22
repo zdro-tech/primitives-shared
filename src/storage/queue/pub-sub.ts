@@ -57,11 +57,10 @@ export const publishToMultipleDestinations = async (
     }
 
     for (const url of fallbackURLs) {
-        try {
-            await publish(topicName, payload, url);
-        } catch (e) {
-            logger.debug(`Error while delivering message to the ${url}`, e);
-        }
+        publish(topicName, payload, url)
+            .catch((e) => {
+                logger.debug(`Error while delivering message to the ${url}`, e);
+            });
     }
 }
 

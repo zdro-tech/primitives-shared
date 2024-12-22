@@ -1,8 +1,11 @@
 import { logger } from "../logger/logger.js";
 import { isTokenValid, isTokenWithinValidTime, parseCognitoToken } from "./auth.js";
-export const createAuthMiddleware = (requiredGroups, awsRegion, poolID) => {
+export const createAuthMiddleware = (requiredGroups, awsRegion, poolID, cookieName) => {
     return async (req, res, next) => {
-        const token = req.headers.authorization;
+        let token = req.headers.authorization;
+        if (cookieName && !token) {
+            token = req.cookies[cookieName];
+        }
         if (!token) {
             logger.error("No auth token provided");
             res.status(401).send({ error: 'No auth token provided' });
