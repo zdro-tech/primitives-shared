@@ -32,7 +32,8 @@ export enum RegularComplaintThreadStage {
     Diagnosis = "Diagnosis", // when doctor sends the outcome
     Treatment_Discussion = "Treatment_Discussion", //when patient sends any questions
     Closure = "Closure", //when patient confirms the end of the thread
-    Follow_Up = "Follow_Up" //when patient is providing follow up information after some time
+    Follow_Up = "Follow_Up", //when patient is providing follow up information after some time,
+    Feedback = "Feedback",
 }
 
 export const stageEqualOrComesAfter = (stage1: RegularComplaintThreadStage, stage2: RegularComplaintThreadStage): boolean => {

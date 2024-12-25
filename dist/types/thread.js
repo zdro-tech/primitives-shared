@@ -19,7 +19,8 @@ export var RegularComplaintThreadStage;
     RegularComplaintThreadStage["Diagnosis"] = "Diagnosis";
     RegularComplaintThreadStage["Treatment_Discussion"] = "Treatment_Discussion";
     RegularComplaintThreadStage["Closure"] = "Closure";
-    RegularComplaintThreadStage["Follow_Up"] = "Follow_Up"; //when patient is providing follow up information after some time
+    RegularComplaintThreadStage["Follow_Up"] = "Follow_Up";
+    RegularComplaintThreadStage["Feedback"] = "Feedback";
 })(RegularComplaintThreadStage || (RegularComplaintThreadStage = {}));
 export const stageEqualOrComesAfter = (stage1, stage2) => {
     const order = Object.values(RegularComplaintThreadStage);
