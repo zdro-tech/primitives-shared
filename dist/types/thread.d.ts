@@ -72,7 +72,7 @@ export interface Patient {
     unitId: string;
     country: string;
     tenantId: number;
-    signUpLanguage: string;
+    language: string;
     createdAt: Date;
 }
 export interface ChangeInThreadEvent {

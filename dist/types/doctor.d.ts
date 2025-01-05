@@ -32,6 +32,7 @@ export interface ConfirmedPrescription extends Prescription {
     updatedAt?: Date;
     upatedBy: string;
     numberOfPackages: number;
+    accessCode?: string;
 }
 export interface ConfirmedPrescriptionWithMeds extends ConfirmedPrescription {
     searchResult: ShrankMedicinalProduct[];
