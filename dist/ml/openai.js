@@ -31,6 +31,28 @@ export const new4oCompletition = async (messages) => {
         return reply?.choices;
     }, retryOptions);
 };
+export const newO1MiniCompletition = async (messages) => {
+    return await backOff(async () => {
+        const reply = await getOpenAIClient().chat.completions.create({
+            ...defaultOpenAISettings,
+            model: "o1-mini",
+            messages: messages,
+            temperature: 1
+        });
+        return reply?.choices;
+    }, retryOptions);
+};
+export const newO1Completition = async (messages) => {
+    return await backOff(async () => {
+        const reply = await getOpenAIClient().chat.completions.create({
+            ...defaultOpenAISettings,
+            model: "o1",
+            messages: messages,
+            temperature: 1
+        });
+        return reply?.choices;
+    }, retryOptions);
+};
 export const new4Completition = async (messages) => {
     return await backOff(async () => {
         const reply = await getOpenAIClient().chat.completions.create({

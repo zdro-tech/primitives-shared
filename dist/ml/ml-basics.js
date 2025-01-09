@@ -1,4 +1,4 @@
-import { new35Completition, new4Completition, new4oCompletition, visionCompletion } from "./openai.js";
+import { new35Completition, new4Completition, new4oCompletition, newO1Completition, newO1MiniCompletition, visionCompletion } from "./openai.js";
 import { logger } from "../logger/logger.js";
 import { MessageAuthor } from "../types/chat-message.js";
 import { newCloudeCompletion } from "./anthropic-cloude.js";
@@ -10,6 +10,8 @@ export var ExecutionModel;
     ExecutionModel["GPT3_5_TURBO"] = "gpt-3.5-turbo";
     ExecutionModel["GPT4_TURBO"] = "gpt-4-turbo";
     ExecutionModel["GPT4_4O"] = "gpt-4o";
+    ExecutionModel["O1_MINI"] = "o1-mini";
+    ExecutionModel["O1"] = "O1";
     ExecutionModel["CLOUDE_3_OPUS"] = "claude-3-opus-20240229";
     ExecutionModel["CLOUDE_3_SONNET"] = "claude-3-sonnet-20240229";
     ExecutionModel["CLOUDE_3_HAIKU"] = "claude-3-haiku-20240307";
@@ -32,6 +34,12 @@ export const newMLCompletion = async (messages, model) => {
         }
         if (model === ExecutionModel.GPT4_4O) {
             return await new4oCompletition(messages);
+        }
+        if (model === ExecutionModel.O1) {
+            return await newO1Completition(messages);
+        }
+        if (model === ExecutionModel.O1_MINI) {
+            return await newO1MiniCompletition(messages);
         }
         if (model === ExecutionModel.CLOUDE_3_OPUS) {
             return await newCloudeCompletion(messages, ExecutionModel.CLOUDE_3_OPUS);

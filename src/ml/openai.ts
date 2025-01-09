@@ -38,6 +38,30 @@ export const new4oCompletition = async (messages: Array<ChatCompletionMessagePar
   }, retryOptions)
 }
 
+export const newO1MiniCompletition = async (messages: Array<ChatCompletionMessageParam>): Promise<ChatCompletion.Choice[]> => {
+  return await backOff(async () => {
+      const reply = await getOpenAIClient().chat.completions.create({
+          ...defaultOpenAISettings,
+          model: "o1-mini",
+          messages: messages,
+          temperature: 1
+      })
+      return reply?.choices
+  }, retryOptions)
+}
+
+export const newO1Completition = async (messages: Array<ChatCompletionMessageParam>): Promise<ChatCompletion.Choice[]> => {
+  return await backOff(async () => {
+      const reply = await getOpenAIClient().chat.completions.create({
+          ...defaultOpenAISettings,
+          model: "o1",
+          messages: messages,
+          temperature: 1
+      })
+      return reply?.choices
+  }, retryOptions)
+}
+
 export const new4Completition = async (messages: Array<ChatCompletionMessageParam>): Promise<ChatCompletion.Choice[]> => {
   return await backOff(async () => {
       const reply = await getOpenAIClient().chat.completions.create({
