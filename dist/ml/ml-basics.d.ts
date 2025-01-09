@@ -11,7 +11,9 @@ export declare enum ExecutionModel {
     CLOUDE_3_OPUS = "claude-3-opus-20240229",
     CLOUDE_3_SONNET = "claude-3-sonnet-20240229",
     CLOUDE_3_HAIKU = "claude-3-haiku-20240307",
-    GROQ_LLAMA_3_70B_8192 = "llama3-70b-8192"
+    GROQ_LLAMA_3_70B_8192 = "llama3-70b-8192",
+    CUSTOM_4_CARE = "4.care.01",
+    CUSTOM_4_CARE_DRUGS = "4.care.01-drugs"
 }
 export declare const anyOfModels: (array: ExecutionModel[]) => ExecutionModel;
 export declare const newMLCompletion: (messages: Array<ChatCompletionMessageParam>, model: ExecutionModel) => Promise<ChatCompletion.Choice[]>;

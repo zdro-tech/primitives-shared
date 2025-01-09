@@ -19,6 +19,8 @@ export enum ExecutionModel {
     CLOUDE_3_SONNET = "claude-3-sonnet-20240229",
     CLOUDE_3_HAIKU = "claude-3-haiku-20240307",
     GROQ_LLAMA_3_70B_8192 = "llama3-70b-8192",
+    CUSTOM_4_CARE = "4.care.01",
+    CUSTOM_4_CARE_DRUGS = "4.care.01-drugs",
 }
 
 export const anyOfModels = (array: ExecutionModel[]): ExecutionModel => {

@@ -16,6 +16,8 @@ export var ExecutionModel;
     ExecutionModel["CLOUDE_3_SONNET"] = "claude-3-sonnet-20240229";
     ExecutionModel["CLOUDE_3_HAIKU"] = "claude-3-haiku-20240307";
     ExecutionModel["GROQ_LLAMA_3_70B_8192"] = "llama3-70b-8192";
+    ExecutionModel["CUSTOM_4_CARE"] = "4.care.01";
+    ExecutionModel["CUSTOM_4_CARE_DRUGS"] = "4.care.01-drugs";
 })(ExecutionModel || (ExecutionModel = {}));
 export const anyOfModels = (array) => {
     const randomIndex = Math.floor(Math.random() * array.length);
