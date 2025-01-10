@@ -27,72 +27,92 @@ export const defaultOpenAISettings = {
 } as ChatCompletionCreateParamsNonStreaming
 
 
+export const new4oMiniCompletition = async (messages: Array<ChatCompletionMessageParam>): Promise<ChatCompletion.Choice[]> => {
+  return await backOff(async () => {
+    const reply = await getOpenAIClient().chat.completions.create({
+      ...defaultOpenAISettings,
+      model: "gpt-4o-mini",
+      messages: messages
+    })
+    return reply?.choices
+  }, retryOptions)
+}
+
+
 export const new4oCompletition = async (messages: Array<ChatCompletionMessageParam>): Promise<ChatCompletion.Choice[]> => {
   return await backOff(async () => {
-      const reply = await getOpenAIClient().chat.completions.create({
-          ...defaultOpenAISettings,
-          model: "gpt-4o",
-          messages: messages
-      })
-      return reply?.choices
+    const reply = await getOpenAIClient().chat.completions.create({
+      ...defaultOpenAISettings,
+      model: "gpt-4o",
+      messages: messages
+    })
+    return reply?.choices
   }, retryOptions)
 }
 
 export const newO1MiniCompletition = async (messages: Array<ChatCompletionMessageParam>): Promise<ChatCompletion.Choice[]> => {
+  const settingsCopy = JSON.parse(JSON.stringify(defaultOpenAISettings))
+  delete settingsCopy.max_tokens;
+
   return await backOff(async () => {
-      const reply = await getOpenAIClient().chat.completions.create({
-          ...defaultOpenAISettings,
-          model: "o1-mini",
-          messages: messages,
-          temperature: 1
-      })
-      return reply?.choices
+    const reply = await getOpenAIClient().chat.completions.create({
+      ...settingsCopy,
+      model: "o1-mini",
+      messages: messages,
+      max_completion_tokens: 1000,
+      temperature: 1
+    })
+    return reply?.choices
   }, retryOptions)
 }
 
 export const newO1Completition = async (messages: Array<ChatCompletionMessageParam>): Promise<ChatCompletion.Choice[]> => {
+  const settingsCopy = JSON.parse(JSON.stringify(defaultOpenAISettings))
+  delete settingsCopy.max_tokens;
+
   return await backOff(async () => {
-      const reply = await getOpenAIClient().chat.completions.create({
-          ...defaultOpenAISettings,
-          model: "o1",
-          messages: messages,
-          temperature: 1
-      })
-      return reply?.choices
+    const reply = await getOpenAIClient().chat.completions.create({
+      ...settingsCopy,
+      model: "o1",
+      messages: messages,
+      max_completion_tokens: 1000,
+      temperature: 1
+    })
+    return reply?.choices
   }, retryOptions)
 }
 
 export const new4Completition = async (messages: Array<ChatCompletionMessageParam>): Promise<ChatCompletion.Choice[]> => {
   return await backOff(async () => {
-      const reply = await getOpenAIClient().chat.completions.create({
-          ...defaultOpenAISettings,
-          model: "gpt-4-turbo",
-          messages: messages
-      })
-      return reply?.choices
+    const reply = await getOpenAIClient().chat.completions.create({
+      ...defaultOpenAISettings,
+      model: "gpt-4-turbo",
+      messages: messages
+    })
+    return reply?.choices
   }, retryOptions)
 }
 
 export const new35Completition = async (messages: Array<ChatCompletionMessageParam>): Promise<ChatCompletion.Choice[]> => {
   return await backOff(async () => {
-      const reply = await getOpenAIClient().chat.completions.create({
-          ...defaultOpenAISettings,
-          model: "gpt-3.5-turbo-0125",
-          max_tokens: 1000,
-          messages: messages
-      })
-      return reply?.choices
+    const reply = await getOpenAIClient().chat.completions.create({
+      ...defaultOpenAISettings,
+      model: "gpt-3.5-turbo-0125",
+      max_tokens: 1000,
+      messages: messages
+    })
+    return reply?.choices
   }, retryOptions)
 }
 
 export const visionCompletion = async (messages: Array<ChatCompletionMessageParam>): Promise<ChatCompletion.Choice[]> => {
   return await backOff(async () => {
-      const reply = await getOpenAIClient().chat.completions.create({
-          model: "gpt-4-vision-preview",
-          max_tokens: 1000,
-          messages: messages
-      });
-      return reply?.choices;
+    const reply = await getOpenAIClient().chat.completions.create({
+      model: "gpt-4-vision-preview",
+      max_tokens: 1000,
+      messages: messages
+    });
+    return reply?.choices;
   }, retryOptions);
 };
 

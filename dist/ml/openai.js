@@ -21,6 +21,16 @@ export const defaultOpenAISettings = {
     // top_p: 0.5,
     max_tokens: 1000,
 };
+export const new4oMiniCompletition = async (messages) => {
+    return await backOff(async () => {
+        const reply = await getOpenAIClient().chat.completions.create({
+            ...defaultOpenAISettings,
+            model: "gpt-4o-mini",
+            messages: messages
+        });
+        return reply?.choices;
+    }, retryOptions);
+};
 export const new4oCompletition = async (messages) => {
     return await backOff(async () => {
         const reply = await getOpenAIClient().chat.completions.create({
@@ -32,22 +42,28 @@ export const new4oCompletition = async (messages) => {
     }, retryOptions);
 };
 export const newO1MiniCompletition = async (messages) => {
+    const settingsCopy = JSON.parse(JSON.stringify(defaultOpenAISettings));
+    delete settingsCopy.max_tokens;
     return await backOff(async () => {
         const reply = await getOpenAIClient().chat.completions.create({
-            ...defaultOpenAISettings,
+            ...settingsCopy,
             model: "o1-mini",
             messages: messages,
+            max_completion_tokens: 1000,
             temperature: 1
         });
         return reply?.choices;
     }, retryOptions);
 };
 export const newO1Completition = async (messages) => {
+    const settingsCopy = JSON.parse(JSON.stringify(defaultOpenAISettings));
+    delete settingsCopy.max_tokens;
     return await backOff(async () => {
         const reply = await getOpenAIClient().chat.completions.create({
-            ...defaultOpenAISettings,
+            ...settingsCopy,
             model: "o1",
             messages: messages,
+            max_completion_tokens: 1000,
             temperature: 1
         });
         return reply?.choices;

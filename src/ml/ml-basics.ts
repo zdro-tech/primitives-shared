@@ -1,5 +1,5 @@
 import { ChatCompletionMessageParam, ChatCompletion, } from "openai/resources/index"
-import { new35Completition, new4Completition, new4oCompletition, newO1Completition, newO1MiniCompletition, visionCompletion } from "./openai.js";
+import { new35Completition, new4Completition, new4oCompletition, new4oMiniCompletition, newO1Completition, newO1MiniCompletition, visionCompletion } from "./openai.js";
 import { logger } from "../logger/logger.js";
 
 import { ChatMessage, FileData, MessageAuthor } from "../types/chat-message.js";
@@ -13,6 +13,7 @@ export enum ExecutionModel {
     GPT3_5_TURBO = "gpt-3.5-turbo",
     GPT4_TURBO = "gpt-4-turbo",
     GPT4_4O = "gpt-4o",
+    GPT4_4O_MINI = "gpt-4o-mini",
     O1_MINI = "o1-mini",
     O1 = "O1",
     CLOUDE_3_OPUS = "claude-3-opus-20240229",
@@ -41,6 +42,9 @@ export const newMLCompletion = async (messages: Array<ChatCompletionMessageParam
         }
         if (model === ExecutionModel.GPT4_4O) {
             return await new4oCompletition(messages);
+        }
+        if (model === ExecutionModel.GPT4_4O_MINI) {
+            return await new4oMiniCompletition(messages);
         }
         if (model === ExecutionModel.O1) {
             return await newO1Completition(messages);

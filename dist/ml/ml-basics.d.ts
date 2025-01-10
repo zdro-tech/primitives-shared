@@ -6,6 +6,7 @@ export declare enum ExecutionModel {
     GPT3_5_TURBO = "gpt-3.5-turbo",
     GPT4_TURBO = "gpt-4-turbo",
     GPT4_4O = "gpt-4o",
+    GPT4_4O_MINI = "gpt-4o-mini",
     O1_MINI = "o1-mini",
     O1 = "O1",
     CLOUDE_3_OPUS = "claude-3-opus-20240229",
