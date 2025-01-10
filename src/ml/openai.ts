@@ -51,12 +51,8 @@ export const new4oCompletition = async (messages: Array<ChatCompletionMessagePar
 }
 
 export const newO1MiniCompletition = async (messages: Array<ChatCompletionMessageParam>): Promise<ChatCompletion.Choice[]> => {
-  const settingsCopy = JSON.parse(JSON.stringify(defaultOpenAISettings))
-  delete settingsCopy.max_tokens;
-
   return await backOff(async () => {
     const reply = await getOpenAIClient().chat.completions.create({
-      ...settingsCopy,
       model: "o1-mini",
       messages: messages,
       max_completion_tokens: 1000,
@@ -67,12 +63,8 @@ export const newO1MiniCompletition = async (messages: Array<ChatCompletionMessag
 }
 
 export const newO1Completition = async (messages: Array<ChatCompletionMessageParam>): Promise<ChatCompletion.Choice[]> => {
-  const settingsCopy = JSON.parse(JSON.stringify(defaultOpenAISettings))
-  delete settingsCopy.max_tokens;
-
   return await backOff(async () => {
     const reply = await getOpenAIClient().chat.completions.create({
-      ...settingsCopy,
       model: "o1",
       messages: messages,
       max_completion_tokens: 1000,
