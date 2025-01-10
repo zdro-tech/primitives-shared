@@ -87,8 +87,8 @@ export const filesToText = (message: ChatMessage) => {
     return `""" ${message?.files?.map(file => fileNameFileDescription(file)).join(', ') ?? ''} """`
 }
 
-export const processChatMessages = async <T>(messages: Array<ChatMessage>, instructions: string, language: string, model: ExecutionModel): Promise<T> => {
-    const messagesToSend = [{ "role": "system", "content": instructions }] as Array<ChatCompletionMessageParam>;
+export const processChatMessages = async <T>(messages: Array<ChatMessage>, instructions: string, language: string, model: ExecutionModel, role = "system"): Promise<T> => {
+    const messagesToSend = [{ "role": role, "content": instructions }] as Array<ChatCompletionMessageParam>;
     messages.forEach(m => {
         messagesToSend.push({ "role": getMessageRole(m), "content": chatMessageWithFilesToText(m) } as ChatCompletionMessageParam);
     });
@@ -109,13 +109,13 @@ export const getMessageRole = (message: any): string => {
     return message.author == MessageAuthor.Bot ? "assistant" : "user"
 }
 
-export const addPostInstructions = (messages: Array<ChatCompletionMessageParam>, language: string) => {
-    messages.push({ "role": "system", "content": `Use and reply strictly in ${language} language.` } as ChatCompletionMessageParam)
+export const addPostInstructions = (messages: Array<ChatCompletionMessageParam>, language: string, role = "system") => {
+    messages.push({ "role": role, "content": `Use and reply strictly in ${language} language.` } as ChatCompletionMessageParam)
     return messages
 }
 
-export const processImage = async <T>(base64Image: string, instructions: string, language: string): Promise<T> => {
-    const messagesToSend = [{ "role": "system", "content": instructions }] as Array<ChatCompletionMessageParam>;
+export const processImage = async <T>(base64Image: string, instructions: string, language: string, role = "system"): Promise<T> => {
+    const messagesToSend = [{ "role": role, "content": instructions }] as Array<ChatCompletionMessageParam>;
     messagesToSend.push({
         role: "user",
         content: [{

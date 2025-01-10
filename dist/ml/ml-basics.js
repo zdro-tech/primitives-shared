@@ -78,8 +78,8 @@ export const chatMessageWithFilesToText = (message) => {
 export const filesToText = (message) => {
     return `""" ${message?.files?.map(file => fileNameFileDescription(file)).join(', ') ?? ''} """`;
 };
-export const processChatMessages = async (messages, instructions, language, model) => {
-    const messagesToSend = [{ "role": "system", "content": instructions }];
+export const processChatMessages = async (messages, instructions, language, model, role = "system") => {
+    const messagesToSend = [{ "role": role, "content": instructions }];
     messages.forEach(m => {
         messagesToSend.push({ "role": getMessageRole(m), "content": chatMessageWithFilesToText(m) });
     });
@@ -98,12 +98,12 @@ export const parseFirstCompletion = (choices) => {
 export const getMessageRole = (message) => {
     return message.author == MessageAuthor.Bot ? "assistant" : "user";
 };
-export const addPostInstructions = (messages, language) => {
-    messages.push({ "role": "system", "content": `Use and reply strictly in ${language} language.` });
+export const addPostInstructions = (messages, language, role = "system") => {
+    messages.push({ "role": role, "content": `Use and reply strictly in ${language} language.` });
     return messages;
 };
-export const processImage = async (base64Image, instructions, language) => {
-    const messagesToSend = [{ "role": "system", "content": instructions }];
+export const processImage = async (base64Image, instructions, language, role = "system") => {
+    const messagesToSend = [{ "role": role, "content": instructions }];
     messagesToSend.push({
         role: "user",
         content: [{
