@@ -61,8 +61,8 @@ export const newMLCompletion = async (messages, model) => {
     }
     return await new4Completition(messages);
 };
-export const processMessages = async (messages, language, model) => {
-    return parseFirstCompletion(await newMLCompletion(addPostInstructions(messages, language), model));
+export const processMessages = async (messages, language, model, role) => {
+    return parseFirstCompletion(await newMLCompletion(addPostInstructions(messages, language, role), model));
 };
 const fileNameFileDescription = (file) => {
     return `${file.fileName}${file.fileDescription ? ` : ${file.fileDescription}` : ''}`;
@@ -83,7 +83,7 @@ export const processChatMessages = async (messages, instructions, language, mode
     messages.forEach(m => {
         messagesToSend.push({ "role": getMessageRole(m), "content": chatMessageWithFilesToText(m) });
     });
-    return parseFirstCompletion(await newMLCompletion(addPostInstructions(messagesToSend, language), model));
+    return parseFirstCompletion(await newMLCompletion(addPostInstructions(messagesToSend, language, role), model));
 };
 export const parseFirstCompletion = (choices) => {
     const stringifiedJson = choices[0]?.message?.content ?? "{}";
@@ -98,8 +98,20 @@ export const parseFirstCompletion = (choices) => {
 export const getMessageRole = (message) => {
     return message.author == MessageAuthor.Bot ? "assistant" : "user";
 };
-export const addPostInstructions = (messages, language, role = "system") => {
-    messages.push({ "role": role, "content": `Use and reply strictly in ${language} language.` });
+const useStrictlyLanguage = (language) => {
+    switch (language) {
+        case 'pl':
+            return `Używaj i odpowiadaj ściśle w języku polskim.`;
+        case 'uk':
+            return `Використовуйте та відповідайте строго українською мовою.`;
+        case 'ru':
+            return `Используйте и отвечайте строго на русском языке.`;
+        default:
+            return `Use and reply strictly in ${language} language.`;
+    }
+};
+export const addPostInstructions = (messages, language, role) => {
+    messages.push({ "role": role, "content": useStrictlyLanguage(language) });
     return messages;
 };
 export const processImage = async (base64Image, instructions, language, role = "system") => {
@@ -111,7 +123,7 @@ export const processImage = async (base64Image, instructions, language, role = "
                 image_url: { url: base64Image }
             }]
     });
-    return parseFirstCompletionWithPossibleMarkdown(await visionCompletion(addPostInstructions(messagesToSend, language)));
+    return parseFirstCompletionWithPossibleMarkdown(await visionCompletion(addPostInstructions(messagesToSend, language, role)));
 };
 const parseFirstCompletionWithPossibleMarkdown = (choices) => {
     let stringifiedJson = choices[0]?.message?.content;

@@ -17,13 +17,13 @@ export declare enum ExecutionModel {
 }
 export declare const anyOfModels: (array: ExecutionModel[]) => ExecutionModel;
 export declare const newMLCompletion: (messages: Array<ChatCompletionMessageParam>, model: ExecutionModel) => Promise<ChatCompletion.Choice[]>;
-export declare const processMessages: <T>(messages: Array<ChatCompletionMessageParam>, language: string, model: ExecutionModel) => Promise<T>;
+export declare const processMessages: <T>(messages: Array<ChatCompletionMessageParam>, language: string, model: ExecutionModel, role: string) => Promise<T>;
 export declare const chatMessageWithFilesToText: (message: ChatMessage) => string;
 export declare const filesToText: (message: ChatMessage) => string;
 export declare const processChatMessages: <T>(messages: Array<ChatMessage>, instructions: string, language: string, model: ExecutionModel, role?: string) => Promise<T>;
 export declare const parseFirstCompletion: (choices: Array<ChatCompletion.Choice>) => any;
 export declare const getMessageRole: (message: any) => string;
-export declare const addPostInstructions: (messages: Array<ChatCompletionMessageParam>, language: string, role?: string) => ChatCompletionMessageParam[];
+export declare const addPostInstructions: (messages: Array<ChatCompletionMessageParam>, language: string, role: string) => ChatCompletionMessageParam[];
 export declare const processImage: <T>(base64Image: string, instructions: string, language: string, role?: string) => Promise<T>;
 export declare const parseAssistantMessageResponse: (message: Message) => any;
 //# sourceMappingURL=ml-basics.d.ts.map

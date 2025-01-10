@@ -66,8 +66,8 @@ export const newMLCompletion = async (messages: Array<ChatCompletionMessageParam
     return await new4Completition(messages);
 }
 
-export const processMessages = async <T>(messages: Array<ChatCompletionMessageParam>, language: string, model: ExecutionModel): Promise<T> => {
-    return parseFirstCompletion(await newMLCompletion(addPostInstructions(messages, language), model)) as T
+export const processMessages = async <T>(messages: Array<ChatCompletionMessageParam>, language: string, model: ExecutionModel, role: string): Promise<T> => {
+    return parseFirstCompletion(await newMLCompletion(addPostInstructions(messages, language, role), model)) as T
 };
 
 const fileNameFileDescription = (file: FileData) => {
@@ -92,7 +92,7 @@ export const processChatMessages = async <T>(messages: Array<ChatMessage>, instr
     messages.forEach(m => {
         messagesToSend.push({ "role": getMessageRole(m), "content": chatMessageWithFilesToText(m) } as ChatCompletionMessageParam);
     });
-    return parseFirstCompletion(await newMLCompletion(addPostInstructions(messagesToSend, language), model)) as T
+    return parseFirstCompletion(await newMLCompletion(addPostInstructions(messagesToSend, language, role), model)) as T
 };
 
 export const parseFirstCompletion = (choices: Array<ChatCompletion.Choice>): any => {
@@ -109,8 +109,21 @@ export const getMessageRole = (message: any): string => {
     return message.author == MessageAuthor.Bot ? "assistant" : "user"
 }
 
-export const addPostInstructions = (messages: Array<ChatCompletionMessageParam>, language: string, role = "system") => {
-    messages.push({ "role": role, "content": `Use and reply strictly in ${language} language.` } as ChatCompletionMessageParam)
+const useStrictlyLanguage = (language: string) => {
+    switch (language) {
+        case 'pl':
+            return `Używaj i odpowiadaj ściśle w języku polskim.`;
+        case 'uk':
+            return `Використовуйте та відповідайте строго українською мовою.`;
+        case 'ru':
+            return `Используйте и отвечайте строго на русском языке.`;
+        default:
+            return `Use and reply strictly in ${language} language.`;
+    }
+}
+
+export const addPostInstructions = (messages: Array<ChatCompletionMessageParam>, language: string, role: string) => {
+    messages.push({ "role": role, "content": useStrictlyLanguage(language) } as ChatCompletionMessageParam)
     return messages
 }
 
@@ -124,7 +137,7 @@ export const processImage = async <T>(base64Image: string, instructions: string,
         }]
     } as ChatCompletionMessageParam)
 
-    return parseFirstCompletionWithPossibleMarkdown(await visionCompletion(addPostInstructions(messagesToSend, language))) as T
+    return parseFirstCompletionWithPossibleMarkdown(await visionCompletion(addPostInstructions(messagesToSend, language, role))) as T
 }
 
 const parseFirstCompletionWithPossibleMarkdown = (choices: Array<ChatCompletion.Choice>): any => {
