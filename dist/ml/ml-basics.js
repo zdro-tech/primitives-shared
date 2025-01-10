@@ -65,7 +65,7 @@ export const newMLCompletion = async (messages, model) => {
     }
     return await new4Completition(messages);
 };
-export const processMessages = async (messages, language, model, role) => {
+export const processMessages = async (messages, language, model, role = "system") => {
     return parseFirstCompletion(await newMLCompletion(addPostInstructions(messages, language, role), model));
 };
 const fileNameFileDescription = (file) => {

@@ -70,7 +70,7 @@ export const newMLCompletion = async (messages: Array<ChatCompletionMessageParam
     return await new4Completition(messages);
 }
 
-export const processMessages = async <T>(messages: Array<ChatCompletionMessageParam>, language: string, model: ExecutionModel, role: string): Promise<T> => {
+export const processMessages = async <T>(messages: Array<ChatCompletionMessageParam>, language: string, model: ExecutionModel, role = "system"): Promise<T> => {
     return parseFirstCompletion(await newMLCompletion(addPostInstructions(messages, language, role), model)) as T
 };
 
