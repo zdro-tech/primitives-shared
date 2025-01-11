@@ -126,7 +126,7 @@ const useStrictlyLanguage = (language: string) => {
     }
 }
 
-export const addPostInstructions = (messages: Array<ChatCompletionMessageParam>, language: string, role: string) => {
+export const addPostInstructions = (messages: Array<ChatCompletionMessageParam>, language: string, role = "system") => {
     messages.push({ "role": role, "content": useStrictlyLanguage(language) } as ChatCompletionMessageParam)
     return messages
 }

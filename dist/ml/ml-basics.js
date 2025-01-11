@@ -114,7 +114,7 @@ const useStrictlyLanguage = (language) => {
             return `Use and reply strictly in ${language} language.`;
     }
 };
-export const addPostInstructions = (messages, language, role) => {
+export const addPostInstructions = (messages, language, role = "system") => {
     messages.push({ "role": role, "content": useStrictlyLanguage(language) });
     return messages;
 };
