@@ -17,4 +17,5 @@ export * from './email-notifications.js';
 export * from './zus.js';
 export * from './organization.js';
 export * from './ezdrowie.js';
+export * from './patient.js';
 //# sourceMappingURL=index.d.ts.map

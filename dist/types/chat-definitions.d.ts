@@ -13,6 +13,10 @@ export interface BasicThreadRequest extends BasicAuthorizedRequest {
 }
 export interface NewThreadRequest extends BasicAuthorizedRequest {
     language: string;
+    meta: ThreadMetaData;
+}
+export interface ThreadMetaData {
+    creationContext: "generic-question" | "extend-meds" | "explain-tests" | "request-tests" | "request-risks" | "no-energy" | "no-self-confidence" | "bad-skin" | "dry-eyes" | "" | "" | "" | "" | undefined;
 }
 export interface NewThreadMessageRequest extends BasicThreadRequest {
     message: ChatMessageRequest;

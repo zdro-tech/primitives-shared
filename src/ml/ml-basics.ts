@@ -78,6 +78,13 @@ const fileNameFileDescription = (file: FileData) => {
     return `${file.fileName}${file.fileDescription ? ` : ${file.fileDescription}` : ''}`
 }
 
+export const chatMessagesToCompletionArray = (messages: Array<ChatMessage>, messagesToSend: Array<ChatCompletionMessageParam> = []) => {
+    messages.forEach(m => {
+        messagesToSend.push({ "role": getMessageRole(m), "content": chatMessageWithFilesToText(m) } as ChatCompletionMessageParam);
+    });
+    return messagesToSend
+}
+
 export const chatMessageWithFilesToText = (message: ChatMessage) => {
     let messageText = message.text
     if (Array.isArray(message?.files) && message.files.length) {

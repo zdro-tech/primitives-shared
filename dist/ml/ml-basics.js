@@ -71,6 +71,12 @@ export const processMessages = async (messages, language, model, role = "system"
 const fileNameFileDescription = (file) => {
     return `${file.fileName}${file.fileDescription ? ` : ${file.fileDescription}` : ''}`;
 };
+export const chatMessagesToCompletionArray = (messages, messagesToSend = []) => {
+    messages.forEach(m => {
+        messagesToSend.push({ "role": getMessageRole(m), "content": chatMessageWithFilesToText(m) });
+    });
+    return messagesToSend;
+};
 export const chatMessageWithFilesToText = (message) => {
     let messageText = message.text;
     if (Array.isArray(message?.files) && message.files.length) {

@@ -1,4 +1,5 @@
-import { ChatMessage, ChatThread, Context, DoctorContext, FileData, Patient, ProposedAnswersResponse, ThreadClass } from "./index.js";
+import { ChatMessage, ChatThread, Context, DoctorContext, FileData, ProposedAnswersResponse, ThreadClass } from "./index.js";
+import { Patient } from "./patient.js";
 export interface OutgoingMessageEvent {
     context: Context;
     payload: ChatMessage;
