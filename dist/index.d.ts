@@ -10,6 +10,4 @@ export * from './storage/ram/index.js';
 export * from './storage/secrets/index.js';
 export * from './tracing/index.js';
 export * from './types/index.js';
-export * from './types/prescriptions.js';
-export * from './types/ezdrowie.js';
 //# sourceMappingURL=index.d.ts.map
