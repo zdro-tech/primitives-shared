@@ -21,7 +21,10 @@ export interface Patient {
 }
 
 export const getPatientAge = (patient: Patient): number => {
-    const birthDate = new Date(patient.dateOfBirth);
+    if (!patient?.dateOfBirth) {
+        return -1;
+    }
+    const birthDate = new Date(patient?.dateOfBirth);
     const today = new Date();
     let age = today.getFullYear() - birthDate.getFullYear();
     const hasHadBirthday =
