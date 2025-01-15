@@ -45,7 +45,7 @@ export const getPatientMetaInformation = (patient: Patient, language: string): s
     if (PATIENT_META_INFORMATION_TEXT.has(language)) {
         prompt = PATIENT_META_INFORMATION_TEXT.get(language)
     }
-    prompt = prompt?.replace("{firstName}", patient.firstName).replace("{gender}", patient.gender).replace("{age}", getPatientAge(patient)?.toString());
+    prompt = prompt?.replace("{firstName}", patient?.firstName).replace("{gender}", patient?.gender).replace("{age}", getPatientAge(patient)?.toString());
     if (!patient) {
         logger.error("No patient provided for meta information extraction")
         return ""
