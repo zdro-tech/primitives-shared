@@ -15,11 +15,12 @@ export enum ExecutionModel {
     GPT4_4O = "gpt-4o",
     GPT4_4O_MINI = "gpt-4o-mini",
     O1_MINI = "o1-mini",
-    O1 = "O1",
-    CLOUDE_3_OPUS = "claude-3-opus-20240229",
-    CLOUDE_3_SONNET = "claude-3-sonnet-20240229",
-    CLOUDE_3_HAIKU = "claude-3-haiku-20240307",
-    GROQ_LLAMA_3_70B_8192 = "llama3-70b-8192",
+    O1 = "o1",
+    CLOUDE_3_OPUS = "3-opus-latest",
+    CLOUDE_3_SONNET = "claude-3-5-sonnet-latest",
+    CLOUDE_3_HAIKU = "claude-3-5-haiku-latest",
+    GROQ_LLAMA_3_70B = "llama-3.3-70b-versatile",
+    GROQ_LLAMA_3_8B = "llama-3.1-8b-instant",
     CUSTOM_4_CARE = "4.care.01",
     CUSTOM_4_CARE_DRUGS = "4.care.01-drugs",
 }
@@ -61,8 +62,8 @@ export const newMLCompletion = async (messages: Array<ChatCompletionMessageParam
         if (model === ExecutionModel.CLOUDE_3_SONNET) {
             return await newCloudeCompletion(messages, ExecutionModel.CLOUDE_3_SONNET);
         }
-        if (model === ExecutionModel.GROQ_LLAMA_3_70B_8192) {
-            return await newGroqCompletion(messages, ExecutionModel.GROQ_LLAMA_3_70B_8192);
+        if (model === ExecutionModel.GROQ_LLAMA_3_70B) {
+            return await newGroqCompletion(messages, ExecutionModel.GROQ_LLAMA_3_70B);
         }
     } catch (e) {
         logger.error(`Error in newMLCompletion ${model}`, e);
