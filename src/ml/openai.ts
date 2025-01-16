@@ -55,7 +55,7 @@ export const newO1MiniCompletition = async (messages: Array<ChatCompletionMessag
     const reply = await getOpenAIClient().chat.completions.create({
       model: "o1-mini",
       messages: messages,
-      max_completion_tokens: 1000,
+      max_completion_tokens: 2000,
       temperature: 1
     })
     return reply?.choices
@@ -67,7 +67,7 @@ export const newO1Completition = async (messages: Array<ChatCompletionMessagePar
     const reply = await getOpenAIClient().chat.completions.create({
       model: "o1",
       messages: messages,
-      max_completion_tokens: 1000,
+      max_completion_tokens: 2000,
       temperature: 1
     })
     return reply?.choices

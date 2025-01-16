@@ -65,6 +65,9 @@ export const newMLCompletion = async (messages, model) => {
     }
     return await new4Completition(messages);
 };
+export const processRawMessages = async (messages, language, model, role = "system") => {
+    return parseFirstCompletion(await newMLCompletion(addPostInstructions(messages, language, role), model));
+};
 export const processMessages = async (messages, language, model, role = "system") => {
     return parseFirstCompletion(await newMLCompletion(addPostInstructions(messages, language, role), model));
 };
@@ -104,6 +107,10 @@ export const parseFirstCompletion = (choices) => {
         logger.error(`JSON parse crash: ${stringifiedJson} and choises were`, choices);
         throw e;
     }
+};
+export const cleanFirstCompletion = (choices) => {
+    const reply = choices[0]?.message?.content ?? "";
+    return reply.replace(/```(json|markdown)?/g, '').trim();
 };
 export const getMessageRole = (message) => {
     return message.author == MessageAuthor.Bot ? "assistant" : "user";

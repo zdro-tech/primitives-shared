@@ -1,6 +1,9 @@
 import { logger } from "../logger/index.js";
 export const getPatientAge = (patient) => {
-    const birthDate = new Date(patient.dateOfBirth);
+    if (!patient?.dateOfBirth) {
+        return -1;
+    }
+    const birthDate = new Date(patient?.dateOfBirth);
     const today = new Date();
     let age = today.getFullYear() - birthDate.getFullYear();
     const hasHadBirthday = today.getMonth() > birthDate.getMonth() ||
@@ -21,7 +24,7 @@ export const getPatientMetaInformation = (patient, language) => {
     if (PATIENT_META_INFORMATION_TEXT.has(language)) {
         prompt = PATIENT_META_INFORMATION_TEXT.get(language);
     }
-    prompt = prompt?.replace("{firstName}", patient.firstName).replace("{gender}", patient.gender).replace("{age}", getPatientAge(patient)?.toString());
+    prompt = prompt?.replace("{firstName}", patient?.firstName).replace("{gender}", patient?.gender).replace("{age}", getPatientAge(patient)?.toString());
     if (!patient) {
         logger.error("No patient provided for meta information extraction");
         return "";

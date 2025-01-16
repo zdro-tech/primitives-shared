@@ -70,6 +70,10 @@ export const newMLCompletion = async (messages: Array<ChatCompletionMessageParam
     return await new4Completition(messages);
 }
 
+export const processRawMessages = async <T>(messages: Array<ChatCompletionMessageParam>, language: string, model: ExecutionModel, role = "system"): Promise<T> => {
+    return parseFirstCompletion(await newMLCompletion(addPostInstructions(messages, language, role), model)) as T
+};
+
 export const processMessages = async <T>(messages: Array<ChatCompletionMessageParam>, language: string, model: ExecutionModel, role = "system"): Promise<T> => {
     return parseFirstCompletion(await newMLCompletion(addPostInstructions(messages, language, role), model)) as T
 };
@@ -115,6 +119,11 @@ export const parseFirstCompletion = (choices: Array<ChatCompletion.Choice>): any
         throw e
     }
 }
+
+export const cleanFirstCompletion = (choices: Array<ChatCompletion.Choice>): string => {
+    const reply = choices[0]?.message?.content ?? "";
+    return reply.replace(/```(json|markdown)?/g, '').trim();
+};
 
 export const getMessageRole = (message: any): string => {
     return message.author == MessageAuthor.Bot ? "assistant" : "user"
