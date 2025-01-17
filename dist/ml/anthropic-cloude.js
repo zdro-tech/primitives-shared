@@ -12,17 +12,13 @@ export const getAnthropicClient = () => {
     return anthropic;
 };
 export const defaultCloudeSettings = {
-    model: "claude-3-opus-20240229",
+    model: "3-opus-latest",
     max_tokens: 1024,
     temperature: 0.3
 };
 export const newCloudeCompletion = async (messages, model) => {
-    const systemMessage = messages.filter(m => m.role === "system").map(m => m.content).join(". ") + " Return only valid JSON and nothng else.";
+    const systemMessage = messages.filter(m => m.role === "system").map(m => m.content).join(". ");
     const cloudeMessages = messages.filter(m => m.role !== "system");
-    cloudeMessages.push({
-        "role": "assistant",
-        "content": "{"
-    });
     const message = await getAnthropicClient().messages.create({
         ...defaultCloudeSettings, ...{ model, messages: cloudeMessages, system: systemMessage }
     });
@@ -30,6 +26,5 @@ export const newCloudeCompletion = async (messages, model) => {
         .filter((block) => block.type === 'text')
         .map(block => block.text)
         .join(' ');
-    message.content.reduce;
     return [{ message: { content: stringContent } }];
 };

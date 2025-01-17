@@ -17,18 +17,14 @@ export const getAnthropicClient = () => {
 }
 
 export const defaultCloudeSettings = {
-    model: "claude-3-opus-20240229",
+    model: "3-opus-latest",
     max_tokens: 1024,
     temperature: 0.3
 }
 
 export const newCloudeCompletion = async (messages: Array<ChatCompletionMessageParam>, model: string): Promise<ChatCompletion.Choice[]> => {
-    const systemMessage = messages.filter(m => m.role === "system").map(m => m.content).join(". ") + " Return only valid JSON and nothng else."
+    const systemMessage = messages.filter(m => m.role === "system").map(m => m.content).join(". ")
     const cloudeMessages = messages.filter(m => m.role !== "system") as Array<MessageParam>
-    cloudeMessages.push({
-        "role": "assistant",
-        "content": "{"
-    })
     const message = await getAnthropicClient().messages.create({
         ...defaultCloudeSettings, ...{ model, messages: cloudeMessages, system: systemMessage }
     } as MessageCreateParamsNonStreaming);
@@ -36,6 +32,5 @@ export const newCloudeCompletion = async (messages: Array<ChatCompletionMessageP
         .filter((block) => block.type === 'text')
         .map(block => block.text)
         .join(' ');
-    message.content.reduce
     return [{ message: { content: stringContent } as ChatCompletionMessage }] as ChatCompletion.Choice[]
 }

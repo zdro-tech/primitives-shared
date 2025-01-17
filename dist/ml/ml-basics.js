@@ -25,7 +25,7 @@ export const anyOfModels = (array) => {
     const randomIndex = Math.floor(Math.random() * array.length);
     return array[randomIndex];
 };
-export const newMLCompletion = async (messages, model) => {
+export const newMLCompletion = async (messages, model, mode = "json") => {
     try {
         if (model === ExecutionModel.AZURE_4_0) {
             return await new4AzureCompletition(messages);

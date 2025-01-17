@@ -18,7 +18,7 @@ export declare enum ExecutionModel {
     CUSTOM_4_CARE_DRUGS = "4.care.01-drugs"
 }
 export declare const anyOfModels: (array: ExecutionModel[]) => ExecutionModel;
-export declare const newMLCompletion: (messages: Array<ChatCompletionMessageParam>, model: ExecutionModel) => Promise<ChatCompletion.Choice[]>;
+export declare const newMLCompletion: (messages: Array<ChatCompletionMessageParam>, model: ExecutionModel, mode?: string) => Promise<ChatCompletion.Choice[]>;
 export declare const processRawMessages: (messages: Array<ChatCompletionMessageParam>, language: string, model: ExecutionModel, role?: string) => Promise<string>;
 export declare const processMessages: <T>(messages: Array<ChatCompletionMessageParam>, language: string, model: ExecutionModel, role?: string) => Promise<T>;
 export declare const chatMessagesToCompletionArray: (messages: Array<ChatMessage>, messagesToSend?: Array<ChatCompletionMessageParam>) => ChatCompletionMessageParam[];

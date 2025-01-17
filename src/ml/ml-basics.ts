@@ -30,7 +30,7 @@ export const anyOfModels = (array: ExecutionModel[]): ExecutionModel => {
     return array[randomIndex];
 }
 
-export const newMLCompletion = async (messages: Array<ChatCompletionMessageParam>, model: ExecutionModel): Promise<ChatCompletion.Choice[]> => {
+export const newMLCompletion = async (messages: Array<ChatCompletionMessageParam>, model: ExecutionModel, mode = "json"): Promise<ChatCompletion.Choice[]> => {
     try {
         if (model === ExecutionModel.AZURE_4_0) {
             return await new4AzureCompletition(messages);
