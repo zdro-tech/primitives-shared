@@ -17,8 +17,8 @@ export const getAnthropicClient = () => {
 }
 
 export const defaultCloudeSettings = {
-    model: "3-opus-latest",
-    max_tokens: 1024,
+    model: "claude-3-opus-latest",
+    max_tokens: 2048,
     temperature: 0.3
 }
 
