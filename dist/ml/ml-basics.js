@@ -13,7 +13,7 @@ export var ExecutionModel;
     ExecutionModel["GPT4_4O_MINI"] = "gpt-4o-mini";
     ExecutionModel["O1_MINI"] = "o1-mini";
     ExecutionModel["O1"] = "o1";
-    ExecutionModel["CLOUDE_3_OPUS"] = "3-opus-latest";
+    ExecutionModel["CLOUDE_3_OPUS"] = "claude-3-opus-latest";
     ExecutionModel["CLOUDE_3_SONNET"] = "claude-3-5-sonnet-latest";
     ExecutionModel["CLOUDE_3_HAIKU"] = "claude-3-5-haiku-latest";
     ExecutionModel["GROQ_LLAMA_3_70B"] = "llama-3.3-70b-versatile";
