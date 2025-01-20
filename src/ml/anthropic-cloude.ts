@@ -23,14 +23,15 @@ export const defaultCloudeSettings = {
 }
 
 export const newCloudeCompletion = async (messages: Array<ChatCompletionMessageParam>, model: string): Promise<ChatCompletion.Choice[]> => {
-    const systemMessage = messages.filter(m => m.role === "system").map(m => m.content).join(". ")
+    const systemMessage = messages.filter(m => m.role === "system").map(m => m.content).join("\n\n ")
     const cloudeMessages = messages.filter(m => m.role !== "system") as Array<MessageParam>
     const message = await getAnthropicClient().messages.create({
         ...defaultCloudeSettings, ...{ model, messages: cloudeMessages, system: systemMessage }
     } as MessageCreateParamsNonStreaming);
+    console.debug(`I've got Cloude response ${JSON.stringify(message)}`)
     const stringContent = message.content
         .filter((block) => block.type === 'text')
         .map(block => block.text)
-        .join(' ');
+        .join('');
     return [{ message: { content: stringContent } as ChatCompletionMessage }] as ChatCompletion.Choice[]
 }

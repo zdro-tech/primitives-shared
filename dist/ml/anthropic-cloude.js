@@ -17,14 +17,15 @@ export const defaultCloudeSettings = {
     temperature: 0.3
 };
 export const newCloudeCompletion = async (messages, model) => {
-    const systemMessage = messages.filter(m => m.role === "system").map(m => m.content).join(". ");
+    const systemMessage = messages.filter(m => m.role === "system").map(m => m.content).join("\n\n ");
     const cloudeMessages = messages.filter(m => m.role !== "system");
     const message = await getAnthropicClient().messages.create({
         ...defaultCloudeSettings, ...{ model, messages: cloudeMessages, system: systemMessage }
     });
+    console.debug(`I've got Cloude response ${JSON.stringify(message)}`);
     const stringContent = message.content
         .filter((block) => block.type === 'text')
         .map(block => block.text)
-        .join(' ');
+        .join('');
     return [{ message: { content: stringContent } }];
 };

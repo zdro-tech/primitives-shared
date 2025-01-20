@@ -32,7 +32,7 @@
   "author": "",
   "license": "ISC",
   "peerDependencies": {
-    "@anthropic-ai/sdk": "^0.32.1",
+    "@anthropic-ai/sdk": "^0.33.1",
     "@azure/openai": "^2.0.0",
     "@google-cloud/opentelemetry-cloud-trace-exporter": "^2.4.1",
     "@google-cloud/pubsub": "^4.9.0",
