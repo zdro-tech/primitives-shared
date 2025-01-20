@@ -23,7 +23,7 @@ export const defaultOpenAISettings = {
   temperature: 0.3,
   n: 1,
   // top_p: 0.5,
-  max_tokens: 1000,
+  max_tokens: 20048,
 } as ChatCompletionCreateParamsNonStreaming
 
 
@@ -90,7 +90,6 @@ export const new35Completition = async (messages: Array<ChatCompletionMessagePar
     const reply = await getOpenAIClient().chat.completions.create({
       ...defaultOpenAISettings,
       model: "gpt-3.5-turbo-0125",
-      max_tokens: 1000,
       messages: messages
     })
     return reply?.choices
@@ -101,7 +100,6 @@ export const visionCompletion = async (messages: Array<ChatCompletionMessagePara
   return await backOff(async () => {
     const reply = await getOpenAIClient().chat.completions.create({
       model: "gpt-4-vision-preview",
-      max_tokens: 1000,
       messages: messages
     });
     return reply?.choices;
