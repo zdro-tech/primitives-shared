@@ -1,6 +1,7 @@
 import { PubSub } from '@google-cloud/pubsub';
 import axios from 'axios';
 import { logger } from '../../logger/logger.js';
+import { MessageOptions } from '@google-cloud/pubsub/build/src/topic.js';
 
 let pubSubClient: PubSub | null = null;
 
@@ -20,7 +21,8 @@ export const publish = async (
     topicName: string,
     payload: any,
     fallbackURL: string,
-    client?: PubSub
+    orderingKey?: string,
+    client?: PubSub,
 ): Promise<void> => {
     const fullTopicName = `projects/${process.env.PROJECT_ID}/topics/${topicName}`;
     logger.debug(`Publishing to topic ${fullTopicName} with payload ${JSON.stringify(payload)} and fallback URL ${fallbackURL}`);
@@ -30,8 +32,12 @@ export const publish = async (
 
     if (process.env.NODE_ENV === 'production') {
         try {
+            const message: MessageOptions = { data: Buffer.from(JSON.stringify(payload)) }
+            if (orderingKey) {
+                message.orderingKey = orderingKey
+            }
             await client.topic(fullTopicName, { enableOpenTelemetryTracing: true })
-                .publishMessage({ data: Buffer.from(JSON.stringify(payload)) });
+                .publishMessage(message);
             return;
         } catch (e) {
             logger.debug(`Error while delivering message to the ${fullTopicName}`, e);
@@ -49,11 +55,12 @@ export const publishToMultipleDestinations = async (
     topicName: string,
     payload: any,
     fallbackURLs: Array<string>,
+    orderingKey?: string,
     client?: PubSub
 ): Promise<void> => {
 
     if (process.env.NODE_ENV === 'production') {
-        return await publish(topicName, payload, "", client);
+        return await publish(topicName, payload, "", orderingKey, client);
     }
 
     for (const url of fallbackURLs) {

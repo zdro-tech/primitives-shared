@@ -12,7 +12,7 @@ const initPubSubClient = () => {
     pubSubClient = new PubSub({ projectId: process.env.PROJECT_ID });
     return pubSubClient;
 };
-export const publish = async (topicName, payload, fallbackURL, client) => {
+export const publish = async (topicName, payload, fallbackURL, orderingKey, client) => {
     const fullTopicName = `projects/${process.env.PROJECT_ID}/topics/${topicName}`;
     logger.debug(`Publishing to topic ${fullTopicName} with payload ${JSON.stringify(payload)} and fallback URL ${fallbackURL}`);
     if (!client) {
@@ -20,8 +20,12 @@ export const publish = async (topicName, payload, fallbackURL, client) => {
     }
     if (process.env.NODE_ENV === 'production') {
         try {
+            const message = { data: Buffer.from(JSON.stringify(payload)) };
+            if (orderingKey) {
+                message.orderingKey = orderingKey;
+            }
             await client.topic(fullTopicName, { enableOpenTelemetryTracing: true })
-                .publishMessage({ data: Buffer.from(JSON.stringify(payload)) });
+                .publishMessage(message);
             return;
         }
         catch (e) {
@@ -36,9 +40,9 @@ export const publish = async (topicName, payload, fallbackURL, client) => {
         logger.debug(`Error while delivering message to the fallback URL ${fallbackURL}`, e);
     }
 };
-export const publishToMultipleDestinations = async (topicName, payload, fallbackURLs, client) => {
+export const publishToMultipleDestinations = async (topicName, payload, fallbackURLs, orderingKey, client) => {
     if (process.env.NODE_ENV === 'production') {
-        return await publish(topicName, payload, "", client);
+        return await publish(topicName, payload, "", orderingKey, client);
     }
     for (const url of fallbackURLs) {
         publish(topicName, payload, url)
