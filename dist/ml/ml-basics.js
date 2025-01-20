@@ -1,7 +1,7 @@
 import { new35Completition, new4Completition, new4oCompletition, new4oMiniCompletition, newO1Completition, newO1MiniCompletition, visionCompletion } from "./openai.js";
 import { logger } from "../logger/logger.js";
 import { MessageAuthor } from "../types/chat-message.js";
-import { newCloudeCompletion } from "./anthropic-cloude.js";
+import { newClaudeCompletion } from "./anthropic-cloude.js";
 import { new4AzureCompletition } from "./azure-openai.js";
 import { newGroqCompletion } from "./groq.js";
 export var ExecutionModel;
@@ -49,13 +49,13 @@ export const newMLCompletion = async (messages, model, mode = "json") => {
             return await newO1MiniCompletition(messages);
         }
         if (model === ExecutionModel.CLOUDE_3_OPUS) {
-            return await newCloudeCompletion(messages, ExecutionModel.CLOUDE_3_OPUS);
+            return await newClaudeCompletion(messages, ExecutionModel.CLOUDE_3_OPUS);
         }
         if (model === ExecutionModel.CLOUDE_3_HAIKU) {
-            return await newCloudeCompletion(messages, ExecutionModel.CLOUDE_3_HAIKU);
+            return await newClaudeCompletion(messages, ExecutionModel.CLOUDE_3_HAIKU);
         }
         if (model === ExecutionModel.CLOUDE_3_SONNET) {
-            return await newCloudeCompletion(messages, ExecutionModel.CLOUDE_3_SONNET);
+            return await newClaudeCompletion(messages, ExecutionModel.CLOUDE_3_SONNET);
         }
         if (model === ExecutionModel.GROQ_LLAMA_3_70B) {
             return await newGroqCompletion(messages, ExecutionModel.GROQ_LLAMA_3_70B);

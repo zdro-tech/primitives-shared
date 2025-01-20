@@ -11,18 +11,19 @@ export const getAnthropicClient = () => {
     }
     return anthropic;
 };
-export const defaultCloudeSettings = {
+export const defaultClaudeSettings = {
     model: "claude-3-opus-latest",
     max_tokens: 2048,
     temperature: 0.3
 };
-export const newCloudeCompletion = async (messages, model) => {
+export const newClaudeCompletion = async (messages, model) => {
     const systemMessage = messages.filter(m => m.role === "system").map(m => m.content).join("\n\n ");
-    const cloudeMessages = messages.filter(m => m.role !== "system");
+    const userMessages = messages.filter(m => m.role !== "system");
+    console.debug(`Sending Claude request with system ${JSON.stringify(systemMessage)} and other messages ${JSON.stringify(userMessages)}`);
     const message = await getAnthropicClient().messages.create({
-        ...defaultCloudeSettings, ...{ model, messages: cloudeMessages, system: systemMessage }
+        ...defaultClaudeSettings, ...{ model, messages: userMessages, system: systemMessage }
     });
-    console.debug(`I've got Cloude response ${JSON.stringify(message)}`);
+    console.debug(`I've got Claude response ${JSON.stringify(message)}`);
     const stringContent = message.content
         .filter((block) => block.type === 'text')
         .map(block => block.text)

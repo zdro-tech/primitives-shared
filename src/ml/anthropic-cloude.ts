@@ -1,6 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
+import { MessageParam, MessageCreateParamsNonStreaming } from '@anthropic-ai/sdk/resources/index.mjs';
 import { ChatCompletionMessageParam, ChatCompletion, ChatCompletionCreateParamsNonStreaming, ChatCompletionMessage, } from "openai/resources/index"
-import { MessageCreateParamsNonStreaming, MessageParam } from "@anthropic-ai/sdk/resources/messages.mjs";
 
 let anthropic: Anthropic;
 export const getAnthropicClient = () => {
@@ -16,19 +16,20 @@ export const getAnthropicClient = () => {
     return anthropic;
 }
 
-export const defaultCloudeSettings = {
+export const defaultClaudeSettings = {
     model: "claude-3-opus-latest",
     max_tokens: 2048,
     temperature: 0.3
 }
 
-export const newCloudeCompletion = async (messages: Array<ChatCompletionMessageParam>, model: string): Promise<ChatCompletion.Choice[]> => {
+export const newClaudeCompletion = async (messages: Array<ChatCompletionMessageParam>, model: string): Promise<ChatCompletion.Choice[]> => {
     const systemMessage = messages.filter(m => m.role === "system").map(m => m.content).join("\n\n ")
-    const cloudeMessages = messages.filter(m => m.role !== "system") as Array<MessageParam>
+    const userMessages = messages.filter(m => m.role !== "system") as Array<MessageParam>
+    console.debug(`Sending Claude request with system ${JSON.stringify(systemMessage)} and other messages ${JSON.stringify(userMessages)}`)
     const message = await getAnthropicClient().messages.create({
-        ...defaultCloudeSettings, ...{ model, messages: cloudeMessages, system: systemMessage }
+        ...defaultClaudeSettings, ...{ model, messages: userMessages, system: systemMessage }
     } as MessageCreateParamsNonStreaming);
-    console.debug(`I've got Cloude response ${JSON.stringify(message)}`)
+    console.debug(`I've got Claude response ${JSON.stringify(message)}`)
     const stringContent = message.content
         .filter((block) => block.type === 'text')
         .map(block => block.text)
