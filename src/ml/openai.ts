@@ -23,7 +23,7 @@ export const defaultOpenAISettings = {
   temperature: 0.3,
   n: 1,
   // top_p: 0.5,
-  max_tokens: 20048,
+  max_tokens: 2048,
 } as ChatCompletionCreateParamsNonStreaming
 
 
