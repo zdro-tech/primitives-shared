@@ -18,7 +18,7 @@ export const getAnthropicClient = () => {
 
 export const defaultClaudeSettings = {
     model: "claude-3-opus-latest",
-    // max_tokens: 2048,
+    max_tokens: 3072,
     temperature: 0.3
 }
 
