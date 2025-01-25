@@ -79,10 +79,6 @@ export const processMessages = async <T>(messages: Array<ChatCompletionMessagePa
     return parseFirstCompletion(await newMLCompletion(addPostInstructions(messages, language, role), model)) as T
 };
 
-const fileNameFileDescription = (file: FileData) => {
-    return `${file.fileName}${file.fileDescription ? ` : ${file.fileDescription}` : ''}`
-}
-
 export const chatMessagesToCompletionArray = (messages: Array<ChatMessage>, messagesToSend: Array<ChatCompletionMessageParam> = []) => {
     messages.forEach(m => {
         messagesToSend.push({ "role": getMessageRole(m), "content": chatMessageWithFilesToText(m) } as ChatCompletionMessageParam);
@@ -94,13 +90,12 @@ export const chatMessageWithFilesToText = (message: ChatMessage) => {
     let messageText = message.text
     if (Array.isArray(message?.files) && message.files.length) {
         const fileNamesAndDescription = message.files.map(file => fileNameFileDescription(file)).join(', ')
-        messageText = `message: """ ${messageText} """, attached files: """ ${fileNamesAndDescription} """`
+        messageText = `${messageText}, (${fileNamesAndDescription})`
     }
     return messageText
 }
-
-export const filesToText = (message: ChatMessage) => {
-    return `""" ${message?.files?.map(file => fileNameFileDescription(file)).join(', ') ?? ''} """`
+const fileNameFileDescription = (file: FileData) => {
+    return `${file.fileName}${file.fileDescription ? ` : ${file.fileDescription}` : ''}`
 }
 
 export const processChatMessages = async <T>(messages: Array<ChatMessage>, instructions: string, language: string, model: ExecutionModel, role = "system"): Promise<T> => {

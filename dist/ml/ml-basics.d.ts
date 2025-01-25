@@ -23,7 +23,6 @@ export declare const processRawMessages: (messages: Array<ChatCompletionMessageP
 export declare const processMessages: <T>(messages: Array<ChatCompletionMessageParam>, language: string, model: ExecutionModel, role?: string) => Promise<T>;
 export declare const chatMessagesToCompletionArray: (messages: Array<ChatMessage>, messagesToSend?: Array<ChatCompletionMessageParam>) => ChatCompletionMessageParam[];
 export declare const chatMessageWithFilesToText: (message: ChatMessage) => string;
-export declare const filesToText: (message: ChatMessage) => string;
 export declare const processChatMessages: <T>(messages: Array<ChatMessage>, instructions: string, language: string, model: ExecutionModel, role?: string) => Promise<T>;
 export declare const parseFirstCompletion: (choices: Array<ChatCompletion.Choice>) => any;
 export declare const cleanFirstCompletion: (choices: Array<ChatCompletion.Choice>) => string;

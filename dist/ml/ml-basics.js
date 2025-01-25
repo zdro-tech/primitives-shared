@@ -72,9 +72,6 @@ export const processRawMessages = async (messages, language, model, role = "syst
 export const processMessages = async (messages, language, model, role = "system") => {
     return parseFirstCompletion(await newMLCompletion(addPostInstructions(messages, language, role), model));
 };
-const fileNameFileDescription = (file) => {
-    return `${file.fileName}${file.fileDescription ? ` : ${file.fileDescription}` : ''}`;
-};
 export const chatMessagesToCompletionArray = (messages, messagesToSend = []) => {
     messages.forEach(m => {
         messagesToSend.push({ "role": getMessageRole(m), "content": chatMessageWithFilesToText(m) });
@@ -85,12 +82,12 @@ export const chatMessageWithFilesToText = (message) => {
     let messageText = message.text;
     if (Array.isArray(message?.files) && message.files.length) {
         const fileNamesAndDescription = message.files.map(file => fileNameFileDescription(file)).join(', ');
-        messageText = `message: """ ${messageText} """, attached files: """ ${fileNamesAndDescription} """`;
+        messageText = `${messageText}, (${fileNamesAndDescription})`;
     }
     return messageText;
 };
-export const filesToText = (message) => {
-    return `""" ${message?.files?.map(file => fileNameFileDescription(file)).join(', ') ?? ''} """`;
+const fileNameFileDescription = (file) => {
+    return `${file.fileName}${file.fileDescription ? ` : ${file.fileDescription}` : ''}`;
 };
 export const processChatMessages = async (messages, instructions, language, model, role = "system") => {
     const messagesToSend = [{ "role": role, "content": instructions }];
