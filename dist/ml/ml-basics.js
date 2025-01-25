@@ -114,22 +114,9 @@ export const cleanFirstCompletion = (choices) => {
     return reply.replace(/```(json|markdown)?/g, '').trim();
 };
 export const getMessageRole = (message) => {
-    return message.author == MessageAuthor.Bot ? "assistant" : "user";
-};
-const useStrictlyLanguage = (language) => {
-    switch (language) {
-        case 'pl':
-            return `Używaj i odpowiadaj ściśle w języku polskim.`;
-        case 'uk':
-            return `Використовуйте та відповідайте строго українською мовою.`;
-        case 'ru':
-            return `Используйте и отвечайте строго на русском языке.`;
-        default:
-            return `Use and reply strictly in ${language} language.`;
-    }
+    return [MessageAuthor.Bot, MessageAuthor.Doctor].includes(message.author) ? "assistant" : "user";
 };
 export const addPostInstructions = (messages, language, role = "system") => {
-    messages.push({ "role": role, "content": useStrictlyLanguage(language) });
     return messages;
 };
 export const processImage = async (base64Image, instructions, language, role = "system") => {

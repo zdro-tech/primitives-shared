@@ -127,24 +127,10 @@ export const cleanFirstCompletion = (choices: Array<ChatCompletion.Choice>): str
 };
 
 export const getMessageRole = (message: any): string => {
-    return message.author == MessageAuthor.Bot ? "assistant" : "user"
-}
-
-const useStrictlyLanguage = (language: string) => {
-    switch (language) {
-        case 'pl':
-            return `Używaj i odpowiadaj ściśle w języku polskim.`;
-        case 'uk':
-            return `Використовуйте та відповідайте строго українською мовою.`;
-        case 'ru':
-            return `Используйте и отвечайте строго на русском языке.`;
-        default:
-            return `Use and reply strictly in ${language} language.`;
-    }
+    return [MessageAuthor.Bot, MessageAuthor.Doctor].includes(message.author) ? "assistant" : "user"
 }
 
 export const addPostInstructions = (messages: Array<ChatCompletionMessageParam>, language: string, role = "system") => {
-    messages.push({ "role": role, "content": useStrictlyLanguage(language) } as ChatCompletionMessageParam)
     return messages
 }
 
