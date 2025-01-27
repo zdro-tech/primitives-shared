@@ -55,7 +55,8 @@ export enum MessageClass {
     SYSTEM_REPLY,
     CHAT_REPLY,
     UNIDENTIFIED,
-    PAYMENT
+    PAYMENT,
+    RESULTS_DISPATCHED
 }
 
 export interface ChatMessageRequest {

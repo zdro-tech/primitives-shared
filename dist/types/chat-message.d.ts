@@ -50,7 +50,8 @@ export declare enum MessageClass {
     SYSTEM_REPLY = 13,
     CHAT_REPLY = 14,
     UNIDENTIFIED = 15,
-    PAYMENT = 16
+    PAYMENT = 16,
+    RESULTS_DISPATCHED = 17
 }
 export interface ChatMessageRequest {
     id: number;

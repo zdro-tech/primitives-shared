@@ -34,4 +34,5 @@ export var MessageClass;
     MessageClass[MessageClass["CHAT_REPLY"] = 14] = "CHAT_REPLY";
     MessageClass[MessageClass["UNIDENTIFIED"] = 15] = "UNIDENTIFIED";
     MessageClass[MessageClass["PAYMENT"] = 16] = "PAYMENT";
+    MessageClass[MessageClass["RESULTS_DISPATCHED"] = 17] = "RESULTS_DISPATCHED";
 })(MessageClass || (MessageClass = {}));
