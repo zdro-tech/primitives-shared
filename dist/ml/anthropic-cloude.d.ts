@@ -6,5 +6,5 @@ export declare const defaultClaudeSettings: {
     max_tokens: number;
     temperature: number;
 };
-export declare const newClaudeCompletion: (messages: Array<ChatCompletionMessageParam>, model: string) => Promise<ChatCompletion.Choice[]>;
+export declare const newClaudeCompletion: (messages: Array<ChatCompletionMessageParam>, model: string, mode?: string) => Promise<ChatCompletion.Choice[]>;
 //# sourceMappingURL=anthropic-cloude.d.ts.map

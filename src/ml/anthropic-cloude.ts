@@ -22,7 +22,7 @@ export const defaultClaudeSettings = {
     temperature: 0.3
 }
 
-export const newClaudeCompletion = async (messages: Array<ChatCompletionMessageParam>, model: string): Promise<ChatCompletion.Choice[]> => {
+export const newClaudeCompletion = async (messages: Array<ChatCompletionMessageParam>, model: string, mode?: string): Promise<ChatCompletion.Choice[]> => {
     const systemMessage = messages.filter(m => m.role === "system").map(m => m.content).join("\n\n ")
     const userMessages = messages.filter(m => m.role !== "system") as Array<MessageParam>
     console.debug(`Sending Claude request with system ${JSON.stringify(systemMessage)} and other messages ${JSON.stringify(userMessages)}`)

@@ -16,7 +16,7 @@ export const defaultClaudeSettings = {
     max_tokens: 3072,
     temperature: 0.3
 };
-export const newClaudeCompletion = async (messages, model) => {
+export const newClaudeCompletion = async (messages, model, mode) => {
     const systemMessage = messages.filter(m => m.role === "system").map(m => m.content).join("\n\n ");
     const userMessages = messages.filter(m => m.role !== "system");
     console.debug(`Sending Claude request with system ${JSON.stringify(systemMessage)} and other messages ${JSON.stringify(userMessages)}`);

@@ -16,6 +16,7 @@ export enum ExecutionModel {
     GPT4_4O_MINI = "gpt-4o-mini",
     O1_MINI = "o1-mini",
     O1 = "o1",
+    O3_MINI = "o3-mini",
     CLOUDE_3_OPUS = "claude-3-opus-latest",
     CLOUDE_3_SONNET = "claude-3-5-sonnet-latest",
     CLOUDE_3_HAIKU = "claude-3-5-haiku-latest",
@@ -39,28 +40,31 @@ export const newMLCompletion = async (messages: Array<ChatCompletionMessageParam
             return await new35Completition(messages);
         }
         if (model === ExecutionModel.GPT4_TURBO) {
-            return await new4Completition(messages);
+            return await new4Completition(messages, mode);
         }
         if (model === ExecutionModel.GPT4_4O) {
-            return await new4oCompletition(messages);
+            return await new4oCompletition(messages, mode);
         }
         if (model === ExecutionModel.GPT4_4O_MINI) {
-            return await new4oMiniCompletition(messages);
+            return await new4oMiniCompletition(messages, mode);
         }
         if (model === ExecutionModel.O1) {
-            return await newO1Completition(messages);
+            return await newO1Completition(messages, mode);
         }
         if (model === ExecutionModel.O1_MINI) {
-            return await newO1MiniCompletition(messages);
+            return await newO1MiniCompletition(messages, mode);
+        }
+        if (model === ExecutionModel.O3_MINI) {
+            return await newO1MiniCompletition(messages, mode);
         }
         if (model === ExecutionModel.CLOUDE_3_OPUS) {
-            return await newClaudeCompletion(messages, ExecutionModel.CLOUDE_3_OPUS);
+            return await newClaudeCompletion(messages, ExecutionModel.CLOUDE_3_OPUS, mode);
         }
         if (model === ExecutionModel.CLOUDE_3_HAIKU) {
-            return await newClaudeCompletion(messages, ExecutionModel.CLOUDE_3_HAIKU);
+            return await newClaudeCompletion(messages, ExecutionModel.CLOUDE_3_HAIKU, mode);
         }
         if (model === ExecutionModel.CLOUDE_3_SONNET) {
-            return await newClaudeCompletion(messages, ExecutionModel.CLOUDE_3_SONNET);
+            return await newClaudeCompletion(messages, ExecutionModel.CLOUDE_3_SONNET, mode);
         }
         if (model === ExecutionModel.GROQ_LLAMA_3_70B) {
             return await newGroqCompletion(messages, ExecutionModel.GROQ_LLAMA_3_70B);
