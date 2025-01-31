@@ -70,10 +70,10 @@ export const newMLCompletion = async (messages, model, mode = "json") => {
     }
     return await new4Completition(messages);
 };
-export const processRawMessages = async (messages, language, model, role = "system", mode = "json") => {
+export const processRawMessages = async (messages, language, model, mode = "json") => {
     return cleanFirstCompletion(await newMLCompletion(messages, model, mode));
 };
-export const processMessages = async (messages, language, model, role = "system", mode = "json") => {
+export const processMessages = async (messages, language, model, mode = "json") => {
     return parseFirstCompletion(await newMLCompletion(messages, model, mode));
 };
 export const chatMessagesToCompletionArray = (messages, messagesToSend = []) => {

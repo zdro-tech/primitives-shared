@@ -19,7 +19,6 @@ export const getOpenAIClient = () => {
 }
 
 export const defaultOpenAISettings = {
-  response_format: { type: 'json_object' },
   temperature: 0.4,
   n: 1,
   max_tokens: 2048,
@@ -27,8 +26,8 @@ export const defaultOpenAISettings = {
 
 const createChatCompletion = async (params: ChatCompletionCreateParamsNonStreaming, mode = 'json'): Promise<ChatCompletion.Choice[]> => {
   const settings = { ...params };
-  if (mode !== 'json') {
-    delete settings.response_format;
+  if (mode === 'json') {
+    settings.response_format = { type: 'json_object' };
   }
   return await backOff(async () => {
     const reply = await getOpenAIClient().chat.completions.create(settings);

@@ -75,11 +75,11 @@ export const newMLCompletion = async (messages: Array<ChatCompletionMessageParam
     return await new4Completition(messages);
 }
 
-export const processRawMessages = async (messages: Array<ChatCompletionMessageParam>, language: string, model: ExecutionModel, role = "system", mode = "json"): Promise<string> => {
+export const processRawMessages = async (messages: Array<ChatCompletionMessageParam>, language: string, model: ExecutionModel, mode = "json"): Promise<string> => {
     return cleanFirstCompletion(await newMLCompletion(messages, model, mode))
 };
 
-export const processMessages = async <T>(messages: Array<ChatCompletionMessageParam>, language: string, model: ExecutionModel, role = "system", mode = "json"): Promise<T> => {
+export const processMessages = async <T>(messages: Array<ChatCompletionMessageParam>, language: string, model: ExecutionModel, mode = "json"): Promise<T> => {
     return parseFirstCompletion(await newMLCompletion(messages, model, mode)) as T
 };
 
