@@ -70,11 +70,11 @@ export const newMLCompletion = async (messages, model, mode = "json") => {
     }
     return await new4Completition(messages);
 };
-export const processRawMessages = async (messages, language, model, role = "system") => {
-    return cleanFirstCompletion(await newMLCompletion(addPostInstructions(messages, language, role), model));
+export const processRawMessages = async (messages, language, model, role = "system", mode = "json") => {
+    return cleanFirstCompletion(await newMLCompletion(messages, model, mode));
 };
-export const processMessages = async (messages, language, model, role = "system") => {
-    return parseFirstCompletion(await newMLCompletion(addPostInstructions(messages, language, role), model));
+export const processMessages = async (messages, language, model, role = "system", mode = "json") => {
+    return parseFirstCompletion(await newMLCompletion(messages, model, mode));
 };
 export const chatMessagesToCompletionArray = (messages, messagesToSend = []) => {
     messages.forEach(m => {
