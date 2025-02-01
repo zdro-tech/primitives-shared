@@ -68,7 +68,7 @@ export const newO3MiniCompletition = async (
   messages: ChatCompletionMessageParam[],
   mode?: string
 ): Promise<ChatCompletion.Choice[]> =>
-  await createChatCompletion({ ...defaultOpenAISettings, model: "o3-mini", messages, max_completion_tokens: 2000, temperature: 1 }, mode);
+  await createChatCompletion({ model: "o3-mini", messages, max_completion_tokens: 2000 }, mode);
 
 export const newO1Completition = async (
   messages: ChatCompletionMessageParam[],

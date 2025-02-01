@@ -34,7 +34,7 @@ export const new4oCompletition = async (messages, mode) => await createChatCompl
 export const newO1MiniCompletition = async (messages, mode) => await createChatCompletion({ ...defaultOpenAISettings, model: "o1-mini", messages }, mode);
 export const new4Completition = async (messages, mode) => await createChatCompletion({ ...defaultOpenAISettings, model: "gpt-4-turbo", messages }, mode);
 export const new35Completition = async (messages) => await createChatCompletion({ ...defaultOpenAISettings, model: "gpt-3.5-turbo-0125", messages });
-export const newO3MiniCompletition = async (messages, mode) => await createChatCompletion({ ...defaultOpenAISettings, model: "o3-mini", messages, max_completion_tokens: 2000, temperature: 1 }, mode);
+export const newO3MiniCompletition = async (messages, mode) => await createChatCompletion({ model: "o3-mini", messages, max_completion_tokens: 2000 }, mode);
 export const newO1Completition = async (messages, mode) => await createChatCompletion({ model: "o1", messages, max_completion_tokens: 2000, temperature: 1 }, mode);
 export const visionCompletion = async (messages) => await createChatCompletion({ model: "gpt-4-vision-preview", messages });
 export const createEmbeddings = async (input, model = "text-embedding-3-small") => {

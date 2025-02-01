@@ -25,11 +25,9 @@ export const defaultClaudeSettings = {
 export const newClaudeCompletion = async (messages: Array<ChatCompletionMessageParam>, model: string, mode?: string): Promise<ChatCompletion.Choice[]> => {
     const systemMessage = messages.filter(m => m.role === "system").map(m => m.content).join("\n\n ")
     const userMessages = messages.filter(m => m.role !== "system") as Array<MessageParam>
-    console.debug(`Sending Claude request with system ${JSON.stringify(systemMessage)} and other messages ${JSON.stringify(userMessages)}`)
     const message = await getAnthropicClient().messages.create({
         ...defaultClaudeSettings, ...{ model, messages: userMessages, system: systemMessage }
     } as MessageCreateParamsNonStreaming);
-    console.debug(`I've got Claude response ${JSON.stringify(message)}`)
     const stringContent = message.content
         .filter((block) => block.type === 'text')
         .map(block => block.text)
