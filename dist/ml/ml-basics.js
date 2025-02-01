@@ -68,7 +68,7 @@ export const newMLCompletion = async (messages, model, mode = "json") => {
     catch (e) {
         logger.error(`Error in newMLCompletion ${model}`, e);
     }
-    return await new4Completition(messages);
+    return await new4Completition(messages, mode);
 };
 export const processRawMessages = async (messages, language, model, mode = "json") => {
     return cleanFirstCompletion(await newMLCompletion(messages, model, mode));

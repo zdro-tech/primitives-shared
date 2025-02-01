@@ -51,7 +51,7 @@ export const newO1MiniCompletition = async (
   messages: ChatCompletionMessageParam[],
   mode?: string
 ): Promise<ChatCompletion.Choice[]> =>
-  await createChatCompletion({ ...defaultOpenAISettings, model: "o1-mini", messages }, mode);
+  await createChatCompletion({ model: "o1-mini", max_completion_tokens: 3072, messages }, mode);
 
 export const new4Completition = async (
   messages: ChatCompletionMessageParam[],

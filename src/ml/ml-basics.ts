@@ -72,7 +72,7 @@ export const newMLCompletion = async (messages: Array<ChatCompletionMessageParam
     } catch (e) {
         logger.error(`Error in newMLCompletion ${model}`, e);
     }
-    return await new4Completition(messages);
+    return await new4Completition(messages, mode);
 }
 
 export const processRawMessages = async (messages: Array<ChatCompletionMessageParam>, language: string, model: ExecutionModel, mode = "json"): Promise<string> => {

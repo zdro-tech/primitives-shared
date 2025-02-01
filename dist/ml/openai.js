@@ -31,7 +31,7 @@ const createChatCompletion = async (params, mode = 'json') => {
 };
 export const new4oMiniCompletition = async (messages, mode) => await createChatCompletion({ ...defaultOpenAISettings, model: "gpt-4o-mini", messages }, mode);
 export const new4oCompletition = async (messages, mode) => await createChatCompletion({ ...defaultOpenAISettings, model: "gpt-4o", messages }, mode);
-export const newO1MiniCompletition = async (messages, mode) => await createChatCompletion({ ...defaultOpenAISettings, model: "o1-mini", messages }, mode);
+export const newO1MiniCompletition = async (messages, mode) => await createChatCompletion({ model: "o1-mini", max_completion_tokens: 3072, messages }, mode);
 export const new4Completition = async (messages, mode) => await createChatCompletion({ ...defaultOpenAISettings, model: "gpt-4-turbo", messages }, mode);
 export const new35Completition = async (messages) => await createChatCompletion({ ...defaultOpenAISettings, model: "gpt-3.5-turbo-0125", messages });
 export const newO3MiniCompletition = async (messages, mode) => await createChatCompletion({ model: "o3-mini", messages, max_completion_tokens: 3072 }, mode);
