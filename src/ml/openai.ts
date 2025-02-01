@@ -21,7 +21,7 @@ export const getOpenAIClient = () => {
 export const defaultOpenAISettings = {
   temperature: 0.4,
   n: 1,
-  max_tokens: 2048,
+  max_tokens: 3072,
 } as ChatCompletionCreateParamsNonStreaming;
 
 const createChatCompletion = async (params: ChatCompletionCreateParamsNonStreaming, mode = 'json'): Promise<ChatCompletion.Choice[]> => {
@@ -68,13 +68,13 @@ export const newO3MiniCompletition = async (
   messages: ChatCompletionMessageParam[],
   mode?: string
 ): Promise<ChatCompletion.Choice[]> =>
-  await createChatCompletion({ model: "o3-mini", messages, max_completion_tokens: 2000 }, mode);
+  await createChatCompletion({ model: "o3-mini", messages, max_completion_tokens: 3072 }, mode);
 
 export const newO1Completition = async (
   messages: ChatCompletionMessageParam[],
   mode?: string
 ): Promise<ChatCompletion.Choice[]> =>
-  await createChatCompletion({ model: "o1", messages, max_completion_tokens: 2000, temperature: 1 }, mode);
+  await createChatCompletion({ model: "o1", messages, max_completion_tokens: 3072, temperature: 1 }, mode);
 
 export const visionCompletion = async (
   messages: ChatCompletionMessageParam[]
