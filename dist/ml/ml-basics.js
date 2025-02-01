@@ -1,4 +1,4 @@
-import { new35Completition, new4Completition, new4oCompletition, new4oMiniCompletition, newO1Completition, newO1MiniCompletition, visionCompletion } from "./openai.js";
+import { new35Completition, new4Completition, new4oCompletition, new4oMiniCompletition, newO1Completition, newO1MiniCompletition, newO3MiniCompletition, visionCompletion } from "./openai.js";
 import { logger } from "../logger/logger.js";
 import { MessageAuthor } from "../types/chat-message.js";
 import { newClaudeCompletion } from "./anthropic-cloude.js";
@@ -50,7 +50,7 @@ export const newMLCompletion = async (messages, model, mode = "json") => {
             return await newO1MiniCompletition(messages, mode);
         }
         if (model === ExecutionModel.O3_MINI) {
-            return await newO1MiniCompletition(messages, mode);
+            return await newO3MiniCompletition(messages, mode);
         }
         if (model === ExecutionModel.CLOUDE_3_OPUS) {
             return await newClaudeCompletion(messages, ExecutionModel.CLOUDE_3_OPUS, mode);

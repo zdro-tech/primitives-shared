@@ -35,4 +35,5 @@ export var MessageClass;
     MessageClass[MessageClass["UNIDENTIFIED"] = 15] = "UNIDENTIFIED";
     MessageClass[MessageClass["PAYMENT"] = 16] = "PAYMENT";
     MessageClass[MessageClass["RESULTS_DISPATCHED"] = 17] = "RESULTS_DISPATCHED";
+    MessageClass[MessageClass["DOCTOR_JOINED"] = 18] = "DOCTOR_JOINED";
 })(MessageClass || (MessageClass = {}));

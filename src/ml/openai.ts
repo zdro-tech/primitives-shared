@@ -65,9 +65,10 @@ export const new35Completition = async (
   await createChatCompletion({ ...defaultOpenAISettings, model: "gpt-3.5-turbo-0125", messages });
 
 export const newO3MiniCompletition = async (
-  messages: ChatCompletionMessageParam[]
+  messages: ChatCompletionMessageParam[],
+  mode?: string
 ): Promise<ChatCompletion.Choice[]> =>
-  await createChatCompletion({ model: "o3-mini", messages, max_completion_tokens: 2000, temperature: 1 });
+  await createChatCompletion({ ...defaultOpenAISettings, model: "o3-mini", messages, max_completion_tokens: 2000, temperature: 1 }, mode);
 
 export const newO1Completition = async (
   messages: ChatCompletionMessageParam[],
