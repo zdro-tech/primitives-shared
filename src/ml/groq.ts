@@ -14,7 +14,7 @@ export const getGroqClient = () => {
     return groqClient;
 }
 
-export const newGroqCompletion = async (messages: Array<ChatCompletionMessageParam>, model: string): Promise<ChatCompletion.Choice[]> => {
+export const newGroqCompletion = async (messages: Array<ChatCompletionMessageParam>, model: string, mode?: string): Promise<ChatCompletion.Choice[]> => {
     const reply = await getGroqClient().chat.completions.create({
         ...defaultOpenAISettings as any,
         messages: messages as any,

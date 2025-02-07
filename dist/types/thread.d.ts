@@ -17,7 +17,8 @@ export declare enum ThreadClass {
     SICK_LEAVE_RELATED = 2,
     TESTS_INTERPRETATION = 3,
     APPOINTMENT_SCHEDULING = 4,
-    OTHER_QUESTIONS = 5
+    DOCTOR_RECOMMENDATION = 5,
+    OTHER_QUESTIONS = 6
 }
 export declare enum RegularComplaintThreadStage {
     Initiation = "Initiation",

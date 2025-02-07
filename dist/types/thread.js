@@ -5,7 +5,8 @@ export var ThreadClass;
     ThreadClass[ThreadClass["SICK_LEAVE_RELATED"] = 2] = "SICK_LEAVE_RELATED";
     ThreadClass[ThreadClass["TESTS_INTERPRETATION"] = 3] = "TESTS_INTERPRETATION";
     ThreadClass[ThreadClass["APPOINTMENT_SCHEDULING"] = 4] = "APPOINTMENT_SCHEDULING";
-    ThreadClass[ThreadClass["OTHER_QUESTIONS"] = 5] = "OTHER_QUESTIONS";
+    ThreadClass[ThreadClass["DOCTOR_RECOMMENDATION"] = 5] = "DOCTOR_RECOMMENDATION";
+    ThreadClass[ThreadClass["OTHER_QUESTIONS"] = 6] = "OTHER_QUESTIONS";
 })(ThreadClass || (ThreadClass = {}));
 export var RegularComplaintThreadStage;
 (function (RegularComplaintThreadStage) {

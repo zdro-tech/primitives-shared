@@ -13,10 +13,10 @@ export declare enum ExecutionModel {
     CLOUDE_3_OPUS = "claude-3-opus-latest",
     CLOUDE_3_SONNET = "claude-3-5-sonnet-latest",
     CLOUDE_3_HAIKU = "claude-3-5-haiku-latest",
-    GROQ_LLAMA_3_70B = "llama-3.3-70b-versatile",
-    GROQ_LLAMA_3_8B = "llama-3.1-8b-instant",
-    CUSTOM_4_CARE = "4.care.01",
-    CUSTOM_4_CARE_DRUGS = "4.care.01-drugs"
+    DEEPSEEK_R1_DISTILL_LLAMA_70B = "deepseek-r1-distill-llama-70b",
+    DEEPSEEK_R1_DISTILL_LLAMA_70B_SPECDEC = "deepseek-r1-distill-llama-70b-specdec",
+    LLAMA_3_3_70B_SPECDEC = "llama-3.3-70b-specdec",
+    LLAMA_3_3_70B_VERSATILE = "llama-3.3-70b-versatile"
 }
 export declare const anyOfModels: (array: ExecutionModel[]) => ExecutionModel;
 export declare const newMLCompletion: (messages: Array<ChatCompletionMessageParam>, model: ExecutionModel, mode?: string) => Promise<ChatCompletion.Choice[]>;

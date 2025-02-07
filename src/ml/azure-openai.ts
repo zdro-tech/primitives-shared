@@ -22,7 +22,7 @@ export const getAzureOpenaiClient = () => {
 };
 
 
-export const new4AzureCompletition = async (messages: Array<ChatCompletionMessageParam>): Promise<ChatCompletion.Choice[]> => {
+export const new4AzureCompletition = async (messages: Array<ChatCompletionMessageParam>, mode?: string): Promise<ChatCompletion.Choice[]> => {
     const client = getAzureOpenaiClient();
     const result = await client.chat.completions.create({
         ...defaultOpenAISettings,

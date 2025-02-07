@@ -60,7 +60,8 @@ export const new4Completition = async (
   await createChatCompletion({ ...defaultOpenAISettings, model: "gpt-4-turbo", messages }, mode);
 
 export const new35Completition = async (
-  messages: ChatCompletionMessageParam[]
+  messages: ChatCompletionMessageParam[],
+  mode?: string
 ): Promise<ChatCompletion.Choice[]> =>
   await createChatCompletion({ ...defaultOpenAISettings, model: "gpt-3.5-turbo-0125", messages });
 

@@ -17,10 +17,10 @@ export var ExecutionModel;
     ExecutionModel["CLOUDE_3_OPUS"] = "claude-3-opus-latest";
     ExecutionModel["CLOUDE_3_SONNET"] = "claude-3-5-sonnet-latest";
     ExecutionModel["CLOUDE_3_HAIKU"] = "claude-3-5-haiku-latest";
-    ExecutionModel["GROQ_LLAMA_3_70B"] = "llama-3.3-70b-versatile";
-    ExecutionModel["GROQ_LLAMA_3_8B"] = "llama-3.1-8b-instant";
-    ExecutionModel["CUSTOM_4_CARE"] = "4.care.01";
-    ExecutionModel["CUSTOM_4_CARE_DRUGS"] = "4.care.01-drugs";
+    ExecutionModel["DEEPSEEK_R1_DISTILL_LLAMA_70B"] = "deepseek-r1-distill-llama-70b";
+    ExecutionModel["DEEPSEEK_R1_DISTILL_LLAMA_70B_SPECDEC"] = "deepseek-r1-distill-llama-70b-specdec";
+    ExecutionModel["LLAMA_3_3_70B_SPECDEC"] = "llama-3.3-70b-specdec";
+    ExecutionModel["LLAMA_3_3_70B_VERSATILE"] = "llama-3.3-70b-versatile";
 })(ExecutionModel || (ExecutionModel = {}));
 export const anyOfModels = (array) => {
     const randomIndex = Math.floor(Math.random() * array.length);
@@ -61,8 +61,17 @@ export const newMLCompletion = async (messages, model, mode = "json") => {
         if (model === ExecutionModel.CLOUDE_3_SONNET) {
             return await newClaudeCompletion(messages, ExecutionModel.CLOUDE_3_SONNET, mode);
         }
-        if (model === ExecutionModel.GROQ_LLAMA_3_70B) {
-            return await newGroqCompletion(messages, ExecutionModel.GROQ_LLAMA_3_70B);
+        if (model === ExecutionModel.DEEPSEEK_R1_DISTILL_LLAMA_70B) {
+            return await newGroqCompletion(messages, ExecutionModel.DEEPSEEK_R1_DISTILL_LLAMA_70B, mode);
+        }
+        if (model === ExecutionModel.DEEPSEEK_R1_DISTILL_LLAMA_70B_SPECDEC) {
+            return await newGroqCompletion(messages, ExecutionModel.DEEPSEEK_R1_DISTILL_LLAMA_70B_SPECDEC, mode);
+        }
+        if (model === ExecutionModel.LLAMA_3_3_70B_SPECDEC) {
+            return await newGroqCompletion(messages, ExecutionModel.LLAMA_3_3_70B_SPECDEC, mode);
+        }
+        if (model === ExecutionModel.LLAMA_3_3_70B_VERSATILE) {
+            return await newGroqCompletion(messages, ExecutionModel.LLAMA_3_3_70B_VERSATILE, mode);
         }
     }
     catch (e) {

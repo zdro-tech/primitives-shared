@@ -10,7 +10,7 @@ export const getGroqClient = () => {
     }
     return groqClient;
 };
-export const newGroqCompletion = async (messages, model) => {
+export const newGroqCompletion = async (messages, model, mode) => {
     const reply = await getGroqClient().chat.completions.create({
         ...defaultOpenAISettings,
         messages: messages,
