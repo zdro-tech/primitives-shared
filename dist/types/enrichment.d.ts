@@ -9,11 +9,12 @@ export interface MessageAnalysisResponse {
     offtopic: boolean;
     joke: boolean;
 }
-export interface OpenAIChatClassifictionResponse {
+export interface ChatClassifictionResponse {
     intent: string;
 }
-export interface ChatClassifictionResponse {
+export interface ChatClassifiction {
     intent: ThreadClass;
+    clarifyingQuestion: string;
 }
 export interface OpenAIThreadSummaryResponse {
     title: string;
