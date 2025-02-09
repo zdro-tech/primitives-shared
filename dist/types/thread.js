@@ -6,7 +6,6 @@ export var ThreadClass;
     ThreadClass["DOCTOR_REFERRAL_REQUEST"] = "DOCTOR_REFERRAL_REQUEST";
     ThreadClass["LAB_TESTS_REQUEST"] = "LAB_TESTS_REQUEST";
     ThreadClass["LAB_TESTS_EXPLANATIONS"] = "LAB_TESTS_EXPLANATIONS";
-    ThreadClass["INTENT_IS_NOT_CLEAR"] = "INTENT_IS_NOT_CLEAR";
 })(ThreadClass || (ThreadClass = {}));
 export var RegularComplaintThreadStage;
 (function (RegularComplaintThreadStage) {
