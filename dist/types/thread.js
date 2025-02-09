@@ -1,12 +1,12 @@
 export var ThreadClass;
 (function (ThreadClass) {
-    ThreadClass[ThreadClass["DOCTOR_CONSULTATION"] = 0] = "DOCTOR_CONSULTATION";
-    ThreadClass[ThreadClass["PRESCRIPTION_RELATED"] = 1] = "PRESCRIPTION_RELATED";
-    ThreadClass[ThreadClass["SICK_LEAVE_RELATED"] = 2] = "SICK_LEAVE_RELATED";
-    ThreadClass[ThreadClass["TESTS_INTERPRETATION"] = 3] = "TESTS_INTERPRETATION";
-    ThreadClass[ThreadClass["APPOINTMENT_SCHEDULING"] = 4] = "APPOINTMENT_SCHEDULING";
-    ThreadClass[ThreadClass["DOCTOR_RECOMMENDATION"] = 5] = "DOCTOR_RECOMMENDATION";
-    ThreadClass[ThreadClass["OTHER_QUESTIONS"] = 6] = "OTHER_QUESTIONS";
+    ThreadClass["DOCTOR_CONSULTATION"] = "DOCTOR_CONSULTATION";
+    ThreadClass["PRESCRIPTION_RELATED"] = "PRESCRIPTION_RELATED";
+    ThreadClass["SICK_LEAVE_RELATED"] = "SICK_LEAVE_RELATED";
+    ThreadClass["DOCTOR_REFERRAL_REQUEST"] = "DOCTOR_REFERRAL_REQUEST";
+    ThreadClass["LAB_TESTS_REQUEST"] = "LAB_TESTS_REQUEST";
+    ThreadClass["LAB_TESTS_EXPLANATIONS"] = "LAB_TESTS_EXPLANATIONS";
+    ThreadClass["INTENT_IS_NOT_CLEAR"] = "INTENT_IS_NOT_CLEAR";
 })(ThreadClass || (ThreadClass = {}));
 export var RegularComplaintThreadStage;
 (function (RegularComplaintThreadStage) {
