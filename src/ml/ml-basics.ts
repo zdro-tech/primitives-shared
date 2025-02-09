@@ -1,5 +1,5 @@
 import { ChatCompletionMessageParam, ChatCompletion, } from "openai/resources/index"
-import { new35Completition, new4Completition, new4oCompletition, new4oMiniCompletition, newO1Completition, newO1MiniCompletition, newO3MiniCompletition, visionCompletion } from "./openai.js";
+import { new35Completition, new4Completition, new4oCompletition, new4oMiniCompletition, newO1Completition, newO1MiniCompletition, newO3MiniCompletition, newO3MiniHighCompletition, visionCompletion } from "./openai.js";
 import { logger } from "../logger/logger.js";
 
 import { ChatMessage, FileData, MessageAuthor } from "../types/chat-message.js";
@@ -17,6 +17,7 @@ export enum ExecutionModel {
     O1_MINI = "o1-mini",
     O1 = "o1",
     O3_MINI = "o3-mini",
+    O3_MINI_HIGH = "o3-mini-high",
     CLOUDE_3_OPUS = "claude-3-opus-latest",
     CLOUDE_3_SONNET = "claude-3-5-sonnet-latest",
     CLOUDE_3_HAIKU = "claude-3-5-haiku-latest",
@@ -57,6 +58,9 @@ export const newMLCompletion = async (messages: Array<ChatCompletionMessageParam
         }
         if (model === ExecutionModel.O3_MINI) {
             return await newO3MiniCompletition(messages, mode);
+        }
+        if (model === ExecutionModel.O3_MINI_HIGH) {
+            return await newO3MiniHighCompletition(messages, mode);
         }
         if (model === ExecutionModel.CLOUDE_3_OPUS) {
             return await newClaudeCompletion(messages, ExecutionModel.CLOUDE_3_OPUS, mode);

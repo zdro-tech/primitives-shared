@@ -69,7 +69,14 @@ export const newO3MiniCompletition = async (
   messages: ChatCompletionMessageParam[],
   mode?: string
 ): Promise<ChatCompletion.Choice[]> =>
-  await createChatCompletion({ model: "o3-mini", messages, max_completion_tokens: 3072 }, mode);
+  await createChatCompletion({ model: "o3-mini", reasoning_effort: "medium", messages, max_completion_tokens: 3072 }, mode);
+
+export const newO3MiniHighCompletition = async (
+  messages: ChatCompletionMessageParam[],
+  mode?: string
+): Promise<ChatCompletion.Choice[]> =>
+  await createChatCompletion({ model: "o3-mini", reasoning_effort: "high", messages, max_completion_tokens: 3072 }, mode);
+
 
 export const newO1Completition = async (
   messages: ChatCompletionMessageParam[],

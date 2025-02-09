@@ -10,6 +10,7 @@ export declare enum ExecutionModel {
     O1_MINI = "o1-mini",
     O1 = "o1",
     O3_MINI = "o3-mini",
+    O3_MINI_HIGH = "o3-mini-high",
     CLOUDE_3_OPUS = "claude-3-opus-latest",
     CLOUDE_3_SONNET = "claude-3-5-sonnet-latest",
     CLOUDE_3_HAIKU = "claude-3-5-haiku-latest",
