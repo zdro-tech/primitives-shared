@@ -17,6 +17,4 @@ export interface Patient {
     language: string;
     createdAt: Date;
 }
-export declare const getPatientAge: (patient: Patient) => number;
-export declare const getPatientMetaInformation: (patient: Patient, language: string) => string;
 //# sourceMappingURL=patient.d.ts.map

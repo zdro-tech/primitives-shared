@@ -17,3 +17,7 @@ export const findI18NLabelInTexts = (texts: Texts, lang: string, key: string): s
     }
     return langTexts[key];
 };
+
+export const tt = (instructions: Map<string, string>, lang: string): string => {
+    return instructions.get(lang) || instructions.get('en')!;
+};

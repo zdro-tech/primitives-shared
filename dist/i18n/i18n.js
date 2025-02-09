@@ -9,3 +9,6 @@ export const findI18NLabelInTexts = (texts, lang, key) => {
     }
     return langTexts[key];
 };
+export const tt = (instructions, lang) => {
+    return instructions.get(lang) || instructions.get('en');
+};
