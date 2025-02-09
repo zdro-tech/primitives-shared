@@ -12,12 +12,12 @@ export interface MessageAnalysisResponse {
 }
 
 export interface ChatClassifictionResponse {
-    intent: string
+    intent?: string
 }
 
 export interface ChatClassifiction {
-    intent: ThreadClass
-    clarifyingQuestion: string
+    intent?: ThreadClass
+    clarifyingQuestion?: string
 }
 
 export interface OpenAIThreadSummaryResponse {

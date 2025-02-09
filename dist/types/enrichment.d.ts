@@ -10,11 +10,11 @@ export interface MessageAnalysisResponse {
     joke: boolean;
 }
 export interface ChatClassifictionResponse {
-    intent: string;
+    intent?: string;
 }
 export interface ChatClassifiction {
-    intent: ThreadClass;
-    clarifyingQuestion: string;
+    intent?: ThreadClass;
+    clarifyingQuestion?: string;
 }
 export interface OpenAIThreadSummaryResponse {
     title: string;
