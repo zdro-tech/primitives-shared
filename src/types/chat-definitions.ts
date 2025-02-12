@@ -20,11 +20,14 @@ export interface BasicThreadRequest extends BasicAuthorizedRequest {
 
 export interface NewThreadRequest extends BasicAuthorizedRequest {
     language: string
+    creationContext?: ThreadCreationContext
+}
+
+export interface ThreadCreationContext {
     class?: ThreadClass
     diseaseId?: string;
     quickAction: "generic-question" | "extend-meds" | "explain-tests" | "request-tests" | "request-risks" | "no-energy" | "no-self-confidence" | "bad-skin" | "dry-eyes" | "" | undefined
 }
-
 
 export interface NewThreadMessageRequest extends BasicThreadRequest {
     message: ChatMessageRequest
