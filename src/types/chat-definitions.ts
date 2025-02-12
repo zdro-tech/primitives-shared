@@ -22,7 +22,7 @@ export interface NewThreadRequest extends BasicAuthorizedRequest {
     language: string
     class?: ThreadClass
     diseaseId?: string;
-quickAction: "generic-question" | "extend-meds" | "explain-tests" | "request-tests" | "request-risks" | "no-energy" | "no-self-confidence" | "bad-skin" | "dry-eyes" | "" | undefined
+    quickAction: "generic-question" | "extend-meds" | "explain-tests" | "request-tests" | "request-risks" | "no-energy" | "no-self-confidence" | "bad-skin" | "dry-eyes" | "" | undefined
 }
 
 
