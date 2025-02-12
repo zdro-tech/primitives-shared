@@ -74,6 +74,7 @@ export interface Context {
     tenantID: number
     language: string
     patient: Patient
+    backgroundInformation?: string
     tenantConfiguration: TenantConfiguation
 }
 
