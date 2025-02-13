@@ -1,4 +1,4 @@
-interface ThreadCategory {
+export interface ThreadCategory {
     id: number;
     icdTitle: string;
     translationEn: string;
@@ -7,7 +7,7 @@ interface ThreadCategory {
     translationUa: string;
 }
 
-interface ChatQuickAction {
+export interface ChatQuickAction {
     id: number;
     threadsCategoryId: number;
     code: string;
