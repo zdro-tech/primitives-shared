@@ -19,4 +19,5 @@ export * from './organization.js';
 export * from './ezdrowie.js';
 export * from './patient.js';
 export * from './categories.js';
+export * from './condition.js';
 //# sourceMappingURL=index.d.ts.map
