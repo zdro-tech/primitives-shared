@@ -4,6 +4,7 @@ import { MessageAuthor } from "../types/chat-message.js";
 import { newClaudeCompletion } from "./anthropic-cloude.js";
 import { new4AzureCompletition } from "./azure-openai.js";
 import { newGroqCompletion } from "./groq.js";
+import { newGCPCompletion } from "./gcp-ml.js";
 export var ExecutionModel;
 (function (ExecutionModel) {
     ExecutionModel["AZURE_4_0"] = "azure";
@@ -15,13 +16,16 @@ export var ExecutionModel;
     ExecutionModel["O1"] = "o1";
     ExecutionModel["O3_MINI"] = "o3-mini";
     ExecutionModel["O3_MINI_HIGH"] = "o3-mini-high";
-    ExecutionModel["CLOUDE_3_OPUS"] = "claude-3-opus-latest";
-    ExecutionModel["CLOUDE_3_SONNET"] = "claude-3-5-sonnet-latest";
-    ExecutionModel["CLOUDE_3_HAIKU"] = "claude-3-5-haiku-latest";
-    ExecutionModel["DEEPSEEK_R1_DISTILL_LLAMA_70B"] = "deepseek-r1-distill-llama-70b";
-    ExecutionModel["DEEPSEEK_R1_DISTILL_LLAMA_70B_SPECDEC"] = "deepseek-r1-distill-llama-70b-specdec";
-    ExecutionModel["LLAMA_3_3_70B_SPECDEC"] = "llama-3.3-70b-specdec";
-    ExecutionModel["LLAMA_3_3_70B_VERSATILE"] = "llama-3.3-70b-versatile";
+    ExecutionModel["CLAUDE_3_OPUS"] = "claude-3-opus-latest";
+    ExecutionModel["CLAUDE_3_5_SONNET"] = "claude-3-5-sonnet-latest";
+    ExecutionModel["CLAUDE_3_7_SONNET"] = "claude-3-7-sonnet-latest";
+    ExecutionModel["CLAUDE_3_5_HAIKU"] = "claude-3-5-haiku-latest";
+    ExecutionModel["GROQ_DEEPSEEK_R1_DISTILL_LLAMA_70B"] = "deepseek-r1-distill-llama-70b";
+    ExecutionModel["GROQ_DEEPSEEK_R1_DISTILL_LLAMA_70B_SPECDEC"] = "deepseek-r1-distill-llama-70b-specdec";
+    ExecutionModel["GROQ_LLAMA_3_3_70B_SPECDEC"] = "llama-3.3-70b-specdec";
+    ExecutionModel["GROQ_LLAMA_3_3_70B_VERSATILE"] = "llama-3.3-70b-versatile";
+    ExecutionModel["GEMINI_2_0_FLASH"] = "gemini-2.0-flash";
+    ExecutionModel["GEMINI_2_0_FLASH_LITE"] = "gemini-2.0-flash-lite";
 })(ExecutionModel || (ExecutionModel = {}));
 export const anyOfModels = (array) => {
     const randomIndex = Math.floor(Math.random() * array.length);
@@ -56,26 +60,35 @@ export const newMLCompletion = async (messages, model, mode = "json") => {
         if (model === ExecutionModel.O3_MINI_HIGH) {
             return await newO3MiniHighCompletition(messages, mode);
         }
-        if (model === ExecutionModel.CLOUDE_3_OPUS) {
-            return await newClaudeCompletion(messages, ExecutionModel.CLOUDE_3_OPUS, mode);
+        if (model === ExecutionModel.CLAUDE_3_OPUS) {
+            return await newClaudeCompletion(messages, ExecutionModel.CLAUDE_3_OPUS, mode);
         }
-        if (model === ExecutionModel.CLOUDE_3_HAIKU) {
-            return await newClaudeCompletion(messages, ExecutionModel.CLOUDE_3_HAIKU, mode);
+        if (model === ExecutionModel.CLAUDE_3_5_HAIKU) {
+            return await newClaudeCompletion(messages, ExecutionModel.CLAUDE_3_5_HAIKU, mode);
         }
-        if (model === ExecutionModel.CLOUDE_3_SONNET) {
-            return await newClaudeCompletion(messages, ExecutionModel.CLOUDE_3_SONNET, mode);
+        if (model === ExecutionModel.CLAUDE_3_5_SONNET) {
+            return await newClaudeCompletion(messages, ExecutionModel.CLAUDE_3_5_SONNET, mode);
         }
-        if (model === ExecutionModel.DEEPSEEK_R1_DISTILL_LLAMA_70B) {
-            return await newGroqCompletion(messages, ExecutionModel.DEEPSEEK_R1_DISTILL_LLAMA_70B, mode);
+        if (model === ExecutionModel.CLAUDE_3_7_SONNET) {
+            return await newClaudeCompletion(messages, ExecutionModel.CLAUDE_3_7_SONNET, mode);
         }
-        if (model === ExecutionModel.DEEPSEEK_R1_DISTILL_LLAMA_70B_SPECDEC) {
-            return await newGroqCompletion(messages, ExecutionModel.DEEPSEEK_R1_DISTILL_LLAMA_70B_SPECDEC, mode);
+        if (model === ExecutionModel.GROQ_DEEPSEEK_R1_DISTILL_LLAMA_70B) {
+            return await newGroqCompletion(messages, ExecutionModel.GROQ_DEEPSEEK_R1_DISTILL_LLAMA_70B, mode);
         }
-        if (model === ExecutionModel.LLAMA_3_3_70B_SPECDEC) {
-            return await newGroqCompletion(messages, ExecutionModel.LLAMA_3_3_70B_SPECDEC, mode);
+        if (model === ExecutionModel.GROQ_DEEPSEEK_R1_DISTILL_LLAMA_70B_SPECDEC) {
+            return await newGroqCompletion(messages, ExecutionModel.GROQ_DEEPSEEK_R1_DISTILL_LLAMA_70B_SPECDEC, mode);
         }
-        if (model === ExecutionModel.LLAMA_3_3_70B_VERSATILE) {
-            return await newGroqCompletion(messages, ExecutionModel.LLAMA_3_3_70B_VERSATILE, mode);
+        if (model === ExecutionModel.GROQ_LLAMA_3_3_70B_SPECDEC) {
+            return await newGroqCompletion(messages, ExecutionModel.GROQ_LLAMA_3_3_70B_SPECDEC, mode);
+        }
+        if (model === ExecutionModel.GROQ_LLAMA_3_3_70B_VERSATILE) {
+            return await newGroqCompletion(messages, ExecutionModel.GROQ_LLAMA_3_3_70B_VERSATILE, mode);
+        }
+        if (model === ExecutionModel.GEMINI_2_0_FLASH) {
+            return await newGCPCompletion(messages, ExecutionModel.GEMINI_2_0_FLASH, mode);
+        }
+        if (model === ExecutionModel.GEMINI_2_0_FLASH_LITE) {
+            return await newGCPCompletion(messages, ExecutionModel.GEMINI_2_0_FLASH_LITE, mode);
         }
     }
     catch (e) {

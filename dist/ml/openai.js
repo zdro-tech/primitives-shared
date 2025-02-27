@@ -19,7 +19,7 @@ export const defaultOpenAISettings = {
     n: 1,
     max_tokens: 3072,
 };
-const createChatCompletion = async (params, mode = 'json') => {
+export const createChatCompletion = async (params, mode = 'json') => {
     const settings = { ...params };
     if (mode === 'json') {
         settings.response_format = { type: 'json_object' };

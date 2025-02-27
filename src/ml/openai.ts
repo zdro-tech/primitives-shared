@@ -24,7 +24,7 @@ export const defaultOpenAISettings = {
   max_tokens: 3072,
 } as ChatCompletionCreateParamsNonStreaming;
 
-const createChatCompletion = async (params: ChatCompletionCreateParamsNonStreaming, mode = 'json'): Promise<ChatCompletion.Choice[]> => {
+export const createChatCompletion = async (params: ChatCompletionCreateParamsNonStreaming, mode = 'json'): Promise<ChatCompletion.Choice[]> => {
   const settings = { ...params };
   if (mode === 'json') {
     settings.response_format = { type: 'json_object' };

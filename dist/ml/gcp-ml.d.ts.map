@@ -1,0 +1,1 @@
+{"version":3,"file":"gcp-ml.d.ts","sourceRoot":"","sources":["../../src/ml/gcp-ml.ts"],"names":[],"mappings":"AAAA,OAAO,MAAM,MAAM,QAAQ,CAAC;AAC5B,OAAO,EACH,cAAc,EACd,0BAA0B,EAC7B,MAAM,wBAAwB,CAAC;AAIhC,eAAO,MAAM,eAAe,QAAO,MASlC,CAAC;AAEF,eAAO,MAAM,gBAAgB,aACf,0BAA0B,EAAE,SAC/B,MAAM,SACN,MAAM,KACd,OAAO,CAAC,cAAc,CAAC,MAAM,EAAE,CAC2D,CAAC"}

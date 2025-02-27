@@ -11,13 +11,16 @@ export declare enum ExecutionModel {
     O1 = "o1",
     O3_MINI = "o3-mini",
     O3_MINI_HIGH = "o3-mini-high",
-    CLOUDE_3_OPUS = "claude-3-opus-latest",
-    CLOUDE_3_SONNET = "claude-3-5-sonnet-latest",
-    CLOUDE_3_HAIKU = "claude-3-5-haiku-latest",
-    DEEPSEEK_R1_DISTILL_LLAMA_70B = "deepseek-r1-distill-llama-70b",
-    DEEPSEEK_R1_DISTILL_LLAMA_70B_SPECDEC = "deepseek-r1-distill-llama-70b-specdec",
-    LLAMA_3_3_70B_SPECDEC = "llama-3.3-70b-specdec",
-    LLAMA_3_3_70B_VERSATILE = "llama-3.3-70b-versatile"
+    CLAUDE_3_OPUS = "claude-3-opus-latest",
+    CLAUDE_3_5_SONNET = "claude-3-5-sonnet-latest",
+    CLAUDE_3_7_SONNET = "claude-3-7-sonnet-latest",
+    CLAUDE_3_5_HAIKU = "claude-3-5-haiku-latest",
+    GROQ_DEEPSEEK_R1_DISTILL_LLAMA_70B = "deepseek-r1-distill-llama-70b",
+    GROQ_DEEPSEEK_R1_DISTILL_LLAMA_70B_SPECDEC = "deepseek-r1-distill-llama-70b-specdec",
+    GROQ_LLAMA_3_3_70B_SPECDEC = "llama-3.3-70b-specdec",
+    GROQ_LLAMA_3_3_70B_VERSATILE = "llama-3.3-70b-versatile",
+    GEMINI_2_0_FLASH = "gemini-2.0-flash",
+    GEMINI_2_0_FLASH_LITE = "gemini-2.0-flash-lite"
 }
 export declare const anyOfModels: (array: ExecutionModel[]) => ExecutionModel;
 export declare const newMLCompletion: (messages: Array<ChatCompletionMessageParam>, model: ExecutionModel, mode?: string) => Promise<ChatCompletion.Choice[]>;

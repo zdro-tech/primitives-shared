@@ -7,6 +7,7 @@ import { Message, TextContentBlock } from "openai/resources/beta/threads/index.m
 import { newClaudeCompletion } from "./anthropic-cloude.js";
 import { new4AzureCompletition } from "./azure-openai.js";
 import { newGroqCompletion } from "./groq.js";
+import { newGCPCompletion } from "./gcp-ml.js";
 
 export enum ExecutionModel {
     AZURE_4_0 = "azure",
@@ -18,13 +19,17 @@ export enum ExecutionModel {
     O1 = "o1",
     O3_MINI = "o3-mini",
     O3_MINI_HIGH = "o3-mini-high",
-    CLOUDE_3_OPUS = "claude-3-opus-latest",
-    CLOUDE_3_SONNET = "claude-3-5-sonnet-latest",
-    CLOUDE_3_HAIKU = "claude-3-5-haiku-latest",
-    DEEPSEEK_R1_DISTILL_LLAMA_70B = "deepseek-r1-distill-llama-70b",
-    DEEPSEEK_R1_DISTILL_LLAMA_70B_SPECDEC = "deepseek-r1-distill-llama-70b-specdec",
-    LLAMA_3_3_70B_SPECDEC = "llama-3.3-70b-specdec",
-    LLAMA_3_3_70B_VERSATILE = "llama-3.3-70b-versatile",
+    CLAUDE_3_OPUS = "claude-3-opus-latest",
+    CLAUDE_3_5_SONNET = "claude-3-5-sonnet-latest",
+    CLAUDE_3_7_SONNET = "claude-3-7-sonnet-latest",
+    CLAUDE_3_5_HAIKU = "claude-3-5-haiku-latest",
+    GROQ_DEEPSEEK_R1_DISTILL_LLAMA_70B = "deepseek-r1-distill-llama-70b",
+    GROQ_DEEPSEEK_R1_DISTILL_LLAMA_70B_SPECDEC = "deepseek-r1-distill-llama-70b-specdec",
+    GROQ_LLAMA_3_3_70B_SPECDEC = "llama-3.3-70b-specdec",
+    GROQ_LLAMA_3_3_70B_VERSATILE = "llama-3.3-70b-versatile",
+    GEMINI_2_0_FLASH = "gemini-2.0-flash",
+    GEMINI_2_0_FLASH_LITE = "gemini-2.0-flash-lite",
+
 }
 
 
@@ -62,26 +67,35 @@ export const newMLCompletion = async (messages: Array<ChatCompletionMessageParam
         if (model === ExecutionModel.O3_MINI_HIGH) {
             return await newO3MiniHighCompletition(messages, mode);
         }
-        if (model === ExecutionModel.CLOUDE_3_OPUS) {
-            return await newClaudeCompletion(messages, ExecutionModel.CLOUDE_3_OPUS, mode);
+        if (model === ExecutionModel.CLAUDE_3_OPUS) {
+            return await newClaudeCompletion(messages, ExecutionModel.CLAUDE_3_OPUS, mode);
         }
-        if (model === ExecutionModel.CLOUDE_3_HAIKU) {
-            return await newClaudeCompletion(messages, ExecutionModel.CLOUDE_3_HAIKU, mode);
+        if (model === ExecutionModel.CLAUDE_3_5_HAIKU) {
+            return await newClaudeCompletion(messages, ExecutionModel.CLAUDE_3_5_HAIKU, mode);
         }
-        if (model === ExecutionModel.CLOUDE_3_SONNET) {
-            return await newClaudeCompletion(messages, ExecutionModel.CLOUDE_3_SONNET, mode);
+        if (model === ExecutionModel.CLAUDE_3_5_SONNET) {
+            return await newClaudeCompletion(messages, ExecutionModel.CLAUDE_3_5_SONNET, mode);
         }
-        if (model === ExecutionModel.DEEPSEEK_R1_DISTILL_LLAMA_70B) {
-            return await newGroqCompletion(messages, ExecutionModel.DEEPSEEK_R1_DISTILL_LLAMA_70B, mode);
+        if (model === ExecutionModel.CLAUDE_3_7_SONNET) {
+            return await newClaudeCompletion(messages, ExecutionModel.CLAUDE_3_7_SONNET, mode);
         }
-        if (model === ExecutionModel.DEEPSEEK_R1_DISTILL_LLAMA_70B_SPECDEC) {
-            return await newGroqCompletion(messages, ExecutionModel.DEEPSEEK_R1_DISTILL_LLAMA_70B_SPECDEC, mode);
+        if (model === ExecutionModel.GROQ_DEEPSEEK_R1_DISTILL_LLAMA_70B) {
+            return await newGroqCompletion(messages, ExecutionModel.GROQ_DEEPSEEK_R1_DISTILL_LLAMA_70B, mode);
         }
-        if (model === ExecutionModel.LLAMA_3_3_70B_SPECDEC) {
-            return await newGroqCompletion(messages, ExecutionModel.LLAMA_3_3_70B_SPECDEC, mode);
+        if (model === ExecutionModel.GROQ_DEEPSEEK_R1_DISTILL_LLAMA_70B_SPECDEC) {
+            return await newGroqCompletion(messages, ExecutionModel.GROQ_DEEPSEEK_R1_DISTILL_LLAMA_70B_SPECDEC, mode);
         }
-        if (model === ExecutionModel.LLAMA_3_3_70B_VERSATILE) {
-            return await newGroqCompletion(messages, ExecutionModel.LLAMA_3_3_70B_VERSATILE, mode);
+        if (model === ExecutionModel.GROQ_LLAMA_3_3_70B_SPECDEC) {
+            return await newGroqCompletion(messages, ExecutionModel.GROQ_LLAMA_3_3_70B_SPECDEC, mode);
+        }
+        if (model === ExecutionModel.GROQ_LLAMA_3_3_70B_VERSATILE) {
+            return await newGroqCompletion(messages, ExecutionModel.GROQ_LLAMA_3_3_70B_VERSATILE, mode);
+        }
+        if (model === ExecutionModel.GEMINI_2_0_FLASH) {
+            return await newGCPCompletion(messages, ExecutionModel.GEMINI_2_0_FLASH, mode);
+        }
+        if (model === ExecutionModel.GEMINI_2_0_FLASH_LITE) {
+            return await newGCPCompletion(messages, ExecutionModel.GEMINI_2_0_FLASH_LITE, mode);
         }
     } catch (e) {
         logger.error(`Error in newMLCompletion ${model}`, e);

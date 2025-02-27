@@ -3,6 +3,7 @@ import { ChatCompletionCreateParamsNonStreaming } from 'openai/resources/index.m
 import { ChatCompletionMessageParam, ChatCompletion } from "openai/resources/index";
 export declare const getOpenAIClient: () => OpenAI;
 export declare const defaultOpenAISettings: ChatCompletionCreateParamsNonStreaming;
+export declare const createChatCompletion: (params: ChatCompletionCreateParamsNonStreaming, mode?: string) => Promise<ChatCompletion.Choice[]>;
 export declare const new4oMiniCompletition: (messages: ChatCompletionMessageParam[], mode?: string) => Promise<ChatCompletion.Choice[]>;
 export declare const new4oCompletition: (messages: ChatCompletionMessageParam[], mode?: string) => Promise<ChatCompletion.Choice[]>;
 export declare const newO1MiniCompletition: (messages: ChatCompletionMessageParam[], mode?: string) => Promise<ChatCompletion.Choice[]>;
