@@ -1,9 +1,9 @@
 import OpenAI from "openai";
 import {
     ChatCompletion,
+    ChatCompletionCreateParamsNonStreaming,
     ChatCompletionMessageParam,
 } from "openai/resources/index";
-import { createChatCompletion } from "./index.js";
 
 let openaiClient: OpenAI;
 export const getOpenAIClient = (): OpenAI => {
@@ -23,3 +23,12 @@ export const newGCPCompletion = async (
     mode?: string
 ): Promise<ChatCompletion.Choice[]> =>
     await createChatCompletion({ model: model, max_completion_tokens: 3072, messages }, mode);
+
+export const createChatCompletion = async (params: ChatCompletionCreateParamsNonStreaming, mode = 'json'): Promise<ChatCompletion.Choice[]> => {
+    const settings = { ...params };
+    if (mode === 'json') {
+        settings.response_format = { type: 'json_object' };
+    }
+    const reply = await getOpenAIClient().chat.completions.create(settings);
+    return reply?.choices;
+};

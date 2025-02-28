@@ -1,5 +1,4 @@
 import OpenAI from "openai";
-import { createChatCompletion } from "./index.js";
 let openaiClient;
 export const getOpenAIClient = () => {
     if (!process.env.GEMINI_API_KEY)
@@ -13,3 +12,11 @@ export const getOpenAIClient = () => {
     return openaiClient;
 };
 export const newGCPCompletion = async (messages, model, mode) => await createChatCompletion({ model: model, max_completion_tokens: 3072, messages }, mode);
+export const createChatCompletion = async (params, mode = 'json') => {
+    const settings = { ...params };
+    if (mode === 'json') {
+        settings.response_format = { type: 'json_object' };
+    }
+    const reply = await getOpenAIClient().chat.completions.create(settings);
+    return reply?.choices;
+};
