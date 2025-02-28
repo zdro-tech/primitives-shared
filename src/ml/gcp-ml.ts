@@ -11,7 +11,7 @@ export const getOpenAIClient = (): OpenAI => {
     if (!openaiClient) {
         openaiClient = new OpenAI({
             apiKey: process.env.GEMINI_API_KEY,
-            baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/",
+            baseURL: "https://generativelanguage.googleapis.com/v1beta/",
         });
     }
     return openaiClient;
