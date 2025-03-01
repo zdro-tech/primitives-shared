@@ -74,10 +74,10 @@ export const messagesAsFormattedString = (messages: Array<ChatMessage>, language
 }
 
 export const conversationHistoryTranslations = new Map<string, string>([
-    ["en", "Here is the conversation history so far"],
-    ["pl", "Oto dotychczasowa historia rozmowy"],
-    ["uk", "Ось історія розмови до цього моменту"],
-    ["ru", "Вот история разговора на данный момент"]
+    ["en", "Conversation history"],
+    ["pl", "Historia rozmowy"],
+    ["uk", "Історія розмови"],
+    ["ru", "История разговора"]
 ]);
 
 export const languageNames = new Map<string, string>([
