@@ -50,8 +50,20 @@ export const getPatientMetaInformation = (patient: Patient, language: string): s
     return prompt ?? "";
 }
 
-export const getMessageAuthor = (message: ChatMessage): string => {
-    return [MessageAuthor.Bot, MessageAuthor.Doctor].includes(message.author) ? "You" : "Patient"
+export const assistantTranslations = new Map<string, string>([
+    ["en", "Assistant"],
+    ["pl", "Asystent"],
+    ["uk", "Асистент"],
+    ["ru", "Ассистент"]
+]);
+export const patientTranslations = new Map<string, string>([
+    ["en", "Patient"],
+    ["pl", "Pacjent"],
+    ["uk", "Пацієнт"],
+    ["ru", "Пациент"]
+]);
+export const getMessageAuthor = (message: ChatMessage, language = "en"): string => {
+    return [MessageAuthor.Bot, MessageAuthor.Doctor].includes(message.author) ? tt(assistantTranslations, language) : tt(patientTranslations, language)
 }
 
 export const messagesAsFormattedString = (messages: Array<ChatMessage>, language: string): string => {

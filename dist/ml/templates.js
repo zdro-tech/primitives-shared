@@ -44,8 +44,20 @@ export const getPatientMetaInformation = (patient, language) => {
     }
     return prompt ?? "";
 };
-export const getMessageAuthor = (message) => {
-    return [MessageAuthor.Bot, MessageAuthor.Doctor].includes(message.author) ? "You" : "Patient";
+export const assistantTranslations = new Map([
+    ["en", "Assistant"],
+    ["pl", "Asystent"],
+    ["uk", "Асистент"],
+    ["ru", "Ассистент"]
+]);
+export const patientTranslations = new Map([
+    ["en", "Patient"],
+    ["pl", "Pacjent"],
+    ["uk", "Пацієнт"],
+    ["ru", "Пациент"]
+]);
+export const getMessageAuthor = (message, language = "en") => {
+    return [MessageAuthor.Bot, MessageAuthor.Doctor].includes(message.author) ? tt(assistantTranslations, language) : tt(patientTranslations, language);
 };
 export const messagesAsFormattedString = (messages, language) => {
     return `${tt(conversationHistoryTranslations, language)}: 
