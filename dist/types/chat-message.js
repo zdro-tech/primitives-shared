@@ -20,6 +20,7 @@ export var MessageClass;
     MessageClass["MEDICAL_INFORMATION"] = "MEDICAL_INFORMATION";
     MessageClass["SYSTEM_REPLY"] = "SYSTEM_REPLY";
     MessageClass["CHAT_REPLY"] = "CHAT_REPLY";
+    MessageClass["SECONDARY_CHAT_REPLY"] = "SECONDARY_CHAT_REPLY";
     MessageClass["UNIDENTIFIED"] = "UNIDENTIFIED";
     MessageClass["PAYMENT"] = "PAYMENT";
     MessageClass["RESULTS_DISPATCHED"] = "RESULTS_DISPATCHED";
