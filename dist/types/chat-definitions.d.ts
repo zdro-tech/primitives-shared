@@ -1,5 +1,5 @@
 import { ChatMessage, ChatMessageRequest } from "./chat-message.js";
-import { ChatThread, ThreadClass } from "./thread.js";
+import { ChatThread, QuickActionCode } from "./thread.js";
 export interface NewChatRequest {
     language: string;
 }
@@ -16,9 +16,8 @@ export interface NewThreadRequest extends BasicAuthorizedRequest {
     creationContext?: ThreadCreationContext;
 }
 export interface ThreadCreationContext {
-    class?: ThreadClass;
-    diseaseId?: string;
-    quickAction: "generic-question" | "extend-meds" | "explain-tests" | "request-tests" | "request-risks" | "no-energy" | "no-self-confidence" | "bad-skin" | "dry-eyes" | "" | undefined;
+    conditionId?: number;
+    quickAction?: QuickActionCode;
 }
 export interface NewThreadMessageRequest extends BasicThreadRequest {
     message: ChatMessageRequest;
