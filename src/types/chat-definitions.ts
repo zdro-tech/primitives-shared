@@ -1,6 +1,6 @@
 
 import { ChatMessage, ChatMessageRequest, MessageAuthor } from "./chat-message.js"
-import { ChatThread, QuickActionCode, ThreadClass } from "./thread.js"
+import { ChatThread, QuickActionCode, ThreadClass, ThreadCreationContext } from "./thread.js"
 
 
 export interface NewChatRequest {
@@ -21,11 +21,6 @@ export interface BasicThreadRequest extends BasicAuthorizedRequest {
 export interface NewThreadRequest extends BasicAuthorizedRequest {
     language: string
     creationContext?: ThreadCreationContext
-}
-
-export interface ThreadCreationContext {
-    conditionId?: number;
-    quickAction?: QuickActionCode
 }
 
 export interface NewThreadMessageRequest extends BasicThreadRequest {

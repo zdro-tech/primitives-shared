@@ -1,5 +1,5 @@
 import { AdditionalTest, Examination, SickLeave } from "./doctor.js";
-import { Context } from "./thread.js";
+import { ThreadContext } from "./thread.js";
 export interface ConfirmedAdditionalTest extends AdditionalTest {
     updatedBy: string;
     updatedAt?: Date;
@@ -65,7 +65,7 @@ export interface ConfirmedTreatmentPlan extends TreatmentPlan {
     updatedAt?: Date;
 }
 export interface ChatReviewEvent {
-    context: Context;
+    context: ThreadContext;
     stage: number;
 }
 export interface OpenAIPatientSymptoms {

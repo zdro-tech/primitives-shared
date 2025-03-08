@@ -145,14 +145,19 @@ export interface TenantConfiguation {
     paymentEnabled: boolean
 }
 
-export interface Context {
+export interface ThreadContext {
     threadID: string
     patientID: string
     tenantID: number
     language: string
     patient: Patient
-    backgroundInformation?: string
     tenantConfiguration: TenantConfiguation
+    creationContext?: ThreadCreationContext
+}
+
+export interface ThreadCreationContext {
+    conditionId?: number;
+    quickAction?: QuickActionCode
 }
 
 export interface ChangeInThreadEvent {

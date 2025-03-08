@@ -1,14 +1,14 @@
-import { ChatMessage, ChatThread, Context, DoctorContext, FileData, ProposedAnswersResponse, ThreadClass } from "./index.js"
+import { ChatMessage, ChatThread, ThreadContext, DoctorContext, FileData, ProposedAnswersResponse, ThreadClass } from "./index.js"
 import { Patient } from "./patient.js"
 
 export interface OutgoingMessageEvent {
-  context: Context
+  context: ThreadContext
   payload: ChatMessage
   callback?: Callback
 }
 
 export interface OutgoingSavedMessageEvent {
-  context: Context
+  context: ThreadContext
   payload: ChatMessage
   callback?: Callback
 }
@@ -30,7 +30,7 @@ export interface Callback {
 }
 
 export interface PatientMesssageEvent {
-  context: Context,
+  context: ThreadContext,
   message: ChatMessage,
   messages: ChatMessage[],
   thread: ChatThread,
@@ -56,7 +56,7 @@ export interface Enriched {
 }
 
 export interface PatientReplySuggestionsEvent {
-  context: Context
+  context: ThreadContext
   payload: ProposedAnswersResponse
 }
 
