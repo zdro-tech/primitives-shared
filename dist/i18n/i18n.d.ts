@@ -1,7 +1,5 @@
 export type Texts = {
-    [key: string]: {
-        [key: string]: string;
-    };
+    [key: string]: string | Texts;
 };
 export declare const DEFAULT_LANGUAGE = "pl";
 export declare const findI18NLabelInTexts: (texts: Texts, lang: string, key: string) => string;

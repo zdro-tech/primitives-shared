@@ -1,13 +1,11 @@
+import get from 'get-value';
 export const DEFAULT_LANGUAGE = "pl";
 export const findI18NLabelInTexts = (texts, lang, key) => {
-    if (!texts[lang]) {
-        lang = DEFAULT_LANGUAGE;
-    }
-    const langTexts = texts[lang];
-    if (!langTexts[key]) {
+    const langTexts = texts[lang] ?? texts[DEFAULT_LANGUAGE];
+    if (typeof langTexts !== 'object' || langTexts === null)
         return key;
-    }
-    return langTexts[key];
+    const value = get(langTexts, key);
+    return value ?? key;
 };
 export const tt = (instructions, lang) => {
     return instructions.get(lang) || instructions.get('en');

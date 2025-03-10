@@ -4,6 +4,7 @@ export var ThreadClass;
     ThreadClass["PRESCRIPTION_RELATED"] = "PRESCRIPTION_RELATED";
     ThreadClass["SICK_LEAVE_RELATED"] = "SICK_LEAVE_RELATED";
     ThreadClass["DOCTOR_REFERRAL_REQUEST"] = "DOCTOR_REFERRAL_REQUEST";
+    ThreadClass["VACCINATION_REQUEST"] = "VACCINATION_REQUEST";
     ThreadClass["LAB_TESTS_REQUEST"] = "LAB_TESTS_REQUEST";
     ThreadClass["LAB_TESTS_EXPLANATIONS"] = "LAB_TESTS_EXPLANATIONS";
 })(ThreadClass || (ThreadClass = {}));
@@ -15,6 +16,7 @@ export var QuickActionCode;
     QuickActionCode["PRESCRIPTION_RELATED"] = "PRESCRIPTION_RELATED";
     QuickActionCode["SICK_LEAVE_RELATED"] = "SICK_LEAVE_RELATED";
     QuickActionCode["BIRTH_CONTROL"] = "BIRTH_CONTROL";
+    QuickActionCode["VACCINATION_REQUEST"] = "VACCINATION_REQUEST";
     // GENERAL_CONSULTATION (Category 2)
     QuickActionCode["FLU"] = "FLU";
     QuickActionCode["TRAVEL_VACCINATIONS"] = "TRAVEL_VACCINATIONS";
@@ -41,7 +43,7 @@ export var QuickActionCode;
     QuickActionCode["DEPRESSION"] = "DEPRESSION";
     QuickActionCode["FEEL_HAPPY"] = "FEEL_HAPPY";
     QuickActionCode["BETTER_SLEEP"] = "BETTER_SLEEP";
-    QuickActionCode["CALM_MIND"] = "CALM_MIND";
+    QuickActionCode["STRESS_REDUCTION"] = "STRESS_REDUCTION";
     QuickActionCode["BURNOUT"] = "BURNOUT";
     QuickActionCode["NICOTINE_ADDICTION"] = "NICOTINE_ADDICTION";
     // SKIN_HAIR (Category 8)
@@ -56,7 +58,7 @@ export var QuickActionCode;
     QuickActionCode["JOINT_PAIN"] = "JOINT_PAIN";
     QuickActionCode["BACK_PAIN"] = "BACK_PAIN";
     QuickActionCode["NECK_PAIN"] = "NECK_PAIN";
-    QuickActionCode["SPORTS_INJURY"] = "SPORTS_INJURY";
+    QuickActionCode["INJURY"] = "INJURY";
     // ALLERGY (Category 11)
     QuickActionCode["POLLEN_ALLERGY"] = "POLLEN_ALLERGY";
     QuickActionCode["FOOD_ALLERGY"] = "FOOD_ALLERGY";

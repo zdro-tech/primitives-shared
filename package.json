@@ -60,7 +60,10 @@
     "postgres": "^3.4.5",
     "prexit": "^2.3.0",
     "redis": "^4.7.0",
-    "winston": "^3.17.0"
+    "winston": "^3.17.0",
+    "@google-cloud/vertexai": "^1.9.3",
+    "@google/generative-ai": "^0.22.0",
+    "get-value": "^4.0.1"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
@@ -74,8 +77,5 @@
     "eslint-plugin-import": "^2.31.0",
     "typescript": "^5.7.3"
   },
-  "dependencies": {
-    "@google-cloud/vertexai": "^1.9.3",
-    "@google/generative-ai": "^0.22.0"
-  }
+  "dependencies": {}
 }
