@@ -11,6 +11,7 @@ export interface ChatThread {
     class: ThreadClass
     stage: ThreadStageTypes
     language: string
+    quickAction: QuickActionCode;
     createdAt: Date
 }
 
