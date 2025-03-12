@@ -20,7 +20,7 @@ export interface BasicThreadRequest extends BasicAuthorizedRequest {
 
 export interface NewThreadRequest extends BasicAuthorizedRequest {
     language: string
-    metadata: { creationContext?: ThreadCreationContext }
+    metaData: { creationContext?: ThreadCreationContext }
 }
 
 export interface NewThreadMessageRequest extends BasicThreadRequest {
