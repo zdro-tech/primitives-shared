@@ -37,6 +37,7 @@ export enum QuickActionCode {
 
     // GENERAL_CONSULTATION (Category 2)
     FLU = 'FLU',
+    VACCINATIONS = 'VACCINATIONS',
     TRAVEL_VACCINATIONS = 'TRAVEL_VACCINATIONS',
 
     // LAB_TESTS (Category 3)

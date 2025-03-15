@@ -19,6 +19,7 @@ export var QuickActionCode;
     QuickActionCode["VACCINATION_REQUEST"] = "VACCINATION_REQUEST";
     // GENERAL_CONSULTATION (Category 2)
     QuickActionCode["FLU"] = "FLU";
+    QuickActionCode["VACCINATIONS"] = "VACCINATIONS";
     QuickActionCode["TRAVEL_VACCINATIONS"] = "TRAVEL_VACCINATIONS";
     // LAB_TESTS (Category 3)
     QuickActionCode["LAB_TESTS_EXPLANATIONS"] = "LAB_TESTS_EXPLANATIONS";
