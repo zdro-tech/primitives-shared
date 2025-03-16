@@ -146,7 +146,7 @@ export enum LabTestsThreadStage {
 
     //When not paid
     Ready_For_Automatic_Review = "Ready_For_Automatic_Review",
-    Treatment_Automatic_Discussion = "Treatment_Discussion",
+    Automatic_Treatment_Discussion = "Automatic_Treatment_Discussion",
 
     Closure = "Closure",
     Follow_Up = "Follow_Up",

@@ -109,7 +109,7 @@ export var LabTestsThreadStage;
     LabTestsThreadStage["Treatment_Discussion"] = "Treatment_Discussion";
     //When not paid
     LabTestsThreadStage["Ready_For_Automatic_Review"] = "Ready_For_Automatic_Review";
-    LabTestsThreadStage["Treatment_Automatic_Discussion"] = "Treatment_Discussion";
+    LabTestsThreadStage["Automatic_Treatment_Discussion"] = "Automatic_Treatment_Discussion";
     LabTestsThreadStage["Closure"] = "Closure";
     LabTestsThreadStage["Follow_Up"] = "Follow_Up";
     LabTestsThreadStage["Feedback"] = "Feedback";
