@@ -8,8 +8,6 @@ export * from './meds.js';
 export * from './chat-review.js';
 export * from './enrichment.js';
 export * from './events.js';
-export * from './appointment.js';
-export * from './prescriptions.js';
 export * from './tenant.js';
 export * from './payments.js';
 export * from './unread-messages.js';

@@ -33,6 +33,7 @@ export var QuickActionCode;
     QuickActionCode["CHILD_VACCINE"] = "CHILD_VACCINE";
     QuickActionCode["CHILD_FEVER"] = "CHILD_FEVER";
     QuickActionCode["CHILD_RASH"] = "CHILD_RASH";
+    QuickActionCode["CHILD_SLEEP"] = "CHILD_SLEEP";
     QuickActionCode["CHILD_BEHAVIOR"] = "CHILD_BEHAVIOR";
     // WEIGHT_MANAGEMENT (Category 6)
     QuickActionCode["LOSE_WEIGHT"] = "LOSE_WEIGHT";
@@ -51,6 +52,9 @@ export var QuickActionCode;
     QuickActionCode["ACNE_CARE"] = "ACNE_CARE";
     QuickActionCode["HAIR_REGROW"] = "HAIR_REGROW";
     QuickActionCode["SKIN_RASH"] = "SKIN_RASH";
+    QuickActionCode["DERMATITIS"] = "DERMATITIS";
+    QuickActionCode["PSORIASIS"] = "PSORIASIS";
+    QuickActionCode["SKIN_INFECTIONS"] = "SKIN_INFECTIONS";
     // DIGESTIVE (Category 9)
     QuickActionCode["BLOATING"] = "BLOATING";
     QuickActionCode["CONSTIPATION"] = "CONSTIPATION";
@@ -73,6 +77,9 @@ export var QuickActionCode;
     // Common across multiple categories
     QuickActionCode["OTHER_QUESTION"] = "OTHER_QUESTION";
 })(QuickActionCode || (QuickActionCode = {}));
+// DOCTOR_REFERRAL_REQUEST = "DOCTOR_REFERRAL_REQUEST",
+// LAB_TESTS_REQUEST = "LAB_TESTS_REQUEST",
+// LAB_TESTS_EXPLANATIONS = "LAB_TESTS_EXPLANATIONS"
 export var RegularComplaintThreadStage;
 (function (RegularComplaintThreadStage) {
     RegularComplaintThreadStage["Initiation"] = "Initiation";
@@ -88,11 +95,30 @@ export var RegularComplaintThreadStage;
     RegularComplaintThreadStage["Follow_Up"] = "Follow_Up";
     RegularComplaintThreadStage["Feedback"] = "Feedback";
 })(RegularComplaintThreadStage || (RegularComplaintThreadStage = {}));
-export const stageEqualOrComesAfter = (stage1, stage2) => {
+export var LabTestsThreadStage;
+(function (LabTestsThreadStage) {
+    LabTestsThreadStage["Initiation"] = "Initiation";
+    LabTestsThreadStage["Problem_Statement"] = "Problem_Statement";
+    LabTestsThreadStage["Assessment"] = "Assessment";
+    LabTestsThreadStage["Select_Payment_Option"] = "Select_Payment_Option";
+    //When paid
+    LabTestsThreadStage["Payment"] = "Payment";
+    LabTestsThreadStage["Ready_For_Doctor"] = "Ready_For_Doctor";
+    LabTestsThreadStage["Treatment_Plan"] = "Treatment_Plan";
+    LabTestsThreadStage["Diagnosis"] = "Diagnosis";
+    LabTestsThreadStage["Treatment_Discussion"] = "Treatment_Discussion";
+    //When not paid
+    LabTestsThreadStage["Ready_For_Automatic_Review"] = "Ready_For_Automatic_Review";
+    LabTestsThreadStage["Treatment_Automatic_Discussion"] = "Treatment_Discussion";
+    LabTestsThreadStage["Closure"] = "Closure";
+    LabTestsThreadStage["Follow_Up"] = "Follow_Up";
+    LabTestsThreadStage["Feedback"] = "Feedback";
+})(LabTestsThreadStage || (LabTestsThreadStage = {}));
+export const regularComplaintStageEqualOrComesAfter = (stage1, stage2) => {
     const order = Object.values(RegularComplaintThreadStage);
     return order.indexOf(stage1) >= order.indexOf(stage2);
 };
-export const stageComesAfter = (stage1, stage2) => {
+export const regularComplaintStageComesAfter = (stage1, stage2) => {
     const order = Object.values(RegularComplaintThreadStage);
     return order.indexOf(stage1) > order.indexOf(stage2);
 };

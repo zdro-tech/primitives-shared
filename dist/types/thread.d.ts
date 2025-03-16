@@ -1,13 +1,12 @@
 import { ChatMessage } from './chat-message.js';
 import { Patient } from './patient.js';
-import { PrescriptionThreadStage } from './prescriptions.js';
-export type ThreadStageTypes = RegularComplaintThreadStage | PrescriptionThreadStage;
+export type ThreadStageType = RegularComplaintThreadStage | PrescriptionThreadStage | SickLeaveThreadStage | VaccinationThreadStage | LabTestsThreadStage | LabTestsExplanationsThreadStage;
 export interface ChatThread {
     id: string;
     patientID: string;
     title: string;
     class: ThreadClass;
-    stage: ThreadStageTypes;
+    stage: ThreadStageType;
     language: string;
     quickAction: QuickActionCode;
     createdAt: Date;
@@ -40,6 +39,7 @@ export declare enum QuickActionCode {
     CHILD_VACCINE = "CHILD_VACCINE",
     CHILD_FEVER = "CHILD_FEVER",
     CHILD_RASH = "CHILD_RASH",
+    CHILD_SLEEP = "CHILD_SLEEP",
     CHILD_BEHAVIOR = "CHILD_BEHAVIOR",
     LOSE_WEIGHT = "LOSE_WEIGHT",
     WEIGHT_GAIN = "WEIGHT_GAIN",
@@ -55,6 +55,9 @@ export declare enum QuickActionCode {
     ACNE_CARE = "ACNE_CARE",
     HAIR_REGROW = "HAIR_REGROW",
     SKIN_RASH = "SKIN_RASH",
+    DERMATITIS = "DERMATITIS",
+    PSORIASIS = "PSORIASIS",
+    SKIN_INFECTIONS = "SKIN_INFECTIONS",
     BLOATING = "BLOATING",
     CONSTIPATION = "CONSTIPATION",
     STOMACH_COMFORT = "STOMACH_COMFORT",
@@ -86,18 +89,31 @@ export declare enum RegularComplaintThreadStage {
     Follow_Up = "Follow_Up",//when patient is providing follow up information after some time,
     Feedback = "Feedback"
 }
-export declare const stageEqualOrComesAfter: (stage1: RegularComplaintThreadStage, stage2: RegularComplaintThreadStage) => boolean;
-export declare const stageComesAfter: (stage1: RegularComplaintThreadStage, stage2: RegularComplaintThreadStage) => boolean;
+export type PrescriptionThreadStage = RegularComplaintThreadStage;
+export type SickLeaveThreadStage = RegularComplaintThreadStage;
+export type VaccinationThreadStage = RegularComplaintThreadStage;
+export type DoctorReferralThreadStage = RegularComplaintThreadStage;
+export declare enum LabTestsThreadStage {
+    Initiation = "Initiation",
+    Problem_Statement = "Problem_Statement",
+    Assessment = "Assessment",
+    Select_Payment_Option = "Select_Payment_Option",
+    Payment = "Payment",
+    Ready_For_Doctor = "Ready_For_Doctor",
+    Treatment_Plan = "Treatment_Plan",
+    Diagnosis = "Diagnosis",
+    Treatment_Discussion = "Treatment_Discussion",
+    Ready_For_Automatic_Review = "Ready_For_Automatic_Review",
+    Treatment_Automatic_Discussion = "Treatment_Discussion",
+    Closure = "Closure",
+    Follow_Up = "Follow_Up",
+    Feedback = "Feedback"
+}
+export type LabTestsExplanationsThreadStage = RegularComplaintThreadStage;
+export declare const regularComplaintStageEqualOrComesAfter: (stage1: RegularComplaintThreadStage, stage2: RegularComplaintThreadStage) => boolean;
+export declare const regularComplaintStageComesAfter: (stage1: RegularComplaintThreadStage, stage2: RegularComplaintThreadStage) => boolean;
 export interface GenericReply {
     message: string;
-}
-export interface GreetingsReply extends GenericReply {
-}
-export interface NoOfftopicReply extends GenericReply {
-}
-export interface EllaborateReply extends GenericReply {
-}
-export interface SummarizeCompaint extends GenericReply {
 }
 export interface TenantConfiguation {
     paymentEnabled: boolean;

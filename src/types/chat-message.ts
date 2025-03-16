@@ -1,11 +1,11 @@
-import { ThreadStageTypes } from "./thread.js"
+import { ThreadStageType } from "./thread.js"
 
 export interface ChatMessage {
     id: number
     text: string
     status: MessagePropagation
     author: MessageAuthor
-    threadStage: ThreadStageTypes
+    threadStage: ThreadStageType
     messageClass: MessageClass
     type: MessageType
     createdAt: Date,
