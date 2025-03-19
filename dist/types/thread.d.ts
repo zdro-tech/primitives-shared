@@ -1,6 +1,6 @@
 import { ChatMessage } from './chat-message.js';
 import { Patient } from './patient.js';
-export type ThreadStageType = RegularComplaintThreadStage | PrescriptionThreadStage | SickLeaveThreadStage | VaccinationThreadStage | LabTestsThreadStage | LabTestsExplanationsThreadStage;
+export type ThreadStageType = RegularComplaintThreadStage | PrescriptionThreadStage | SickLeaveThreadStage | VaccinationThreadStage | LabTestsThreadStage | LabTestsExplanationsThreadStage | any;
 export interface ChatThread {
     id: string;
     patientID: string;
@@ -89,11 +89,7 @@ export declare enum RegularComplaintThreadStage {
     Follow_Up = "Follow_Up",//when patient is providing follow up information after some time,
     Feedback = "Feedback"
 }
-export type PrescriptionThreadStage = RegularComplaintThreadStage;
-export type SickLeaveThreadStage = RegularComplaintThreadStage;
-export type VaccinationThreadStage = RegularComplaintThreadStage;
-export type DoctorReferralThreadStage = RegularComplaintThreadStage;
-export declare enum LabTestsThreadStage {
+export declare enum FreemiumThreadStage {
     Initiation = "Initiation",
     Problem_Statement = "Problem_Statement",
     Assessment = "Assessment",
@@ -110,7 +106,12 @@ export declare enum LabTestsThreadStage {
     Follow_Up = "Follow_Up",
     Feedback = "Feedback"
 }
-export type LabTestsExplanationsThreadStage = RegularComplaintThreadStage;
+export type PrescriptionThreadStage = RegularComplaintThreadStage;
+export type SickLeaveThreadStage = RegularComplaintThreadStage;
+export type VaccinationThreadStage = RegularComplaintThreadStage;
+export type DoctorReferralThreadStage = RegularComplaintThreadStage;
+export type LabTestsThreadStage = FreemiumThreadStage;
+export type LabTestsExplanationsThreadStage = FreemiumThreadStage;
 export declare const regularComplaintStageEqualOrComesAfter: (stage1: RegularComplaintThreadStage, stage2: RegularComplaintThreadStage) => boolean;
 export declare const regularComplaintStageComesAfter: (stage1: RegularComplaintThreadStage, stage2: RegularComplaintThreadStage) => boolean;
 export interface GenericReply {

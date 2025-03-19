@@ -95,26 +95,26 @@ export var RegularComplaintThreadStage;
     RegularComplaintThreadStage["Follow_Up"] = "Follow_Up";
     RegularComplaintThreadStage["Feedback"] = "Feedback";
 })(RegularComplaintThreadStage || (RegularComplaintThreadStage = {}));
-export var LabTestsThreadStage;
-(function (LabTestsThreadStage) {
-    LabTestsThreadStage["Initiation"] = "Initiation";
-    LabTestsThreadStage["Problem_Statement"] = "Problem_Statement";
-    LabTestsThreadStage["Assessment"] = "Assessment";
-    LabTestsThreadStage["Select_Payment_Option"] = "Select_Payment_Option";
+export var FreemiumThreadStage;
+(function (FreemiumThreadStage) {
+    FreemiumThreadStage["Initiation"] = "Initiation";
+    FreemiumThreadStage["Problem_Statement"] = "Problem_Statement";
+    FreemiumThreadStage["Assessment"] = "Assessment";
+    FreemiumThreadStage["Select_Payment_Option"] = "Select_Payment_Option";
     //When paid
-    LabTestsThreadStage["Payment"] = "Payment";
-    LabTestsThreadStage["Ready_For_Doctor"] = "Ready_For_Doctor";
-    LabTestsThreadStage["Treatment_Plan"] = "Treatment_Plan";
-    LabTestsThreadStage["Diagnosis"] = "Diagnosis";
-    LabTestsThreadStage["Treatment_Discussion"] = "Treatment_Discussion";
+    FreemiumThreadStage["Payment"] = "Payment";
+    FreemiumThreadStage["Ready_For_Doctor"] = "Ready_For_Doctor";
+    FreemiumThreadStage["Treatment_Plan"] = "Treatment_Plan";
+    FreemiumThreadStage["Diagnosis"] = "Diagnosis";
+    FreemiumThreadStage["Treatment_Discussion"] = "Treatment_Discussion";
     //When not paid
-    LabTestsThreadStage["Ready_For_Automatic_Review"] = "Ready_For_Automatic_Review";
-    LabTestsThreadStage["Automatic_Diagnosis"] = "Automatic_Diagnosis";
-    LabTestsThreadStage["Automatic_Treatment_Discussion"] = "Automatic_Treatment_Discussion";
-    LabTestsThreadStage["Closure"] = "Closure";
-    LabTestsThreadStage["Follow_Up"] = "Follow_Up";
-    LabTestsThreadStage["Feedback"] = "Feedback";
-})(LabTestsThreadStage || (LabTestsThreadStage = {}));
+    FreemiumThreadStage["Ready_For_Automatic_Review"] = "Ready_For_Automatic_Review";
+    FreemiumThreadStage["Automatic_Diagnosis"] = "Automatic_Diagnosis";
+    FreemiumThreadStage["Automatic_Treatment_Discussion"] = "Automatic_Treatment_Discussion";
+    FreemiumThreadStage["Closure"] = "Closure";
+    FreemiumThreadStage["Follow_Up"] = "Follow_Up";
+    FreemiumThreadStage["Feedback"] = "Feedback";
+})(FreemiumThreadStage || (FreemiumThreadStage = {}));
 export const regularComplaintStageEqualOrComesAfter = (stage1, stage2) => {
     const order = Object.values(RegularComplaintThreadStage);
     return order.indexOf(stage1) >= order.indexOf(stage2);
