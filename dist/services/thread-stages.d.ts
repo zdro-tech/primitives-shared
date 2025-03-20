@@ -1,9 +1,24 @@
 import { ThreadClass, ThreadStageType } from "../types/thread.js";
+export declare const isThreadFreemium: (clasz?: ThreadClass) => boolean;
 export declare const isThreadOutcomeReady: (stage: ThreadStageType, clasz?: ThreadClass) => boolean;
-export declare const getOutcomeIsReadyStage: (clasz?: ThreadClass) => ThreadStageType;
 export declare const hasDoctorJoinedTheThread: (stage: ThreadStageType, clasz?: ThreadClass) => boolean;
 export declare const canCloseTheThread: (stage: ThreadStageType, clasz?: ThreadClass) => boolean;
 export declare const isThreadClosed: (stage: ThreadStageType, clasz?: ThreadClass) => boolean;
 export declare const isThreadInPaymentMode: (stage: ThreadStageType, clasz?: ThreadClass) => boolean;
 export declare const isThreadPaid: (stage: ThreadStageType, clasz?: ThreadClass) => boolean;
+export declare const getInitiationStage: (clasz?: ThreadClass) => ThreadStageType;
+export declare const getProblemStatementStage: (clasz?: ThreadClass) => ThreadStageType;
+export declare const getAssessmentStage: (clasz?: ThreadClass) => ThreadStageType;
+export declare const getQuestionsToDoctorStage: (clasz?: ThreadClass) => ThreadStageType | undefined;
+export declare const getPaymentStage: (clasz?: ThreadClass) => ThreadStageType;
+export declare const getReadyForDoctorStage: (clasz?: ThreadClass) => ThreadStageType;
+export declare const getTreatmentPlanStage: (clasz?: ThreadClass) => ThreadStageType;
+export declare const getOutcomeIsReadyStage: (clasz?: ThreadClass) => ThreadStageType;
+export declare const getTreatmentDiscussionStage: (clasz?: ThreadClass) => ThreadStageType;
+export declare const getClosureStage: (clasz?: ThreadClass) => ThreadStageType;
+export declare const getFollowUpStage: (clasz?: ThreadClass) => ThreadStageType;
+export declare const getFeedbackStage: (clasz?: ThreadClass) => ThreadStageType;
+export declare const getReadyForAutomaticReviewStage: (clasz?: ThreadClass) => ThreadStageType;
+export declare const getAutomaticDiagnosisStage: (clasz?: ThreadClass) => ThreadStageType;
+export declare const getAutomaticTreatmentDiscussionStage: (clasz?: ThreadClass) => ThreadStageType;
 //# sourceMappingURL=thread-stages.d.ts.map
