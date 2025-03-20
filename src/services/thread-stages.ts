@@ -119,7 +119,7 @@ export const getTreatmentPlanStage = (clasz = ThreadClass.DOCTOR_CONSULTATION): 
 export const getOutcomeIsReadyStage = (clasz = ThreadClass.DOCTOR_CONSULTATION): ThreadStageType =>
     NORMAL_PAID_THREADS.includes(clasz)
         ? RegularComplaintThreadStage.Diagnosis
-        : FreemiumThreadStage.Automatic_Diagnosis;
+        : FreemiumThreadStage.Diagnosis;
 
 export const getTreatmentDiscussionStage = (clasz = ThreadClass.DOCTOR_CONSULTATION): ThreadStageType =>
     NORMAL_PAID_THREADS.includes(clasz)
