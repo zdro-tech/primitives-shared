@@ -90,7 +90,7 @@ export const getTreatmentPlanStage = (clasz = ThreadClass.DOCTOR_CONSULTATION) =
     : FreemiumThreadStage.Treatment_Plan;
 export const getOutcomeIsReadyStage = (clasz = ThreadClass.DOCTOR_CONSULTATION) => NORMAL_PAID_THREADS.includes(clasz)
     ? RegularComplaintThreadStage.Diagnosis
-    : FreemiumThreadStage.Automatic_Diagnosis;
+    : FreemiumThreadStage.Diagnosis;
 export const getTreatmentDiscussionStage = (clasz = ThreadClass.DOCTOR_CONSULTATION) => NORMAL_PAID_THREADS.includes(clasz)
     ? RegularComplaintThreadStage.Treatment_Discussion
     : FreemiumThreadStage.Automatic_Treatment_Discussion;
