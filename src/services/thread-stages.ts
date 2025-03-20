@@ -1,21 +1,35 @@
 import { FreemiumThreadStage, RegularComplaintThreadStage, ThreadClass, ThreadStageType } from "../types/thread.js"
 
-const NORMAL_PAID_THREADS = [ThreadClass.DOCTOR_CONSULTATION, ThreadClass.SICK_LEAVE_RELATED,
+//Threads by type
+export const NORMAL_PAID_THREADS = [ThreadClass.DOCTOR_CONSULTATION, ThreadClass.SICK_LEAVE_RELATED,
 ThreadClass.PRESCRIPTION_RELATED, ThreadClass.VACCINATION_REQUEST,
 ThreadClass.DOCTOR_REFERRAL_REQUEST]
-const FREEMIUM_THREADS = [ThreadClass.LAB_TESTS_EXPLANATIONS, ThreadClass.LAB_TESTS_REQUEST]
+export const FREEMIUM_THREADS = [ThreadClass.LAB_TESTS_EXPLANATIONS, ThreadClass.LAB_TESTS_REQUEST]
 
-const NORMAL_PAID_THREADS_OUTCOME_IS_READY = [RegularComplaintThreadStage.Diagnosis, RegularComplaintThreadStage.Treatment_Discussion,
+export const NORMAL_PAID_THREADS_NOT_YET_PAID = [RegularComplaintThreadStage.Initiation,
+RegularComplaintThreadStage.Problem_Statement,
+RegularComplaintThreadStage.Assessment,
+RegularComplaintThreadStage.Questions_To_Doctor,
+RegularComplaintThreadStage.Payment]
+
+export const FREEMIUM_THREADS_NOT_YET_PAID = [
+    FreemiumThreadStage.Initiation, FreemiumThreadStage.Problem_Statement,
+    FreemiumThreadStage.Assessment, FreemiumThreadStage.Select_Payment_Option,
+    FreemiumThreadStage.Payment, FreemiumThreadStage.Ready_For_Automatic_Review,
+    FreemiumThreadStage.Automatic_Diagnosis, FreemiumThreadStage.Automatic_Treatment_Discussion,
+]
+
+export const NORMAL_PAID_THREADS_OUTCOME_IS_READY = [RegularComplaintThreadStage.Diagnosis, RegularComplaintThreadStage.Treatment_Discussion,
 RegularComplaintThreadStage.Closure, RegularComplaintThreadStage.Follow_Up]
-const FREEMIUM_THREADS_OUTCOME_IS_READY = [FreemiumThreadStage.Diagnosis, FreemiumThreadStage.Treatment_Discussion,
+export const FREEMIUM_THREADS_OUTCOME_IS_READY = [FreemiumThreadStage.Diagnosis, FreemiumThreadStage.Treatment_Discussion,
 FreemiumThreadStage.Closure, FreemiumThreadStage.Follow_Up,
 FreemiumThreadStage.Automatic_Diagnosis, FreemiumThreadStage.Automatic_Treatment_Discussion]
 
-const NORMAL_PAID_THREADS_DOCTOR_JOINED = [...[RegularComplaintThreadStage.Treatment_Plan], ...NORMAL_PAID_THREADS_OUTCOME_IS_READY]
-const FREEMIUM_THREADS_DOCTOR_JOINED = FREEMIUM_THREADS_OUTCOME_IS_READY
+export const NORMAL_PAID_THREADS_DOCTOR_JOINED = [...[RegularComplaintThreadStage.Treatment_Plan], ...NORMAL_PAID_THREADS_OUTCOME_IS_READY]
+export const FREEMIUM_THREADS_DOCTOR_JOINED = FREEMIUM_THREADS_OUTCOME_IS_READY
 
-const NORMAL_PAID_THREADS_PAID = [...[RegularComplaintThreadStage.Ready_For_Doctor, RegularComplaintThreadStage.Treatment_Plan], ...NORMAL_PAID_THREADS_OUTCOME_IS_READY]
-const FREEMIUM_THREADS_PAID = [...[FreemiumThreadStage.Ready_For_Doctor, FreemiumThreadStage.Treatment_Plan], ...FREEMIUM_THREADS_OUTCOME_IS_READY]
+export const NORMAL_PAID_THREADS_PAID = [...[RegularComplaintThreadStage.Ready_For_Doctor, RegularComplaintThreadStage.Treatment_Plan], ...NORMAL_PAID_THREADS_OUTCOME_IS_READY]
+export const FREEMIUM_THREADS_PAID = [...[FreemiumThreadStage.Ready_For_Doctor, FreemiumThreadStage.Treatment_Plan], ...FREEMIUM_THREADS_OUTCOME_IS_READY]
 
 export const isThreadFreemium = (clasz = ThreadClass.DOCTOR_CONSULTATION): boolean => {
     if (FREEMIUM_THREADS.includes(clasz)) {
@@ -65,9 +79,6 @@ export const isThreadPaid = (stage: ThreadStageType, clasz = ThreadClass.DOCTOR_
     }
     return FREEMIUM_THREADS_PAID.includes(stage)
 }
-
-
-
 
 export const getInitiationStage = (clasz = ThreadClass.DOCTOR_CONSULTATION): ThreadStageType =>
     NORMAL_PAID_THREADS.includes(clasz)
