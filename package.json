@@ -10,6 +10,7 @@
     "./configuration": "./dist/configuration/index.js",
     "./logger": "./dist/logger/index.js",
     "./ml": "./dist/ml/index.js",
+    "./services": "./dist/services/index.js",
     "./tracing": "./dist/tracing/index.js",
     "./types": "./dist/types/index.js",
     "./i18n": "./dist/i18n/index.js",
