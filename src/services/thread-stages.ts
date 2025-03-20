@@ -143,22 +143,13 @@ export const getFeedbackStage = (clasz = ThreadClass.DOCTOR_CONSULTATION): Threa
 
 
 export const getReadyForAutomaticReviewStage = (clasz = ThreadClass.DOCTOR_CONSULTATION): ThreadStageType => {
-    if (NORMAL_PAID_THREADS.includes(clasz)) {
-        throw new Error("Ready_For_Automatic_Review stage is not available for regular paid threads.");
-    }
     return FreemiumThreadStage.Ready_For_Automatic_Review;
 };
 
 export const getAutomaticDiagnosisStage = (clasz = ThreadClass.DOCTOR_CONSULTATION): ThreadStageType => {
-    if (NORMAL_PAID_THREADS.includes(clasz)) {
-        throw new Error("Automatic_Diagnosis stage is not available for regular paid threads.");
-    }
     return FreemiumThreadStage.Automatic_Diagnosis;
 };
 
 export const getAutomaticTreatmentDiscussionStage = (clasz = ThreadClass.DOCTOR_CONSULTATION): ThreadStageType => {
-    if (NORMAL_PAID_THREADS.includes(clasz)) {
-        throw new Error("Automatic_Treatment_Discussion stage is not available for regular paid threads.");
-    }
     return FreemiumThreadStage.Automatic_Treatment_Discussion;
 };
