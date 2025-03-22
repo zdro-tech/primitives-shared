@@ -1,4 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
+import { clearFromWrappingTags } from './ml-basics.js';
 let anthropic;
 export const getAnthropicClient = () => {
     if (!process.env.ANTHROPIC_API_KEY) {
@@ -22,9 +23,12 @@ export const newClaudeCompletion = async (messages, model, mode) => {
     const message = await getAnthropicClient().messages.create({
         ...defaultClaudeSettings, ...{ model, messages: userMessages, system: systemMessage }
     });
-    const stringContent = message.content
+    let stringContent = message.content
         .filter((block) => block.type === 'text')
         .map(block => block.text)
         .join('');
+    if (mode === 'json') {
+        stringContent = clearFromWrappingTags(stringContent);
+    }
     return [{ message: { content: stringContent } }];
 };

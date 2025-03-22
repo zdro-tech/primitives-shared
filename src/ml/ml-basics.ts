@@ -150,8 +150,12 @@ export const parseFirstCompletion = (choices: Array<ChatCompletion.Choice>): any
 
 export const cleanFirstCompletion = (choices: Array<ChatCompletion.Choice>): string => {
     const reply = choices[0]?.message?.content ?? "";
-    return reply.replace(/```(json|markdown)?/g, '').trim();
+    return clearFromWrappingTags(reply)
 };
+
+export const clearFromWrappingTags = (text: string): string => {
+    return text?.replace(/```(json|markdown)?/g, '')?.trim();
+}
 
 export const getMessageRole = (message: any): string => {
     return [MessageAuthor.Bot, MessageAuthor.Doctor].includes(message.author) ? "assistant" : "user"

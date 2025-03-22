@@ -138,7 +138,10 @@ export const parseFirstCompletion = (choices) => {
 };
 export const cleanFirstCompletion = (choices) => {
     const reply = choices[0]?.message?.content ?? "";
-    return reply.replace(/```(json|markdown)?/g, '').trim();
+    return clearFromWrappingTags(reply);
+};
+export const clearFromWrappingTags = (text) => {
+    return text?.replace(/```(json|markdown)?/g, '')?.trim();
 };
 export const getMessageRole = (message) => {
     return [MessageAuthor.Bot, MessageAuthor.Doctor].includes(message.author) ? "assistant" : "user";
