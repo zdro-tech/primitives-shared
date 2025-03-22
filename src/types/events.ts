@@ -77,3 +77,9 @@ export interface SignInAuthCodeVariables {
 export interface ThreadUpdateVariables {
   threadID: string;
 }
+
+export interface PatientSignedUpEvent {
+  id: string
+  email: string
+  tenantId: number
+}
