@@ -18,4 +18,5 @@ export * from './ezdrowie.js';
 export * from './patient.js';
 export * from './categories.js';
 export * from './condition.js';
+export * from './risks.js';
 //# sourceMappingURL=index.d.ts.map
