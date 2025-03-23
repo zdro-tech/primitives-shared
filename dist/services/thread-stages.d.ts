@@ -27,7 +27,6 @@ export declare const getOutcomeIsReadyStage: (clasz?: ThreadClass) => ThreadStag
 export declare const getTreatmentDiscussionStage: (clasz?: ThreadClass) => ThreadStageType;
 export declare const getClosureStage: (clasz?: ThreadClass) => ThreadStageType;
 export declare const getFollowUpStage: (clasz?: ThreadClass) => ThreadStageType;
-export declare const getFeedbackStage: (clasz?: ThreadClass) => ThreadStageType;
 export declare const getReadyForAutomaticReviewStage: (clasz?: ThreadClass) => ThreadStageType;
 export declare const getAutomaticDiagnosisStage: (clasz?: ThreadClass) => ThreadStageType;
 export declare const getAutomaticTreatmentDiscussionStage: (clasz?: ThreadClass) => ThreadStageType;

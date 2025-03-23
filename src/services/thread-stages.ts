@@ -95,7 +95,6 @@ export const getAssessmentStage = (clasz = ThreadClass.DOCTOR_CONSULTATION): Thr
         ? RegularComplaintThreadStage.Assessment
         : FreemiumThreadStage.Assessment;
 
-// Only applicable for regular threads.
 export const getQuestionsToDoctorStage = (clasz = ThreadClass.DOCTOR_CONSULTATION): ThreadStageType | undefined =>
     NORMAL_PAID_THREADS.includes(clasz)
         ? RegularComplaintThreadStage.Questions_To_Doctor
@@ -135,12 +134,6 @@ export const getFollowUpStage = (clasz = ThreadClass.DOCTOR_CONSULTATION): Threa
     NORMAL_PAID_THREADS.includes(clasz)
         ? RegularComplaintThreadStage.Follow_Up
         : FreemiumThreadStage.Follow_Up;
-
-export const getFeedbackStage = (clasz = ThreadClass.DOCTOR_CONSULTATION): ThreadStageType =>
-    NORMAL_PAID_THREADS.includes(clasz)
-        ? RegularComplaintThreadStage.Feedback
-        : FreemiumThreadStage.Feedback;
-
 
 export const getReadyForAutomaticReviewStage = (clasz = ThreadClass.DOCTOR_CONSULTATION): ThreadStageType => {
     return FreemiumThreadStage.Ready_For_Automatic_Review;
