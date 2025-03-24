@@ -22,7 +22,7 @@ export const createAuthMiddleware = (requiredGroups: string[], awsRegion: string
       }
 
       if (!isTokenWithinValidTime(decodedToken)) {
-        res.status(401).send({ error: 'Invalid token' });
+        res.status(401).send({ error: 'Token expired' });
         return;
       }
       res.locals.decodedToken = decodedToken;
@@ -33,3 +33,28 @@ export const createAuthMiddleware = (requiredGroups: string[], awsRegion: string
     }
   };
 }
+
+export const createOptionalAuthMiddleware = (
+  requiredGroups: string[],
+  awsRegion: string,
+  poolID: string,
+  cookieName?: string
+): (req: Request, res: Response, next: NextFunction) => Promise<void> => {
+  return async (req, res, next): Promise<void> => {
+    let token = req.headers.authorization;
+    if (cookieName && !token) token = req.cookies[cookieName];
+    if (!token) {
+      return next();
+    }
+    try {
+      const decodedToken = await parseCognitoToken(token, awsRegion, poolID);
+      if (requiredGroups?.length && !isTokenValid(decodedToken, requiredGroups) || !isTokenWithinValidTime(decodedToken)) {
+        return next();
+      }
+      res.locals.decodedToken = decodedToken;
+      next();
+    } catch (error: any) {
+      next();
+    }
+  };
+};
