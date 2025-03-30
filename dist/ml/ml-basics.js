@@ -93,8 +93,20 @@ export const newMLCompletion = async (messages, model, mode = "json") => {
     }
     catch (e) {
         logger.error(`Error in newMLCompletion ${model}`, e);
+        try {
+            return await newGCPCompletion(messages, ExecutionModel.GEMINI_2_0_FLASH, mode);
+        }
+        catch (e) {
+            logger.error(`Error in in falling back competion to GCP ${model} with fallback`, e);
+        }
+        try {
+            return await newClaudeCompletion(messages, ExecutionModel.CLAUDE_3_7_SONNET, mode);
+        }
+        catch (e) {
+            logger.error(`Error in in falling back competion to Anthropic  ${model} with fallback`, e);
+        }
     }
-    return await new4Completition(messages, mode);
+    return await new4oCompletition(messages, mode);
 };
 export const processRawMessages = async (messages, language, model, mode = "json") => {
     return cleanFirstCompletion(await newMLCompletion(messages, model, mode));
