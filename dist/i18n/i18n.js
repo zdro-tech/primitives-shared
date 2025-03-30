@@ -5,7 +5,7 @@ export const findI18NLabelInTexts = (texts, lang, key) => {
     if (typeof langTexts !== 'object' || langTexts === null)
         return key;
     const value = get(langTexts, key);
-    return value ?? key;
+    return value ?? '';
 };
 export const hasI18NKey = (texts, lang, key) => {
     const langTexts = texts[lang] ?? texts[DEFAULT_LANGUAGE];
