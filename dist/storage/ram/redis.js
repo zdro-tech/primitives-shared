@@ -5,8 +5,9 @@ const redisClient = createClient({
     socket: {
         host: process.env.REDIS_HOST,
         port: parseInt(process.env.REDIS_PORT ?? '6379'),
-        ...(process.env.REDIS_PASSWORD && { tls: true, password: process.env.REDIS_PASSWORD }),
+        ...(process.env.REDIS_PASSWORD && { tls: true }),
     },
+    ...(process.env.REDIS_PASSWORD && { password: process.env.REDIS_PASSWORD }),
 });
 const connectRedis = async () => {
     await redisClient.connect();
