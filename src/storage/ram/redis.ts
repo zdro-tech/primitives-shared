@@ -1,4 +1,4 @@
-import { createClient } from "redis";
+import { createClient, RedisClientOptions } from "redis";
 import prexit from "prexit";
 import { logger } from "../../logger/logger.js";
 
@@ -6,10 +6,9 @@ const redisClient = createClient({
     socket: {
         host: process.env.REDIS_HOST,
         port: parseInt(process.env.REDIS_PORT ?? '6379'),
-        ...(process.env.REDIS_PASSWORD && { passphrase: process.env.REDIS_PASSWORD }),
+        ...(process.env.REDIS_PASSWORD && { tls: true, password: process.env.REDIS_PASSWORD }),
     },
-});
-
+} as RedisClientOptions);
 
 const connectRedis = async () => {
     await redisClient.connect();
