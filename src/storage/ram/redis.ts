@@ -9,14 +9,14 @@ const redisClient = createClient({
         ...(process.env.REDIS_PASSWORD && { tls: true }),
     },
     ...(process.env.REDIS_PASSWORD && { password: process.env.REDIS_PASSWORD }),
-    
+
 } as RedisClientOptions);
 
 const connectRedis = async () => {
     await redisClient.connect();
-    const pong = await redisClient.ping();
+    // const pong = await redisClient.ping();
     logger.debug(`Connecting to Redis with REDIS_HOST: ${process.env.REDIS_HOST} and REDIS_PORT: ${process.env.REDIS_PORT}`);
-    logger.debug(`Redis ping reply is: ${pong}`);
+    // logger.debug(`Redis ping reply is: ${pong}`);
 };
 
 await connectRedis()
