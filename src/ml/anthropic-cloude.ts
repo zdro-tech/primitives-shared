@@ -10,7 +10,10 @@ export const getAnthropicClient = () => {
 
     if (!anthropic) {
         anthropic = new Anthropic({
-            apiKey: process.env.ANTHROPIC_API_KEY
+            apiKey: process.env.ANTHROPIC_API_KEY,
+            defaultHeaders: {
+                'anthropic-beta': 'structured-outputs-2025-11-13'
+            }
         });
     }
     return anthropic;
@@ -18,28 +21,37 @@ export const getAnthropicClient = () => {
 
 export const defaultClaudeSettings = {
     model: "claude-sonnet-4-5-20250929",
-    max_tokens: 4096,
+    max_completion_tokens: 8192,
+    max_tokens: 8192,
     temperature: 0.3
-}
-
-// Extract content from markdown code blocks (with or without language specifier)
-const extractFromMarkdown = (text: string): string => {
-    const match = text.match(/```(?:json|markdown)?\s*([\s\S]*?)\s*```/);
-    return match && match[1] ? match[1].trim() : text;
 };
 
 export const newClaudeCompletion = async (messages: Array<ChatCompletionMessageParam>, model: string, mode?: string): Promise<ChatCompletion.Choice[]> => {
     const systemMessage = messages.filter(m => m.role === "system").map(m => m.content).join("\n\n ")
     const userMessages = messages.filter(m => m.role !== "system") as Array<MessageParam>
-    const message = await getAnthropicClient().messages.create({
-        ...defaultClaudeSettings, ...{ model, messages: userMessages, system: systemMessage }
-    } as MessageCreateParamsNonStreaming);
-    let stringContent = message.content
+
+    const params: any = {
+        ...defaultClaudeSettings,
+        model,
+        messages: userMessages,
+        system: systemMessage
+    };
+
+    if (mode === 'json') {
+        params.output_format = {
+            type: 'json_schema',
+            schema: {
+                type: 'object',
+                additionalProperties: true
+            }
+        };
+    }
+
+    const message = await getAnthropicClient().messages.create(params as MessageCreateParamsNonStreaming);
+    const stringContent = message.content
         .filter((block) => block.type === 'text')
         .map(block => block.text)
         .join('');
-    if (mode === 'json') {
-        stringContent = extractFromMarkdown(stringContent);
-    }
+
     return [{ message: { content: stringContent } as ChatCompletionMessage }] as ChatCompletion.Choice[]
 }

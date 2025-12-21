@@ -9,10 +9,9 @@ export const getGroqClient = () => {
     }
     return groqClient;
 };
-// Groq uses max_tokens (OpenAI-compatible)
 export const defaultGroqSettings = {
     temperature: 0.4,
-    max_tokens: 3072,
+    max_completion_tokens: 8192,
 };
 export const newGroqCompletion = async (messages, model, mode) => {
     const settings = { ...defaultGroqSettings, messages: messages, model: model };

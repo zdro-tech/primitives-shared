@@ -21,7 +21,7 @@ export const getOpenAIClient = () => {
 export const defaultOpenAISettings = {
   temperature: 0.4,
   n: 1,
-  max_tokens: 3072,
+  max_completion_tokens: 8192,
 } as ChatCompletionCreateParamsNonStreaming;
 
 export const createChatCompletion = async (params: ChatCompletionCreateParamsNonStreaming, mode = 'json'): Promise<ChatCompletion.Choice[]> => {
@@ -35,77 +35,40 @@ export const createChatCompletion = async (params: ChatCompletionCreateParamsNon
   }, retryOptions);
 };
 
-export const new4oMiniCompletition = async (
-  messages: ChatCompletionMessageParam[],
-  mode?: string
-): Promise<ChatCompletion.Choice[]> =>
-  await createChatCompletion({ ...defaultOpenAISettings, model: "gpt-4o-mini", messages }, mode);
-
-export const new4oCompletition = async (
-  messages: ChatCompletionMessageParam[],
-  mode?: string
-): Promise<ChatCompletion.Choice[]> =>
-  await createChatCompletion({ ...defaultOpenAISettings, model: "gpt-4o", messages }, mode);
-
-export const newO1MiniCompletition = async (
-  messages: ChatCompletionMessageParam[],
-  mode?: string
-): Promise<ChatCompletion.Choice[]> =>
-  await createChatCompletion({ model: "o1-mini", max_completion_tokens: 3072, messages }, mode);
-
-export const new4Completition = async (
-  messages: ChatCompletionMessageParam[],
-  mode?: string
-): Promise<ChatCompletion.Choice[]> =>
-  await createChatCompletion({ ...defaultOpenAISettings, model: "gpt-4-turbo", messages }, mode);
-
-export const new35Completition = async (
-  messages: ChatCompletionMessageParam[],
-  mode?: string
-): Promise<ChatCompletion.Choice[]> =>
-  await createChatCompletion({ ...defaultOpenAISettings, model: "gpt-3.5-turbo-0125", messages });
-
 export const newO3MiniCompletition = async (
   messages: ChatCompletionMessageParam[],
   mode?: string
 ): Promise<ChatCompletion.Choice[]> =>
-  await createChatCompletion({ model: "o3-mini", reasoning_effort: "medium", messages, max_completion_tokens: 3072 }, mode);
+  await createChatCompletion({ model: "o3-mini", reasoning_effort: "medium", messages, max_completion_tokens: 8192 }, mode);
 
 export const newO3MiniHighCompletition = async (
   messages: ChatCompletionMessageParam[],
   mode?: string
 ): Promise<ChatCompletion.Choice[]> =>
-  await createChatCompletion({ model: "o3-mini", reasoning_effort: "high", messages, max_completion_tokens: 3072 }, mode);
-
-
-export const newO1Completition = async (
-  messages: ChatCompletionMessageParam[],
-  mode?: string
-): Promise<ChatCompletion.Choice[]> =>
-  await createChatCompletion({ model: "o1", messages, max_completion_tokens: 3072, temperature: 1 }, mode);
+  await createChatCompletion({ model: "o3-mini", reasoning_effort: "high", messages, max_completion_tokens: 8192 }, mode);
 
 export const newGPT52Completition = async (
   messages: ChatCompletionMessageParam[],
   mode?: string
 ): Promise<ChatCompletion.Choice[]> =>
-  await createChatCompletion({ ...defaultOpenAISettings, model: "gpt-5.2", messages, max_tokens: 8192 }, mode);
+  await createChatCompletion({ model: "gpt-5.2", temperature: 0.4, messages, max_completion_tokens: 8192 }, mode);
 
 export const newGPT52MiniCompletition = async (
   messages: ChatCompletionMessageParam[],
   mode?: string
 ): Promise<ChatCompletion.Choice[]> =>
-  await createChatCompletion({ ...defaultOpenAISettings, model: "gpt-5.2-mini", messages, max_tokens: 8192 }, mode);
+  await createChatCompletion({ model: "gpt-5.2-mini", temperature: 0.4, messages, max_completion_tokens: 8192 }, mode);
 
 export const newGPT52ProCompletition = async (
   messages: ChatCompletionMessageParam[],
   mode?: string
 ): Promise<ChatCompletion.Choice[]> =>
-  await createChatCompletion({ ...defaultOpenAISettings, model: "gpt-5.2-pro", messages, max_tokens: 8192 }, mode);
+  await createChatCompletion({ model: "gpt-5.2-pro", temperature: 0.4, messages, max_completion_tokens: 8192 }, mode);
 
 export const visionCompletion = async (
   messages: ChatCompletionMessageParam[]
 ): Promise<ChatCompletion.Choice[]> =>
-  await createChatCompletion({ model: "gpt-5.2", messages, max_tokens: 8192 });
+  await createChatCompletion({ model: "gpt-5.2", messages, max_completion_tokens: 8192 });
 
 export const createEmbeddings = async (input: string | string[], model = "text-embedding-3-small"): Promise<number[][]> => {
   const reply = await getOpenAIClient().embeddings.create({ model, input });

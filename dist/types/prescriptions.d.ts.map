@@ -1,1 +1,0 @@
-{"version":3,"file":"prescriptions.d.ts","sourceRoot":"","sources":["../../src/types/prescriptions.ts"],"names":[],"mappings":"AAAA,oBAAY,uBAAuB;IAC/B,UAAU,eAAe;IACzB,iBAAiB,sBAAsB;IACvC,uBAAuB,4BAA4B;IACnD,mBAAmB,wBAAwB;IAC3C,OAAO,YAAY;IACnB,cAAc,mBAAmB;IACjC,oBAAoB,yBAAyB;IAC7C,sBAAsB,2BAA2B;IACjD,OAAO,YAAY;IACnB,UAAU,eAAe;IACzB,QAAQ,aAAa;IACrB,SAAS,cAAc;CAC1B"}
