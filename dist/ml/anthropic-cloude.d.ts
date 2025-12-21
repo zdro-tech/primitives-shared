@@ -1,4 +1,3 @@
-import Anthropic from '@anthropic-ai/sdk';
 import { ChatCompletionMessageParam, ChatCompletion } from "openai/resources/index";
 export declare const getAnthropicClient: () => Anthropic;
 export declare const defaultClaudeSettings: {

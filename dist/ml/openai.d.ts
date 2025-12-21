@@ -1,4 +1,3 @@
-import OpenAI from 'openai';
 import { ChatCompletionCreateParamsNonStreaming } from 'openai/resources/index.mjs';
 import { ChatCompletionMessageParam, ChatCompletion } from "openai/resources/index";
 export declare const getOpenAIClient: () => OpenAI;
