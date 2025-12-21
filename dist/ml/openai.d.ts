@@ -13,6 +13,7 @@ export declare const newO3MiniCompletition: (messages: ChatCompletionMessagePara
 export declare const newO3MiniHighCompletition: (messages: ChatCompletionMessageParam[], mode?: string) => Promise<ChatCompletion.Choice[]>;
 export declare const newO1Completition: (messages: ChatCompletionMessageParam[], mode?: string) => Promise<ChatCompletion.Choice[]>;
 export declare const newGPT52Completition: (messages: ChatCompletionMessageParam[], mode?: string) => Promise<ChatCompletion.Choice[]>;
+export declare const newGPT52MiniCompletition: (messages: ChatCompletionMessageParam[], mode?: string) => Promise<ChatCompletion.Choice[]>;
 export declare const newGPT52ProCompletition: (messages: ChatCompletionMessageParam[], mode?: string) => Promise<ChatCompletion.Choice[]>;
 export declare const visionCompletion: (messages: ChatCompletionMessageParam[]) => Promise<ChatCompletion.Choice[]>;
 export declare const createEmbeddings: (input: string | string[], model?: string) => Promise<number[][]>;

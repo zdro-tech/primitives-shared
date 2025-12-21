@@ -1,4 +1,4 @@
-import { new35Completition, new4Completition, new4oCompletition, new4oMiniCompletition, newO1Completition, newO1MiniCompletition, newO3MiniCompletition, newO3MiniHighCompletition, newGPT52Completition, newGPT52ProCompletition, visionCompletion } from "./openai.js";
+import { new35Completition, new4Completition, new4oCompletition, new4oMiniCompletition, newO1Completition, newO1MiniCompletition, newO3MiniCompletition, newO3MiniHighCompletition, newGPT52Completition, newGPT52MiniCompletition, newGPT52ProCompletition, visionCompletion } from "./openai.js";
 import { logger } from "../logger/logger.js";
 import { MessageAuthor } from "../types/chat-message.js";
 import { newClaudeCompletion } from "./anthropic-cloude.js";
@@ -16,6 +16,7 @@ export var ExecutionModel;
     ExecutionModel["GPT4_4O_MINI"] = "gpt-4o-mini";
     // OpenAI GPT-5 models (latest)
     ExecutionModel["GPT5_2"] = "gpt-5.2";
+    ExecutionModel["GPT5_2_MINI"] = "gpt-5.2-mini";
     ExecutionModel["GPT5_2_PRO"] = "gpt-5.2-pro";
     // OpenAI reasoning models
     ExecutionModel["O1_MINI"] = "o1-mini";
@@ -73,6 +74,9 @@ export const newMLCompletion = async (messages, model, mode = "json") => {
         // OpenAI GPT-5 models (latest)
         if (model === ExecutionModel.GPT5_2) {
             return await newGPT52Completition(messages, mode);
+        }
+        if (model === ExecutionModel.GPT5_2_MINI) {
+            return await newGPT52MiniCompletition(messages, mode);
         }
         if (model === ExecutionModel.GPT5_2_PRO) {
             return await newGPT52ProCompletition(messages, mode);
