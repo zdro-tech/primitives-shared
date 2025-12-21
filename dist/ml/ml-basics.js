@@ -204,22 +204,23 @@ export const processChatMessages = async (messages, instructions, language, mode
     });
     return parseFirstCompletion(await newMLCompletion(addPostInstructions(messagesToSend, language, role), model));
 };
+// Extract content from markdown code blocks (with or without language specifier)
+const extractFromMarkdown = (text) => {
+    const match = text.match(/```(?:json|markdown)?\s*([\s\S]*?)\s*```/);
+    return match && match[1] ? match[1].trim() : text;
+};
 export const parseFirstCompletion = (choices) => {
-    const stringifiedJson = choices[0]?.message?.content ?? "{}";
+    const stringifiedJson = extractFromMarkdown(choices[0]?.message?.content ?? "{}");
     try {
         return JSON.parse(stringifiedJson);
     }
     catch (e) {
-        logger.error(`JSON parse crash: ${stringifiedJson} and choises were`, choices);
+        logger.error(`JSON parse crash: ${stringifiedJson} and choices were`, choices);
         throw e;
     }
 };
-export const cleanFirstCompletion = (choices) => {
-    const reply = choices[0]?.message?.content ?? "";
-    return clearFromWrappingTags(reply);
-};
-export const clearFromWrappingTags = (text) => {
-    return text?.replace(/```(json|markdown)?/g, '')?.trim();
+const cleanFirstCompletion = (choices) => {
+    return extractFromMarkdown(choices[0]?.message?.content ?? "");
 };
 export const getMessageRole = (message) => {
     return [MessageAuthor.Bot, MessageAuthor.Doctor].includes(message.author) ? "assistant" : "user";
@@ -239,16 +240,13 @@ export const processImage = async (base64Image, instructions, language, role = "
     return parseFirstCompletionWithPossibleMarkdown(await visionCompletion(addPostInstructions(messagesToSend, language, role)));
 };
 const parseFirstCompletionWithPossibleMarkdown = (choices) => {
-    let stringifiedJson = choices[0]?.message?.content;
-    if (stringifiedJson) {
-        const match = stringifiedJson.match(/```json\s*(.*?)\s*```/s);
-        if (match && match[1]) {
-            stringifiedJson = match[1];
-        }
-        else {
-            logger.debug('Reply does not contain JSON in markdown', stringifiedJson);
-        }
+    const stringifiedJson = extractFromMarkdown(choices[0]?.message?.content ?? "{}");
+    try {
         return JSON.parse(stringifiedJson);
+    }
+    catch (e) {
+        logger.error(`JSON parse crash in vision: ${stringifiedJson} and choices were`, choices);
+        throw e;
     }
 };
 export const parseAssistantMessageResponse = (message) => {

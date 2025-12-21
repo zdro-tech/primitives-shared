@@ -1,5 +1,4 @@
 import Anthropic from '@anthropic-ai/sdk';
-import { clearFromWrappingTags } from './ml-basics.js';
 let anthropic;
 export const getAnthropicClient = () => {
     if (!process.env.ANTHROPIC_API_KEY) {
@@ -17,6 +16,11 @@ export const defaultClaudeSettings = {
     max_tokens: 4096,
     temperature: 0.3
 };
+// Extract content from markdown code blocks (with or without language specifier)
+const extractFromMarkdown = (text) => {
+    const match = text.match(/```(?:json|markdown)?\s*([\s\S]*?)\s*```/);
+    return match && match[1] ? match[1].trim() : text;
+};
 export const newClaudeCompletion = async (messages, model, mode) => {
     const systemMessage = messages.filter(m => m.role === "system").map(m => m.content).join("\n\n ");
     const userMessages = messages.filter(m => m.role !== "system");
@@ -28,7 +32,7 @@ export const newClaudeCompletion = async (messages, model, mode) => {
         .map(block => block.text)
         .join('');
     if (mode === 'json') {
-        stringContent = clearFromWrappingTags(stringContent);
+        stringContent = extractFromMarkdown(stringContent);
     }
     return [{ message: { content: stringContent } }];
 };

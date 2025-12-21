@@ -1,5 +1,4 @@
 import Groq from "groq-sdk";
-import { defaultOpenAISettings } from "./openai.js";
 let groqClient;
 export const getGroqClient = () => {
     if (!process.env.GROQ_API_KEY) {
@@ -10,12 +9,17 @@ export const getGroqClient = () => {
     }
     return groqClient;
 };
+// Groq uses max_tokens (OpenAI-compatible)
+export const defaultGroqSettings = {
+    temperature: 0.4,
+    max_tokens: 3072,
+};
 export const newGroqCompletion = async (messages, model, mode) => {
-    const reply = await getGroqClient().chat.completions.create({
-        ...defaultOpenAISettings,
-        messages: messages,
-        model: model
-    });
+    const settings = { ...defaultGroqSettings, messages: messages, model: model };
+    if (mode === 'json') {
+        settings.response_format = { type: 'json_object' };
+    }
+    const reply = await getGroqClient().chat.completions.create(settings);
     return reply?.choices;
 };
 export const newGroqLlama4MaverickCompletion = async (messages, mode) => {

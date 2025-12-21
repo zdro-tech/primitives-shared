@@ -1,6 +1,5 @@
 import Groq from "groq-sdk";
 import { ChatCompletion, ChatCompletionMessageParam, } from "openai/resources/index"
-import { defaultOpenAISettings } from "./openai.js";
 
 let groqClient: Groq;
 
@@ -14,12 +13,18 @@ export const getGroqClient = () => {
     return groqClient;
 }
 
+// Groq uses max_tokens (OpenAI-compatible)
+export const defaultGroqSettings = {
+    temperature: 0.4,
+    max_tokens: 3072,
+};
+
 export const newGroqCompletion = async (messages: Array<ChatCompletionMessageParam>, model: string, mode?: string): Promise<ChatCompletion.Choice[]> => {
-    const reply = await getGroqClient().chat.completions.create({
-        ...defaultOpenAISettings as any,
-        messages: messages as any,
-        model: model
-    });
+    const settings = { ...defaultGroqSettings as any, messages: messages as any, model: model };
+    if (mode === 'json') {
+        settings.response_format = { type: 'json_object' };
+    }
+    const reply = await getGroqClient().chat.completions.create(settings);
     return reply?.choices as any;
 }
 
