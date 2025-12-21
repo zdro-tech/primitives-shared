@@ -18,3 +18,9 @@ export const newGroqCompletion = async (messages, model, mode) => {
     });
     return reply?.choices;
 };
+export const newGroqLlama4MaverickCompletion = async (messages, mode) => {
+    return await newGroqCompletion(messages, "meta-llama/llama-4-maverick-17b-128e-instruct", mode);
+};
+export const newGroqLlama4ScoutCompletion = async (messages, mode) => {
+    return await newGroqCompletion(messages, "meta-llama/llama-4-scout-17b-16e-instruct", mode);
+};

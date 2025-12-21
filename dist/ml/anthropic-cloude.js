@@ -13,8 +13,8 @@ export const getAnthropicClient = () => {
     return anthropic;
 };
 export const defaultClaudeSettings = {
-    model: "claude-3-opus-latest",
-    max_tokens: 3072,
+    model: "claude-sonnet-4-5-20250929",
+    max_tokens: 4096,
     temperature: 0.3
 };
 export const newClaudeCompletion = async (messages, model, mode) => {

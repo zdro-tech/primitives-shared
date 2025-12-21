@@ -37,7 +37,9 @@ export const new35Completition = async (messages, mode) => await createChatCompl
 export const newO3MiniCompletition = async (messages, mode) => await createChatCompletion({ model: "o3-mini", reasoning_effort: "medium", messages, max_completion_tokens: 3072 }, mode);
 export const newO3MiniHighCompletition = async (messages, mode) => await createChatCompletion({ model: "o3-mini", reasoning_effort: "high", messages, max_completion_tokens: 3072 }, mode);
 export const newO1Completition = async (messages, mode) => await createChatCompletion({ model: "o1", messages, max_completion_tokens: 3072, temperature: 1 }, mode);
-export const visionCompletion = async (messages) => await createChatCompletion({ model: "gpt-4-vision-preview", messages });
+export const newGPT52Completition = async (messages, mode) => await createChatCompletion({ ...defaultOpenAISettings, model: "gpt-5.2", messages, max_tokens: 8192 }, mode);
+export const newGPT52ProCompletition = async (messages, mode) => await createChatCompletion({ ...defaultOpenAISettings, model: "gpt-5.2-pro", messages, max_tokens: 8192 }, mode);
+export const visionCompletion = async (messages) => await createChatCompletion({ model: "gpt-5.2", messages, max_tokens: 8192 });
 export const createEmbeddings = async (input, model = "text-embedding-3-small") => {
     const reply = await getOpenAIClient().embeddings.create({ model, input });
     return reply?.data.map(item => item.embedding);

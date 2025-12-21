@@ -84,10 +84,22 @@ export const newO1Completition = async (
 ): Promise<ChatCompletion.Choice[]> =>
   await createChatCompletion({ model: "o1", messages, max_completion_tokens: 3072, temperature: 1 }, mode);
 
+export const newGPT52Completition = async (
+  messages: ChatCompletionMessageParam[],
+  mode?: string
+): Promise<ChatCompletion.Choice[]> =>
+  await createChatCompletion({ ...defaultOpenAISettings, model: "gpt-5.2", messages, max_tokens: 8192 }, mode);
+
+export const newGPT52ProCompletition = async (
+  messages: ChatCompletionMessageParam[],
+  mode?: string
+): Promise<ChatCompletion.Choice[]> =>
+  await createChatCompletion({ ...defaultOpenAISettings, model: "gpt-5.2-pro", messages, max_tokens: 8192 }, mode);
+
 export const visionCompletion = async (
   messages: ChatCompletionMessageParam[]
 ): Promise<ChatCompletion.Choice[]> =>
-  await createChatCompletion({ model: "gpt-4-vision-preview", messages });
+  await createChatCompletion({ model: "gpt-5.2", messages, max_tokens: 8192 });
 
 export const createEmbeddings = async (input: string | string[], model = "text-embedding-3-small"): Promise<number[][]> => {
   const reply = await getOpenAIClient().embeddings.create({ model, input });
