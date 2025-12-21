@@ -1,5 +1,5 @@
 import { ChatCompletionMessageParam, ChatCompletion, } from "openai/resources/index"
-import { new35Completition, new4Completition, new4oCompletition, new4oMiniCompletition, newO1Completition, newO1MiniCompletition, newO3MiniCompletition, newO3MiniHighCompletition, newGPT52Completition, newGPT52ProCompletition, visionCompletion } from "./openai.js";
+import { new35Completition, new4Completition, new4oCompletition, new4oMiniCompletition, newO1Completition, newO1MiniCompletition, newO3MiniCompletition, newO3MiniHighCompletition, newGPT52Completition, newGPT52MiniCompletition, newGPT52ProCompletition, visionCompletion } from "./openai.js";
 import { logger } from "../logger/logger.js";
 
 import { ChatMessage, FileData, MessageAuthor } from "../types/chat-message.js";
@@ -19,6 +19,7 @@ export enum ExecutionModel {
     GPT4_4O_MINI = "gpt-4o-mini",
     // OpenAI GPT-5 models (latest)
     GPT5_2 = "gpt-5.2",
+    GPT5_2_MINI = "gpt-5.2-mini",
     GPT5_2_PRO = "gpt-5.2-pro",
     // OpenAI reasoning models
     O1_MINI = "o1-mini",
@@ -79,6 +80,9 @@ export const newMLCompletion = async (messages: Array<ChatCompletionMessageParam
         // OpenAI GPT-5 models (latest)
         if (model === ExecutionModel.GPT5_2) {
             return await newGPT52Completition(messages, mode);
+        }
+        if (model === ExecutionModel.GPT5_2_MINI) {
+            return await newGPT52MiniCompletition(messages, mode);
         }
         if (model === ExecutionModel.GPT5_2_PRO) {
             return await newGPT52ProCompletition(messages, mode);

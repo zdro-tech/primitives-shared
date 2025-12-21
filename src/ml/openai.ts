@@ -90,6 +90,12 @@ export const newGPT52Completition = async (
 ): Promise<ChatCompletion.Choice[]> =>
   await createChatCompletion({ ...defaultOpenAISettings, model: "gpt-5.2", messages, max_tokens: 8192 }, mode);
 
+export const newGPT52MiniCompletition = async (
+  messages: ChatCompletionMessageParam[],
+  mode?: string
+): Promise<ChatCompletion.Choice[]> =>
+  await createChatCompletion({ ...defaultOpenAISettings, model: "gpt-5.2-mini", messages, max_tokens: 8192 }, mode);
+
 export const newGPT52ProCompletition = async (
   messages: ChatCompletionMessageParam[],
   mode?: string
