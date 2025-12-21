@@ -130,7 +130,7 @@ export const processChatMessages = async <T>(messages: Array<ChatMessage>, instr
     messages.forEach(m => {
         messagesToSend.push({ "role": getMessageRole(m), "content": chatMessageWithFilesToText(m) } as ChatCompletionMessageParam);
     });
-    return parseFirstCompletion(await newMLCompletion(messagesToSend, model)) as T
+    return parseFirstCompletion(await newMLCompletion(addPostInstructions(messagesToSend, language, role), model)) as T
 };
 
 // Extract content from markdown code blocks (with or without language specifier)
@@ -158,6 +158,10 @@ export const getMessageRole = (message: any): string => {
     return [MessageAuthor.Bot, MessageAuthor.Doctor].includes(message.author) ? "assistant" : "user"
 }
 
+export const addPostInstructions = (messages: Array<ChatCompletionMessageParam>, language: string, role = "system") => {
+    return messages
+}
+
 export const processImage = async <T>(base64Image: string, instructions: string, language: string, role = "system"): Promise<T> => {
     const messagesToSend = [{ "role": role, "content": instructions }] as Array<ChatCompletionMessageParam>;
     messagesToSend.push({
@@ -168,7 +172,7 @@ export const processImage = async <T>(base64Image: string, instructions: string,
         }]
     } as ChatCompletionMessageParam)
 
-    return parseFirstCompletion(await visionCompletion(messagesToSend)) as T
+    return parseFirstCompletion(await visionCompletion(addPostInstructions(messagesToSend, language, role))) as T
 }
 
 export const parseAssistantMessageResponse = (message: Message): any => {

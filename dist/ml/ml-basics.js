@@ -121,7 +121,7 @@ export const processChatMessages = async (messages, instructions, language, mode
     messages.forEach(m => {
         messagesToSend.push({ "role": getMessageRole(m), "content": chatMessageWithFilesToText(m) });
     });
-    return parseFirstCompletion(await newMLCompletion(messagesToSend, model));
+    return parseFirstCompletion(await newMLCompletion(addPostInstructions(messagesToSend, language, role), model));
 };
 // Extract content from markdown code blocks (with or without language specifier)
 const extractFromMarkdown = (text) => {
@@ -144,6 +144,9 @@ const cleanFirstCompletion = (choices) => {
 export const getMessageRole = (message) => {
     return [MessageAuthor.Bot, MessageAuthor.Doctor].includes(message.author) ? "assistant" : "user";
 };
+export const addPostInstructions = (messages, language, role = "system") => {
+    return messages;
+};
 export const processImage = async (base64Image, instructions, language, role = "system") => {
     const messagesToSend = [{ "role": role, "content": instructions }];
     messagesToSend.push({
@@ -153,7 +156,7 @@ export const processImage = async (base64Image, instructions, language, role = "
                 image_url: { url: base64Image }
             }]
     });
-    return parseFirstCompletion(await visionCompletion(messagesToSend));
+    return parseFirstCompletion(await visionCompletion(addPostInstructions(messagesToSend, language, role)));
 };
 export const parseAssistantMessageResponse = (message) => {
     const content = message?.content[0];
