@@ -13,23 +13,10 @@ export const createClient = async ({ host, user, password, database }) => {
         },
     });
     const tracedClient = new Proxy(rawClient, {
-        get(target, prop, receiver) {
-            const targetAny = target;
-            if (typeof targetAny[prop] === 'function') {
-                return traceQuery(target, prop, receiver);
-            }
-            if (prop === 'begin') {
-                return (...args) => traceTransactionBegin(target, ...args);
-            }
-            else
-                return Reflect.get(target, prop, receiver);
-        },
-    });
-    function traceQuery(target, propKey, receiver) {
-        return (...args) => {
+        apply(target, thisArg, args) {
             const span = tracer.startSpan('SQL Query');
             try {
-                const result = Reflect.apply(target[propKey], receiver, args);
+                const result = Reflect.apply(target, thisArg, args);
                 span.setStatus({ code: SpanStatusCode.OK });
                 return result;
             }
@@ -40,29 +27,29 @@ export const createClient = async ({ host, user, password, database }) => {
             finally {
                 span.end();
             }
-        };
-    }
-    async function traceTransactionBegin(target, options) {
-        const span = tracer.startSpan('SQL Transaction');
-        try {
-            const transactionFunc = async (sql) => {
-                const tracedSql = new Proxy(sql, {
-                    apply: (target, thisArg, argArray) => traceQuery(target, 'query', sql)(...argArray),
-                });
-                return tracedSql;
-            };
-            const result = await target.begin(transactionFunc, options);
-            span.setStatus({ code: SpanStatusCode.OK });
-            return result;
-        }
-        catch (error) {
-            span.setStatus({ code: SpanStatusCode.ERROR, message: error.message });
-            throw error;
-        }
-        finally {
-            span.end();
-        }
-    }
+        },
+        get(target, prop, receiver) {
+            const targetAny = target;
+            if (typeof targetAny[prop] === 'function') {
+                return (...args) => {
+                    const span = tracer.startSpan('SQL Query');
+                    try {
+                        const result = Reflect.apply(targetAny[prop], receiver, args);
+                        span.setStatus({ code: SpanStatusCode.OK });
+                        return result;
+                    }
+                    catch (error) {
+                        span.setStatus({ code: SpanStatusCode.ERROR, message: error.message });
+                        throw error;
+                    }
+                    finally {
+                        span.end();
+                    }
+                };
+            }
+            return Reflect.get(target, prop, receiver);
+        },
+    });
     return {
         client: rawClient,
         tracedClient,

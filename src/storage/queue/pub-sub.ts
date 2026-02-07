@@ -12,7 +12,7 @@ const initPubSubClient = (): PubSub => {
     if (!process.env.PROJECT_ID) {
         throw new Error('PROJECT_ID environment variable is not defined, but required for pub/sub.');
     }
-    pubSubClient = new PubSub({ projectId: process.env.PROJECT_ID });
+    pubSubClient = new PubSub({ projectId: process.env.PROJECT_ID, enableOpenTelemetryTracing: true });
     return pubSubClient;
 };
 
@@ -36,7 +36,7 @@ export const publish = async (
             if (orderingKey) {
                 message.orderingKey = orderingKey
             }
-            await client.topic(fullTopicName, { enableOpenTelemetryTracing: true })
+            await client.topic(fullTopicName)
                 .publishMessage(message);
             return;
         } catch (e) {

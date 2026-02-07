@@ -1,7 +1,7 @@
 import * as opentelemetry from '@opentelemetry/api';
-import { Resource } from '@opentelemetry/resources';
-import { SEMRESATTRS_SERVICE_NAME, SEMRESATTRS_SERVICE_VERSION } from '@opentelemetry/semantic-conventions';
-import { NodeTracerProvider, NoopSpanProcessor, SimpleSpanProcessor, SpanProcessor } from '@opentelemetry/sdk-trace-node';
+import { resourceFromAttributes } from '@opentelemetry/resources';
+import { ATTR_SERVICE_NAME, ATTR_SERVICE_VERSION } from '@opentelemetry/semantic-conventions';
+import { NodeTracerProvider, SimpleSpanProcessor } from '@opentelemetry/sdk-trace-node';
 import { ExpressInstrumentation } from '@opentelemetry/instrumentation-express';
 import { Span, SpanStatusCode } from '@opentelemetry/api';
 import { registerInstrumentations } from '@opentelemetry/instrumentation';
@@ -12,26 +12,26 @@ const appName: string = process.env.K_SERVICE || 'local';
 const appVersion: string = process.env.K_REVISION || 'local';
 
 export const defaultAttributes: opentelemetry.Attributes = {
-  [SEMRESATTRS_SERVICE_NAME]: appName,
-  [SEMRESATTRS_SERVICE_VERSION]: appVersion,
+  [ATTR_SERVICE_NAME]: appName,
+  [ATTR_SERVICE_VERSION]: appVersion,
 };
 
 export const defaultHook: (span: Span, hookInfo: any) => void = (span, hookInfo) => {
   span.setAttributes(defaultAttributes);
 };
 
-export const traceProvider: NodeTracerProvider = new NodeTracerProvider({
-  resource: new Resource(defaultAttributes),
-});
-
-const getSpanProcessor = (): SpanProcessor => {
+const getSpanProcessors = () => {
   if (process.env.NODE_ENV === 'production') {
-    return new SimpleSpanProcessor(new TraceExporter());
+    return [new SimpleSpanProcessor(new TraceExporter())];
   }
-  return new NoopSpanProcessor();
+  return [];
 };
 
-traceProvider.addSpanProcessor(getSpanProcessor());
+export const traceProvider: NodeTracerProvider = new NodeTracerProvider({
+  resource: resourceFromAttributes(defaultAttributes),
+  spanProcessors: getSpanProcessors(),
+});
+
 traceProvider.register();
 
 registerInstrumentations({
