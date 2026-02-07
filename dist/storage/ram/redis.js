@@ -11,9 +11,9 @@ const redisClient = createClient({
 });
 const connectRedis = async () => {
     await redisClient.connect();
-    // const pong = await redisClient.ping();
-    logger.debug(`Connecting to Redis with REDIS_HOST: ${process.env.REDIS_HOST} and REDIS_PORT: ${process.env.REDIS_PORT}`);
-    // logger.debug(`Redis ping reply is: ${pong}`);
+    logger.debug(`Connected to Redis with REDIS_HOST: ${process.env.REDIS_HOST} and REDIS_PORT: ${process.env.REDIS_PORT}`);
+    const pong = await redisClient.ping();
+    logger.debug(`Redis ping reply is: ${pong}`);
 };
 await connectRedis();
 prexit(async () => {
