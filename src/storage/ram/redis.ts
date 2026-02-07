@@ -22,7 +22,7 @@ const connectRedis = async () => {
 await connectRedis()
 
 prexit(async () => {
-    await redisClient.disconnect();
+    await redisClient.disconnect()
 });
 
 export { redisClient };
