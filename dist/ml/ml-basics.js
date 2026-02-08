@@ -1,4 +1,4 @@
-import { newO3MiniCompletition, newO3MiniHighCompletition, newGPT52Completition, newGPT52MiniCompletition, newGPT52ProCompletition, visionCompletion } from "./openai.js";
+import { newO3MiniCompletition, newO3MiniHighCompletition, newGPT52Completition, newGPT52MiniCompletition, newGPT52ProCompletition, visionCompletion, newGPT52CodexCompletion, newGPT5NanoCompletion } from "./openai.js";
 import { logger } from "../logger/logger.js";
 import { MessageAuthor } from "../types/chat-message.js";
 import { newClaudeCompletion } from "./anthropic-cloude.js";
@@ -8,8 +8,10 @@ export var ExecutionModel;
 (function (ExecutionModel) {
     // OpenAI GPT-5 models (latest)
     ExecutionModel["GPT5_2"] = "gpt-5.2";
-    ExecutionModel["GPT5_2_MINI"] = "gpt-5.2-mini";
     ExecutionModel["GPT5_2_PRO"] = "gpt-5.2-pro";
+    ExecutionModel["GPT5_2_CODEX"] = "gpt-5.2-codex";
+    ExecutionModel["GPT5_MINI"] = "gpt-5-mini";
+    ExecutionModel["GPT5_NANO"] = "gpt-5-nano";
     // OpenAI reasoning models (latest)
     ExecutionModel["O3_MINI"] = "o3-mini";
     ExecutionModel["O3_MINI_HIGH"] = "o3-mini-high";
@@ -35,12 +37,30 @@ export const newMLCompletion = async (messages, model, mode = "json") => {
         if (model === ExecutionModel.GPT5_2) {
             return await newGPT52Completition(messages, mode);
         }
-        if (model === ExecutionModel.GPT5_2_MINI) {
-            return await newGPT52MiniCompletition(messages, mode);
-        }
         if (model === ExecutionModel.GPT5_2_PRO) {
             return await newGPT52ProCompletition(messages, mode);
         }
+        if (model === ExecutionModel.GPT5_2_CODEX) {
+            return await newGPT52CodexCompletion(messages, mode);
+        }
+        if (model === ExecutionModel.GPT5_MINI) {
+            return await newGPT52MiniCompletition(messages, mode);
+        }
+        if (model === ExecutionModel.GPT5_NANO) {
+            return await newGPT5NanoCompletion(messages, mode);
+        }
+        // --- New completions for GPT-5.2-codex and GPT-5-nano ---
+        // These should be implemented in openai.js
+        // Example stub implementations below (replace with real API logic as needed):
+        // In openai.js:
+        // export const newGPT52CodexCompletion = async (messages, mode) => {
+        //     // Implement actual API call for gpt-5.2-codex
+        //     return await newGPT52Completition(messages, mode);
+        // };
+        // export const newGPT5NanoCompletion = async (messages, mode) => {
+        //     // Implement actual API call for gpt-5-nano
+        //     return await newGPT52MiniCompletition(messages, mode);
+        // };
         // OpenAI reasoning models (latest)
         if (model === ExecutionModel.O3_MINI) {
             return await newO3MiniCompletition(messages, mode);
@@ -91,6 +111,7 @@ export const newMLCompletion = async (messages, model, mode = "json") => {
             logger.error(`Error in in falling back competion to GCP ${model} with fallback`, e);
         }
     }
+    // Final fallback: use GPT-5.2 (most robust)
     return await newGPT52Completition(messages, mode);
 };
 export const processRawMessages = async (messages, language, model, mode = "json") => {

@@ -2,9 +2,11 @@ import { ChatCompletionMessageParam, ChatCompletion } from "openai/resources/ind
 import { ChatMessage } from "../types/chat-message.js";
 import { Message } from "openai/resources/beta/threads/index.mjs";
 export declare enum ExecutionModel {
-    GPT5_2 = "gpt-5.2",
-    GPT5_2_MINI = "gpt-5.2-mini",
-    GPT5_2_PRO = "gpt-5.2-pro",
+    GPT5_2 = "gpt-5.2",// Complex reasoning, broad world knowledge, and code-heavy or multi-step agentic tasks
+    GPT5_2_PRO = "gpt-5.2-pro",// Tough problems that may take longer to solve but require harder thinking
+    GPT5_2_CODEX = "gpt-5.2-codex",// Companies building interactive coding products; full spectrum of coding tasks
+    GPT5_MINI = "gpt-5-mini",// Cost-optimized reasoning and chat; balances speed, cost, and capability
+    GPT5_NANO = "gpt-5-nano",// High-throughput tasks, especially simple instruction-following or classification
     O3_MINI = "o3-mini",
     O3_MINI_HIGH = "o3-mini-high",
     CLAUDE_OPUS_4_5 = "claude-opus-4-5-20251124",
