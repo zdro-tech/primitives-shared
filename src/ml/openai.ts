@@ -51,31 +51,31 @@ export const newGPT52Completition = async (
   messages: ChatCompletionMessageParam[],
   mode?: string
 ): Promise<ChatCompletion.Choice[]> =>
-  await createChatCompletion({ model: "gpt-5.2", temperature: 0.4, messages, max_completion_tokens: 8192 }, mode);
+  await createChatCompletion({ model: "gpt-5.2", messages, max_completion_tokens: 8192 }, mode);
 
 export const newGPT52MiniCompletition = async (
   messages: ChatCompletionMessageParam[],
   mode?: string
 ): Promise<ChatCompletion.Choice[]> =>
-  await createChatCompletion({ model: "gpt-5-mini", temperature: 0.4, messages, max_completion_tokens: 8192 }, mode);
+  await createChatCompletion({ model: "gpt-5-mini", messages, max_completion_tokens: 8192 }, mode);
 
 export const newGPT52CodexCompletion = async (
   messages: ChatCompletionMessageParam[],
   mode?: string
 ): Promise<ChatCompletion.Choice[]> =>
-  await createChatCompletion({ model: "gpt-5.2-codex", temperature: 0.4, messages, max_completion_tokens: 8192 }, mode);
+  await createChatCompletion({ model: "gpt-5.2-codex", messages, max_completion_tokens: 8192 }, mode);
 
 export const newGPT5NanoCompletion = async (
   messages: ChatCompletionMessageParam[],
   mode?: string
 ): Promise<ChatCompletion.Choice[]> =>
-  await createChatCompletion({ model: "gpt-5-nano", temperature: 0.4, messages, max_completion_tokens: 8192 }, mode);
+  await createChatCompletion({ model: "gpt-5-nano", messages, max_completion_tokens: 8192 }, mode);
 
 export const newGPT52ProCompletition = async (
   messages: ChatCompletionMessageParam[],
   mode?: string
 ): Promise<ChatCompletion.Choice[]> =>
-  await createChatCompletion({ model: "gpt-5.2-pro", temperature: 0.4, messages, max_completion_tokens: 8192 }, mode);
+  await createChatCompletion({ model: "gpt-5.2-pro", messages, max_completion_tokens: 8192 }, mode);
 
 export const visionCompletion = async (
   messages: ChatCompletionMessageParam[]

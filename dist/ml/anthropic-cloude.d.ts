@@ -3,7 +3,6 @@ import { ChatCompletionMessageParam, ChatCompletion } from "openai/resources/ind
 export declare const getAnthropicClient: () => Anthropic;
 export declare const defaultClaudeSettings: {
     model: string;
-    max_completion_tokens: number;
     max_tokens: number;
     temperature: number;
 };

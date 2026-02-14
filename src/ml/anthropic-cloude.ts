@@ -21,7 +21,6 @@ export const getAnthropicClient = () => {
 
 export const defaultClaudeSettings = {
     model: "claude-sonnet-4-5-20250929",
-    max_completion_tokens: 8192,
     max_tokens: 8192,
     temperature: 0.3
 };
@@ -34,15 +33,17 @@ export const newClaudeCompletion = async (messages: Array<ChatCompletionMessageP
         ...defaultClaudeSettings,
         model,
         messages: userMessages,
-        system: systemMessage
     };
+    if (systemMessage) {
+        params.system = systemMessage;
+    }
 
     if (mode === 'json') {
         params.output_format = {
             type: 'json_schema',
             schema: {
                 type: 'object',
-                additionalProperties: true
+                additionalProperties: false
             }
         };
     }
