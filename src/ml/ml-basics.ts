@@ -4,7 +4,7 @@ import { logger } from "../logger/logger.js";
 
 import { ChatMessage, FileData, MessageAuthor } from "../types/chat-message.js";
 import { Message, TextContentBlock } from "openai/resources/beta/threads/index.mjs";
-import { newClaudeCompletion } from "./anthropic-cloude.js";
+import { newClaudeCompletion } from "./anthropic-claude.js";
 import { newGroqCompletion, newGroqLlama4MaverickCompletion, newGroqLlama4ScoutCompletion } from "./groq.js";
 import { newGemini3ProCompletion, newGemini3FlashCompletion } from "./gcp-ml.js";
 
@@ -18,10 +18,10 @@ export enum ExecutionModel {
     // OpenAI reasoning models (latest)
     O3_MINI = "o3-mini",
     O3_MINI_HIGH = "o3-mini-high",
-    // Anthropic Claude 4.5 models (latest)
-    CLAUDE_OPUS_4_5 = "claude-opus-4-5-20251124",
-    CLAUDE_SONNET_4_5 = "claude-sonnet-4-5-20250929",
-    CLAUDE_HAIKU_4_5 = "claude-haiku-4-5-20251015",
+    // Anthropic Claude models (latest)
+    CLAUDE_OPUS_4_6 = "claude-opus-4-6",
+    CLAUDE_SONNET_4_5 = "claude-sonnet-4-5",
+    CLAUDE_HAIKU_4_5 = "claude-haiku-4-5",
     // Groq models (latest)
     GROQ_LLAMA_3_3_70B_VERSATILE = "llama-3.3-70b-versatile",
     GROQ_LLAMA_4_MAVERICK = "meta-llama/llama-4-maverick-17b-128e-instruct",
@@ -76,9 +76,9 @@ export const newMLCompletion = async (messages: Array<ChatCompletionMessageParam
         if (model === ExecutionModel.O3_MINI_HIGH) {
             return await newO3MiniHighCompletition(messages, mode);
         }
-        // Anthropic Claude 4.5 models (latest)
-        if (model === ExecutionModel.CLAUDE_OPUS_4_5) {
-            return await newClaudeCompletion(messages, ExecutionModel.CLAUDE_OPUS_4_5, mode);
+        // Anthropic Claude models (latest)
+        if (model === ExecutionModel.CLAUDE_OPUS_4_6) {
+            return await newClaudeCompletion(messages, ExecutionModel.CLAUDE_OPUS_4_6, mode);
         }
         if (model === ExecutionModel.CLAUDE_SONNET_4_5) {
             return await newClaudeCompletion(messages, ExecutionModel.CLAUDE_SONNET_4_5, mode);

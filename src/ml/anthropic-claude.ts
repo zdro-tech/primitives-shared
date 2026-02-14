@@ -20,7 +20,7 @@ export const getAnthropicClient = () => {
 }
 
 export const defaultClaudeSettings = {
-    model: "claude-sonnet-4-5-20250929",
+    model: "claude-sonnet-4-5",
     max_tokens: 8192,
     temperature: 0.3
 };
