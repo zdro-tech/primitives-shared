@@ -2,16 +2,16 @@ import { ChatCompletionMessageParam, ChatCompletion } from "openai/resources/ind
 import { ChatMessage } from "../types/chat-message.js";
 import { Message } from "openai/resources/beta/threads/index.mjs";
 export declare enum ExecutionModel {
-    GPT5_2 = "gpt-5.2",// Complex reasoning, broad world knowledge, and code-heavy or multi-step agentic tasks
-    GPT5_2_PRO = "gpt-5.2-pro",// Tough problems that may take longer to solve but require harder thinking
-    GPT5_2_CODEX = "gpt-5.2-codex",// Companies building interactive coding products; full spectrum of coding tasks
-    GPT5_MINI = "gpt-5-mini",// Cost-optimized reasoning and chat; balances speed, cost, and capability
-    GPT5_NANO = "gpt-5-nano",// High-throughput tasks, especially simple instruction-following or classification
+    GPT5_2 = "gpt-5.2",
+    GPT5_2_PRO = "gpt-5.2-pro",
+    GPT5_2_CODEX = "gpt-5.2-codex",
+    GPT5_MINI = "gpt-5-mini",
+    GPT5_NANO = "gpt-5-nano",
     O3_MINI = "o3-mini",
     O3_MINI_HIGH = "o3-mini-high",
-    CLAUDE_OPUS_4_5 = "claude-opus-4-5-20251124",
-    CLAUDE_SONNET_4_5 = "claude-sonnet-4-5-20250929",
-    CLAUDE_HAIKU_4_5 = "claude-haiku-4-5-20251015",
+    CLAUDE_OPUS_4_6 = "claude-opus-4-6",
+    CLAUDE_SONNET_4_5 = "claude-sonnet-4-5",
+    CLAUDE_HAIKU_4_5 = "claude-haiku-4-5",
     GROQ_LLAMA_3_3_70B_VERSATILE = "llama-3.3-70b-versatile",
     GROQ_LLAMA_4_MAVERICK = "meta-llama/llama-4-maverick-17b-128e-instruct",
     GROQ_LLAMA_4_SCOUT = "meta-llama/llama-4-scout-17b-16e-instruct",

@@ -33,8 +33,8 @@
   "author": "",
   "license": "ISC",
   "peerDependencies": {
-    "express": "^5.2.1",
-    "@opentelemetry/api": "^1.9.0"
+    "@opentelemetry/api": "^1.9.0",
+    "express": "^5.2.1"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.74.0",
@@ -49,18 +49,29 @@
     "@opentelemetry/resources": "^2.5.0",
     "@opentelemetry/sdk-trace-node": "^2.5.0",
     "@opentelemetry/semantic-conventions": "^1.39.0",
-    "axios": "^1.13.4",
+    "@socket.io/redis-streams-adapter": "^0.2.3",
+    "@tinyhttp/content-disposition": "^2.2.4",
+    "axios": "^1.13.5",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
     "dotenv": "^17.2.4",
     "exponential-backoff": "^3.1.3",
     "get-value": "^4.0.1",
+    "google-auth-library": "^10.5.0",
     "groq-sdk": "^0.37.0",
+    "http-proxy-middleware": "^3.0.5",
     "jsonwebtoken": "^9.0.3",
     "jwk-to-pem": "^2.0.7",
+    "mime": "^4.1.0",
+    "morgan": "^1.10.1",
     "openai": "^6.18.0",
-    "postgres": "^3.4.7",
+    "postgres": "^3.4.8",
     "prexit": "^2.3.0",
     "redis": "^4.7.1",
-    "winston": "^3.19.0"
+    "socket.io-client": "^4.8.3",
+    "uuid": "^13.0.0",
+    "winston": "^3.19.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
