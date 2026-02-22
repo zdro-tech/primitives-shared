@@ -3,13 +3,13 @@ import { ChatMessage } from "../types/chat-message.js";
 import { Message } from "openai/resources/beta/threads/index.mjs";
 export declare enum ExecutionModel {
     GPT5_2 = "gpt-5.2",
-    GPT5_2_PRO = "gpt-5.2-pro",
     GPT5_2_CODEX = "gpt-5.2-codex",
     GPT5_MINI = "gpt-5-mini",
     GPT5_NANO = "gpt-5-nano",
     O3_MINI = "o3-mini",
     O3_MINI_HIGH = "o3-mini-high",
     CLAUDE_OPUS_4_6 = "claude-opus-4-6",
+    CLAUDE_SONNET_4_6 = "claude-sonnet-4-6",
     CLAUDE_SONNET_4_5 = "claude-sonnet-4-5",
     CLAUDE_HAIKU_4_5 = "claude-haiku-4-5",
     GROQ_LLAMA_3_3_70B_VERSATILE = "llama-3.3-70b-versatile",

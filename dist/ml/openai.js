@@ -35,7 +35,6 @@ export const newGPT52Completition = async (messages, mode) => await createChatCo
 export const newGPT52MiniCompletition = async (messages, mode) => await createChatCompletion({ model: "gpt-5-mini", messages, max_completion_tokens: 8192 }, mode);
 export const newGPT52CodexCompletion = async (messages, mode) => await createChatCompletion({ model: "gpt-5.2-codex", messages, max_completion_tokens: 8192 }, mode);
 export const newGPT5NanoCompletion = async (messages, mode) => await createChatCompletion({ model: "gpt-5-nano", messages, max_completion_tokens: 8192 }, mode);
-export const newGPT52ProCompletition = async (messages, mode) => await createChatCompletion({ model: "gpt-5.2-pro", messages, max_completion_tokens: 8192 }, mode);
 export const visionCompletion = async (messages) => await createChatCompletion({ model: "gpt-5.2", messages, max_completion_tokens: 8192 });
 export const createEmbeddings = async (input, model = "text-embedding-3-small") => {
     const reply = await getOpenAIClient().embeddings.create({ model, input });

@@ -15,10 +15,10 @@ const runVerification = async () => {
 
     const modelsToTest = [
         ExecutionModel.GPT5_2,
-        ExecutionModel.GPT5_2_PRO,
         ExecutionModel.GPT5_MINI,
         ExecutionModel.GPT5_NANO,
         ExecutionModel.CLAUDE_OPUS_4_6,
+        ExecutionModel.CLAUDE_SONNET_4_6,
         ExecutionModel.CLAUDE_SONNET_4_5,
         ExecutionModel.CLAUDE_HAIKU_4_5
     ];

@@ -10,7 +10,6 @@ export declare const newGPT52Completition: (messages: ChatCompletionMessageParam
 export declare const newGPT52MiniCompletition: (messages: ChatCompletionMessageParam[], mode?: string) => Promise<ChatCompletion.Choice[]>;
 export declare const newGPT52CodexCompletion: (messages: ChatCompletionMessageParam[], mode?: string) => Promise<ChatCompletion.Choice[]>;
 export declare const newGPT5NanoCompletion: (messages: ChatCompletionMessageParam[], mode?: string) => Promise<ChatCompletion.Choice[]>;
-export declare const newGPT52ProCompletition: (messages: ChatCompletionMessageParam[], mode?: string) => Promise<ChatCompletion.Choice[]>;
 export declare const visionCompletion: (messages: ChatCompletionMessageParam[]) => Promise<ChatCompletion.Choice[]>;
 export declare const createEmbeddings: (input: string | string[], model?: string) => Promise<number[][]>;
 //# sourceMappingURL=openai.d.ts.map

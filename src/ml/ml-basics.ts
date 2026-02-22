@@ -1,5 +1,5 @@
 import { ChatCompletionMessageParam, ChatCompletion, } from "openai/resources/index"
-import { newO3MiniCompletition, newO3MiniHighCompletition, newGPT52Completition, newGPT52MiniCompletition, newGPT52ProCompletition, visionCompletion, newGPT52CodexCompletion, newGPT5NanoCompletion } from "./openai.js";
+import { newO3MiniCompletition, newO3MiniHighCompletition, newGPT52Completition, newGPT52MiniCompletition, visionCompletion, newGPT52CodexCompletion, newGPT5NanoCompletion } from "./openai.js";
 import { logger } from "../logger/logger.js";
 
 import { ChatMessage, FileData, MessageAuthor } from "../types/chat-message.js";
@@ -11,7 +11,6 @@ import { newGemini3ProCompletion, newGemini3FlashCompletion } from "./gcp-ml.js"
 export enum ExecutionModel {
     // OpenAI GPT-5 models (latest)
     GPT5_2 = "gpt-5.2",
-    GPT5_2_PRO = "gpt-5.2-pro",
     GPT5_2_CODEX = "gpt-5.2-codex",
     GPT5_MINI = "gpt-5-mini",
     GPT5_NANO = "gpt-5-nano",
@@ -20,6 +19,7 @@ export enum ExecutionModel {
     O3_MINI_HIGH = "o3-mini-high",
     // Anthropic Claude models (latest)
     CLAUDE_OPUS_4_6 = "claude-opus-4-6",
+    CLAUDE_SONNET_4_6 = "claude-sonnet-4-6",
     CLAUDE_SONNET_4_5 = "claude-sonnet-4-5",
     CLAUDE_HAIKU_4_5 = "claude-haiku-4-5",
     // Groq models (latest)
@@ -42,9 +42,6 @@ export const newMLCompletion = async (messages: Array<ChatCompletionMessageParam
         // OpenAI GPT-5 models (latest)
         if (model === ExecutionModel.GPT5_2) {
             return await newGPT52Completition(messages, mode);
-        }
-        if (model === ExecutionModel.GPT5_2_PRO) {
-            return await newGPT52ProCompletition(messages, mode);
         }
         if (model === ExecutionModel.GPT5_2_CODEX) {
             return await newGPT52CodexCompletion(messages, mode);
@@ -79,6 +76,9 @@ export const newMLCompletion = async (messages: Array<ChatCompletionMessageParam
         // Anthropic Claude models (latest)
         if (model === ExecutionModel.CLAUDE_OPUS_4_6) {
             return await newClaudeCompletion(messages, ExecutionModel.CLAUDE_OPUS_4_6, mode);
+        }
+        if (model === ExecutionModel.CLAUDE_SONNET_4_6) {
+            return await newClaudeCompletion(messages, ExecutionModel.CLAUDE_SONNET_4_6, mode);
         }
         if (model === ExecutionModel.CLAUDE_SONNET_4_5) {
             return await newClaudeCompletion(messages, ExecutionModel.CLAUDE_SONNET_4_5, mode);

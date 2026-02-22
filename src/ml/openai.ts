@@ -71,12 +71,6 @@ export const newGPT5NanoCompletion = async (
 ): Promise<ChatCompletion.Choice[]> =>
   await createChatCompletion({ model: "gpt-5-nano", messages, max_completion_tokens: 8192 }, mode);
 
-export const newGPT52ProCompletition = async (
-  messages: ChatCompletionMessageParam[],
-  mode?: string
-): Promise<ChatCompletion.Choice[]> =>
-  await createChatCompletion({ model: "gpt-5.2-pro", messages, max_completion_tokens: 8192 }, mode);
-
 export const visionCompletion = async (
   messages: ChatCompletionMessageParam[]
 ): Promise<ChatCompletion.Choice[]> =>
