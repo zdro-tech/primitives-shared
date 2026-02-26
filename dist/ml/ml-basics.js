@@ -1,9 +1,9 @@
-import { newO3MiniCompletition, newO3MiniHighCompletition, newGPT52Completition, newGPT52MiniCompletition, visionCompletion, newGPT52CodexCompletion, newGPT5NanoCompletion } from "./openai.js";
+import { newO3MiniCompletition, newO3MiniHighCompletition, newGPT52Completition, newGPT52MiniCompletition, visionCompletion, newGPT52CodexCompletion, newGPT5NanoCompletion, newO3Completition, newO4MiniCompletition, newGPT41Completition, newGPT41MiniCompletition, newGPT41NanoCompletion } from "./openai.js";
 import { logger } from "../logger/logger.js";
 import { MessageAuthor } from "../types/chat-message.js";
 import { newClaudeCompletion } from "./anthropic-claude.js";
 import { newGroqCompletion, newGroqLlama4MaverickCompletion, newGroqLlama4ScoutCompletion } from "./groq.js";
-import { newGemini3ProCompletion, newGemini3FlashCompletion } from "./gcp-ml.js";
+import { newGemini31ProCompletion, newGemini3ProCompletion, newGemini3FlashCompletion } from "./gcp-ml.js";
 export var ExecutionModel;
 (function (ExecutionModel) {
     // OpenAI GPT-5 models (latest)
@@ -11,9 +11,15 @@ export var ExecutionModel;
     ExecutionModel["GPT5_2_CODEX"] = "gpt-5.2-codex";
     ExecutionModel["GPT5_MINI"] = "gpt-5-mini";
     ExecutionModel["GPT5_NANO"] = "gpt-5-nano";
+    // OpenAI GPT-4.1 models (latest)
+    ExecutionModel["GPT4_1"] = "gpt-4.1";
+    ExecutionModel["GPT4_1_MINI"] = "gpt-4.1-mini";
+    ExecutionModel["GPT4_1_NANO"] = "gpt-4.1-nano";
     // OpenAI reasoning models (latest)
+    ExecutionModel["O3"] = "o3";
     ExecutionModel["O3_MINI"] = "o3-mini";
     ExecutionModel["O3_MINI_HIGH"] = "o3-mini-high";
+    ExecutionModel["O4_MINI"] = "o4-mini";
     // Anthropic Claude models (latest)
     ExecutionModel["CLAUDE_OPUS_4_6"] = "claude-opus-4-6";
     ExecutionModel["CLAUDE_SONNET_4_6"] = "claude-sonnet-4-6";
@@ -24,8 +30,9 @@ export var ExecutionModel;
     ExecutionModel["GROQ_LLAMA_4_MAVERICK"] = "meta-llama/llama-4-maverick-17b-128e-instruct";
     ExecutionModel["GROQ_LLAMA_4_SCOUT"] = "meta-llama/llama-4-scout-17b-16e-instruct";
     // Google Gemini 3 models (latest - December 2025)
-    ExecutionModel["GEMINI_3_PRO"] = "gemini-3-pro";
-    ExecutionModel["GEMINI_3_FLASH"] = "gemini-3-flash";
+    ExecutionModel["GEMINI_3_1_PRO"] = "gemini-3.1-pro-preview";
+    ExecutionModel["GEMINI_3_PRO"] = "gemini-3-pro-preview";
+    ExecutionModel["GEMINI_3_FLASH"] = "gemini-3-flash-preview";
 })(ExecutionModel || (ExecutionModel = {}));
 export const anyOfModels = (array) => {
     const randomIndex = Math.floor(Math.random() * array.length);
@@ -46,6 +53,15 @@ export const newMLCompletion = async (messages, model, mode = "json") => {
         if (model === ExecutionModel.GPT5_NANO) {
             return await newGPT5NanoCompletion(messages, mode);
         }
+        if (model === ExecutionModel.GPT4_1) {
+            return await newGPT41Completition(messages, mode);
+        }
+        if (model === ExecutionModel.GPT4_1_MINI) {
+            return await newGPT41MiniCompletition(messages, mode);
+        }
+        if (model === ExecutionModel.GPT4_1_NANO) {
+            return await newGPT41NanoCompletion(messages, mode);
+        }
         // --- New completions for GPT-5.2-codex and GPT-5-nano ---
         // These should be implemented in openai.js
         // Example stub implementations below (replace with real API logic as needed):
@@ -59,11 +75,17 @@ export const newMLCompletion = async (messages, model, mode = "json") => {
         //     return await newGPT52MiniCompletition(messages, mode);
         // };
         // OpenAI reasoning models (latest)
+        if (model === ExecutionModel.O3) {
+            return await newO3Completition(messages, mode);
+        }
         if (model === ExecutionModel.O3_MINI) {
             return await newO3MiniCompletition(messages, mode);
         }
         if (model === ExecutionModel.O3_MINI_HIGH) {
             return await newO3MiniHighCompletition(messages, mode);
+        }
+        if (model === ExecutionModel.O4_MINI) {
+            return await newO4MiniCompletition(messages, mode);
         }
         // Anthropic Claude models (latest)
         if (model === ExecutionModel.CLAUDE_OPUS_4_6) {
@@ -89,6 +111,9 @@ export const newMLCompletion = async (messages, model, mode = "json") => {
             return await newGroqLlama4ScoutCompletion(messages, mode);
         }
         // Google Gemini 3 models (latest)
+        if (model === ExecutionModel.GEMINI_3_1_PRO) {
+            return await newGemini31ProCompletion(messages, mode);
+        }
         if (model === ExecutionModel.GEMINI_3_PRO) {
             return await newGemini3ProCompletion(messages, mode);
         }

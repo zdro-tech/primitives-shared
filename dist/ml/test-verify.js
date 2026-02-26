@@ -6,16 +6,49 @@ dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 // Fallback if .env is in parent
 dotenv.config({ path: path.resolve(process.cwd(), '../.env') });
 const runVerification = async () => {
-    console.log("Starting GPT-5 & Claude Verification (Exposed APIs)...");
-    const modelsToTest = [
-        ExecutionModel.GPT5_2,
-        ExecutionModel.GPT5_MINI,
-        ExecutionModel.GPT5_NANO,
-        ExecutionModel.CLAUDE_OPUS_4_6,
-        ExecutionModel.CLAUDE_SONNET_4_6,
-        ExecutionModel.CLAUDE_SONNET_4_5,
-        ExecutionModel.CLAUDE_HAIKU_4_5
-    ];
+    console.log("Starting Verification (Exposed APIs)...");
+    const families = process.argv.slice(2);
+    const modelFamilies = {
+        'openai': [
+            ExecutionModel.GPT5_2,
+            ExecutionModel.GPT5_MINI,
+            ExecutionModel.GPT5_NANO,
+            ExecutionModel.GPT4_1,
+            ExecutionModel.GPT4_1_MINI,
+            ExecutionModel.GPT4_1_NANO,
+            ExecutionModel.O3,
+            ExecutionModel.O4_MINI,
+        ],
+        'anthropic': [
+            ExecutionModel.CLAUDE_OPUS_4_6,
+            ExecutionModel.CLAUDE_SONNET_4_6,
+            ExecutionModel.CLAUDE_SONNET_4_5,
+            ExecutionModel.CLAUDE_HAIKU_4_5,
+        ],
+        'google': [
+            ExecutionModel.GEMINI_3_1_PRO,
+            ExecutionModel.GEMINI_3_PRO,
+            ExecutionModel.GEMINI_3_FLASH
+        ]
+    };
+    let modelsToTest = [];
+    if (families.length > 0) {
+        for (const family of families) {
+            if (modelFamilies[family]) {
+                modelsToTest.push(...modelFamilies[family]);
+            }
+            else {
+                console.warn(`Unknown model family: ${family}`);
+            }
+        }
+    }
+    else {
+        modelsToTest = Object.values(modelFamilies).flat();
+    }
+    if (modelsToTest.length === 0) {
+        console.error("No models to test. Available families:", Object.keys(modelFamilies).join(", "));
+        process.exit(1);
+    }
     let failed = false;
     for (const model of modelsToTest) {
         console.log(`\nTesting model: ${model}`);

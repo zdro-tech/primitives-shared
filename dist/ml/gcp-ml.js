@@ -12,8 +12,9 @@ export const getOpenAIClient = () => {
     return openaiClient;
 };
 export const newGCPCompletion = async (messages, model, mode) => await createChatCompletion({ model: model, max_completion_tokens: 8192, messages }, mode);
-export const newGemini3ProCompletion = async (messages, mode) => await createChatCompletion({ model: "gemini-3-pro", max_completion_tokens: 8192, messages }, mode);
-export const newGemini3FlashCompletion = async (messages, mode) => await createChatCompletion({ model: "gemini-3-flash", max_completion_tokens: 8192, messages }, mode);
+export const newGemini31ProCompletion = async (messages, mode) => await createChatCompletion({ model: "gemini-3.1-pro-preview", max_completion_tokens: 8192, messages }, mode);
+export const newGemini3ProCompletion = async (messages, mode) => await createChatCompletion({ model: "gemini-3-pro-preview", max_completion_tokens: 8192, messages }, mode);
+export const newGemini3FlashCompletion = async (messages, mode) => await createChatCompletion({ model: "gemini-3-flash-preview", max_completion_tokens: 8192, messages }, mode);
 export const createChatCompletion = async (params, mode = 'json') => {
     const settings = { ...params };
     if (mode === 'json') {

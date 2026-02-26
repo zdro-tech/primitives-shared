@@ -6,8 +6,13 @@ export declare enum ExecutionModel {
     GPT5_2_CODEX = "gpt-5.2-codex",
     GPT5_MINI = "gpt-5-mini",
     GPT5_NANO = "gpt-5-nano",
+    GPT4_1 = "gpt-4.1",
+    GPT4_1_MINI = "gpt-4.1-mini",
+    GPT4_1_NANO = "gpt-4.1-nano",
+    O3 = "o3",
     O3_MINI = "o3-mini",
     O3_MINI_HIGH = "o3-mini-high",
+    O4_MINI = "o4-mini",
     CLAUDE_OPUS_4_6 = "claude-opus-4-6",
     CLAUDE_SONNET_4_6 = "claude-sonnet-4-6",
     CLAUDE_SONNET_4_5 = "claude-sonnet-4-5",
@@ -15,8 +20,9 @@ export declare enum ExecutionModel {
     GROQ_LLAMA_3_3_70B_VERSATILE = "llama-3.3-70b-versatile",
     GROQ_LLAMA_4_MAVERICK = "meta-llama/llama-4-maverick-17b-128e-instruct",
     GROQ_LLAMA_4_SCOUT = "meta-llama/llama-4-scout-17b-16e-instruct",
-    GEMINI_3_PRO = "gemini-3-pro",
-    GEMINI_3_FLASH = "gemini-3-flash"
+    GEMINI_3_1_PRO = "gemini-3.1-pro-preview",
+    GEMINI_3_PRO = "gemini-3-pro-preview",
+    GEMINI_3_FLASH = "gemini-3-flash-preview"
 }
 export declare const anyOfModels: (array: ExecutionModel[]) => ExecutionModel;
 export declare const newMLCompletion: (messages: Array<ChatCompletionMessageParam>, model: ExecutionModel, mode?: string) => Promise<ChatCompletion.Choice[]>;

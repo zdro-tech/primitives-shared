@@ -24,17 +24,23 @@ export const newGCPCompletion = async (
 ): Promise<ChatCompletion.Choice[]> =>
     await createChatCompletion({ model: model, max_completion_tokens: 8192, messages }, mode);
 
+export const newGemini31ProCompletion = async (
+    messages: ChatCompletionMessageParam[],
+    mode?: string
+): Promise<ChatCompletion.Choice[]> =>
+    await createChatCompletion({ model: "gemini-3.1-pro-preview", max_completion_tokens: 8192, messages }, mode);
+
 export const newGemini3ProCompletion = async (
     messages: ChatCompletionMessageParam[],
     mode?: string
 ): Promise<ChatCompletion.Choice[]> =>
-    await createChatCompletion({ model: "gemini-3-pro", max_completion_tokens: 8192, messages }, mode);
+    await createChatCompletion({ model: "gemini-3-pro-preview", max_completion_tokens: 8192, messages }, mode);
 
 export const newGemini3FlashCompletion = async (
     messages: ChatCompletionMessageParam[],
     mode?: string
 ): Promise<ChatCompletion.Choice[]> =>
-    await createChatCompletion({ model: "gemini-3-flash", max_completion_tokens: 8192, messages }, mode);
+    await createChatCompletion({ model: "gemini-3-flash-preview", max_completion_tokens: 8192, messages }, mode);
 
 export const createChatCompletion = async (params: ChatCompletionCreateParamsNonStreaming, mode = 'json'): Promise<ChatCompletion.Choice[]> => {
     const settings = { ...params };
