@@ -131,12 +131,12 @@ export const newMLCompletion = async (messages: Array<ChatCompletionMessageParam
     } catch (e) {
         logger.error(`Error in newMLCompletion ${model}`, e);
         try {
-            return await newClaudeCompletion(messages, ExecutionModel.CLAUDE_SONNET_4_5, mode);
+            return await newClaudeCompletion(messages, ExecutionModel.CLAUDE_SONNET_4_6, mode);
         } catch (e) {
             logger.error(`Error in in falling back competion to Anthropic ${model} with fallback`, e);
         }
         try {
-            return await newGemini3ProCompletion(messages, mode);
+            return await newGemini31ProCompletion(messages, mode);
         } catch (e) {
             logger.error(`Error in in falling back competion to GCP ${model} with fallback`, e);
         }
