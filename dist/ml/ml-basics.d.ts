@@ -18,8 +18,8 @@ export declare enum ExecutionModel {
     CLAUDE_SONNET_4_5 = "claude-sonnet-4-5",
     CLAUDE_HAIKU_4_5 = "claude-haiku-4-5",
     GROQ_LLAMA_3_3_70B_VERSATILE = "llama-3.3-70b-versatile",
-    GROQ_LLAMA_4_MAVERICK = "meta-llama/llama-4-maverick-17b-128e-instruct",
-    GROQ_LLAMA_4_SCOUT = "meta-llama/llama-4-scout-17b-16e-instruct",
+    GROQ_GPT_OSS_120B = "openai/gpt-oss-120b",
+    GROQ_KIMI_K2_0905 = "moonshotai/kimi-k2-instruct-0905",
     GEMINI_3_1_PRO = "gemini-3.1-pro-preview",
     GEMINI_3_PRO = "gemini-3-pro-preview",
     GEMINI_3_FLASH = "gemini-3-flash-preview"

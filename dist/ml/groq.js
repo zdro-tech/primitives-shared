@@ -21,9 +21,9 @@ export const newGroqCompletion = async (messages, model, mode) => {
     const reply = await getGroqClient().chat.completions.create(settings);
     return reply?.choices;
 };
-export const newGroqLlama4MaverickCompletion = async (messages, mode) => {
-    return await newGroqCompletion(messages, "meta-llama/llama-4-maverick-17b-128e-instruct", mode);
+export const newGroqGptOss120bCompletion = async (messages, mode) => {
+    return await newGroqCompletion(messages, "openai/gpt-oss-120b", mode);
 };
-export const newGroqLlama4ScoutCompletion = async (messages, mode) => {
-    return await newGroqCompletion(messages, "meta-llama/llama-4-scout-17b-16e-instruct", mode);
+export const newGroqKimiK2Completion = async (messages, mode) => {
+    return await newGroqCompletion(messages, "moonshotai/kimi-k2-instruct-0905", mode);
 };

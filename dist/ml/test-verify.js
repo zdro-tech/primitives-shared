@@ -29,6 +29,11 @@ const runVerification = async () => {
             ExecutionModel.GEMINI_3_1_PRO,
             ExecutionModel.GEMINI_3_PRO,
             ExecutionModel.GEMINI_3_FLASH
+        ],
+        'groq': [
+            ExecutionModel.GROQ_LLAMA_3_3_70B_VERSATILE,
+            ExecutionModel.GROQ_GPT_OSS_120B,
+            ExecutionModel.GROQ_KIMI_K2_0905,
         ]
     };
     let modelsToTest = [];

@@ -5,7 +5,7 @@ import { logger } from "../logger/logger.js";
 import { ChatMessage, FileData, MessageAuthor } from "../types/chat-message.js";
 import { Message, TextContentBlock } from "openai/resources/beta/threads/index.mjs";
 import { newClaudeCompletion } from "./anthropic-claude.js";
-import { newGroqCompletion, newGroqLlama4MaverickCompletion, newGroqLlama4ScoutCompletion } from "./groq.js";
+import { newGroqCompletion, newGroqGptOss120bCompletion, newGroqKimiK2Completion } from "./groq.js";
 import { newGemini31ProCompletion, newGemini3ProCompletion, newGemini3FlashCompletion } from "./gcp-ml.js";
 
 export enum ExecutionModel {
@@ -30,8 +30,8 @@ export enum ExecutionModel {
     CLAUDE_HAIKU_4_5 = "claude-haiku-4-5",
     // Groq models (latest)
     GROQ_LLAMA_3_3_70B_VERSATILE = "llama-3.3-70b-versatile",
-    GROQ_LLAMA_4_MAVERICK = "meta-llama/llama-4-maverick-17b-128e-instruct",
-    GROQ_LLAMA_4_SCOUT = "meta-llama/llama-4-scout-17b-16e-instruct",
+    GROQ_GPT_OSS_120B = "openai/gpt-oss-120b",
+    GROQ_KIMI_K2_0905 = "moonshotai/kimi-k2-instruct-0905",
     // Google Gemini 3 models (latest - December 2025)
     GEMINI_3_1_PRO = "gemini-3.1-pro-preview",
     GEMINI_3_PRO = "gemini-3-pro-preview",
@@ -112,11 +112,11 @@ export const newMLCompletion = async (messages: Array<ChatCompletionMessageParam
         if (model === ExecutionModel.GROQ_LLAMA_3_3_70B_VERSATILE) {
             return await newGroqCompletion(messages, ExecutionModel.GROQ_LLAMA_3_3_70B_VERSATILE, mode);
         }
-        if (model === ExecutionModel.GROQ_LLAMA_4_MAVERICK) {
-            return await newGroqLlama4MaverickCompletion(messages, mode);
+        if (model === ExecutionModel.GROQ_GPT_OSS_120B) {
+            return await newGroqGptOss120bCompletion(messages, mode);
         }
-        if (model === ExecutionModel.GROQ_LLAMA_4_SCOUT) {
-            return await newGroqLlama4ScoutCompletion(messages, mode);
+        if (model === ExecutionModel.GROQ_KIMI_K2_0905) {
+            return await newGroqKimiK2Completion(messages, mode);
         }
         // Google Gemini 3 models (latest)
         if (model === ExecutionModel.GEMINI_3_1_PRO) {
