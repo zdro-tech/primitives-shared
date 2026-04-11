@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import { retryOptions } from "./shared.js";
+import { getTimeoutMs, retryOptions } from "./shared.js";
 import { backOff } from "exponential-backoff";
 const TOGETHER_BASE_URL = "https://api.together.xyz/v1";
 let togetherClient;
@@ -11,7 +11,7 @@ export const getTogetherClient = () => {
         togetherClient = new OpenAI({
             apiKey: process.env.TOGETHER_API_KEY,
             baseURL: TOGETHER_BASE_URL,
-            timeout: parseInt(process.env.TOGETHER_TIMEOUT_SECONDS ?? process.env.OPEN_AI_TIMEOUT_SECONDS ?? "30") * 1000,
+            timeout: getTimeoutMs(process.env.TOGETHER_TIMEOUT_SECONDS, process.env.OPEN_AI_TIMEOUT_SECONDS),
         });
     }
     return togetherClient;

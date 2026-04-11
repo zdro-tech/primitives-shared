@@ -7,9 +7,6 @@ export const getAnthropicClient = () => {
     if (!anthropic) {
         anthropic = new Anthropic({
             apiKey: process.env.ANTHROPIC_API_KEY,
-            defaultHeaders: {
-                'anthropic-beta': 'structured-outputs-2025-11-13'
-            }
         });
     }
     return anthropic;
@@ -19,9 +16,13 @@ export const defaultClaudeSettings = {
     max_tokens: 8192,
     temperature: 0.3
 };
-export const newClaudeCompletion = async (messages, model, mode) => {
-    const systemMessage = messages.filter(m => m.role === "system").map(m => m.content).join("\n\n ");
-    const userMessages = messages.filter(m => m.role !== "system");
+export const newClaudeCompletion = async (messages, model, mode, jsonSchema) => {
+    const systemMessage = messages
+        .filter(m => m.role === "system" || m.role === "developer")
+        .map(m => m.content)
+        .join("\n\n ");
+    const userMessages = messages
+        .filter(m => m.role === "user" || m.role === "assistant");
     const params = {
         ...defaultClaudeSettings,
         model,
@@ -30,16 +31,18 @@ export const newClaudeCompletion = async (messages, model, mode) => {
     if (systemMessage) {
         params.system = systemMessage;
     }
-    if (mode === 'json') {
-        params.output_format = {
-            type: 'json_schema',
-            schema: {
-                type: 'object',
-                additionalProperties: false
+    if (mode === 'json' && jsonSchema) {
+        params.output_config = {
+            format: {
+                type: 'json_schema',
+                schema: jsonSchema
             }
         };
     }
     const message = await getAnthropicClient().messages.create(params);
+    if (message.stop_reason === 'max_tokens' || message.stop_reason === 'refusal') {
+        throw new Error(`Claude response stopped before producing valid output: ${message.stop_reason}`);
+    }
     const stringContent = message.content
         .filter((block) => block.type === 'text')
         .map(block => block.text)

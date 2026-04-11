@@ -8,3 +8,9 @@ export const retryOptions: BackoffOptions = {
     },
     numOfAttempts: 2
 };
+
+export const getTimeoutMs = (specificTimeoutSeconds?: string, fallbackTimeoutSeconds?: string): number => {
+    const parsedSeconds = Number.parseInt(specificTimeoutSeconds ?? fallbackTimeoutSeconds ?? "30", 10);
+    const timeoutSeconds = Number.isFinite(parsedSeconds) ? Math.max(parsedSeconds, 30) : 30;
+    return timeoutSeconds * 1000;
+};

@@ -78,7 +78,7 @@ const runVerification = async () => {
         // Test: processMessages (JSON Mode)
         try {
             console.log(`  1. processMessages (JSON)...`);
-            const messagesJson = [{ role: 'user', content: 'Please return a JSON object with a single field named "status" set to the value "json_check". This is a verification test.' }] as ChatCompletionMessageParam[];
+            const messagesJson = [{ role: 'user', content: 'Please return exactly this JSON shape and value: {"status":"json_check"}. Do not omit the status field.' }] as ChatCompletionMessageParam[];
             const start = Date.now();
             const result = await processMessages<{ status: string }>(messagesJson, "english", model, "json");
             const duration = Date.now() - start;

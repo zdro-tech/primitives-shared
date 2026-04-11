@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import { retryOptions } from './shared.js';
+import { getTimeoutMs, retryOptions } from './shared.js';
 import { backOff } from 'exponential-backoff';
 let openAIClient;
 export const getOpenAIClient = () => {
@@ -9,7 +9,7 @@ export const getOpenAIClient = () => {
     if (!openAIClient) {
         openAIClient = new OpenAI({
             apiKey: process.env.OPENAI_API_KEY,
-            timeout: parseInt(process.env.OPEN_AI_TIMEOUT_SECONDS ?? '30') * 1000,
+            timeout: getTimeoutMs(process.env.OPEN_AI_TIMEOUT_SECONDS),
         });
     }
     return openAIClient;

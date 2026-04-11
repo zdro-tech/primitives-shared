@@ -1,6 +1,6 @@
 import OpenAI from 'openai';
 import { ChatCompletionCreateParamsNonStreaming } from 'openai/resources/index.mjs';
-import { retryOptions } from './shared.js';
+import { getTimeoutMs, retryOptions } from './shared.js';
 import { ChatCompletionMessageParam, ChatCompletion, ChatCompletionMessage } from "openai/resources/index";
 import { backOff } from 'exponential-backoff';
 
@@ -12,7 +12,7 @@ export const getOpenAIClient = () => {
   if (!openAIClient) {
     openAIClient = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
-      timeout: parseInt(process.env.OPEN_AI_TIMEOUT_SECONDS ?? '30') * 1000,
+      timeout: getTimeoutMs(process.env.OPEN_AI_TIMEOUT_SECONDS),
     });
   }
   return openAIClient;

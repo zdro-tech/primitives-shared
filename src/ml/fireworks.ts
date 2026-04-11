@@ -4,7 +4,7 @@ import {
     ChatCompletionCreateParamsNonStreaming,
     ChatCompletionMessageParam,
 } from "openai/resources/index";
-import { retryOptions } from "./shared.js";
+import { getTimeoutMs, retryOptions } from "./shared.js";
 import { backOff } from "exponential-backoff";
 
 const FIREWORKS_BASE_URL = "https://api.fireworks.ai/inference/v1";
@@ -19,7 +19,7 @@ export const getFireworksClient = (): OpenAI => {
         fireworksClient = new OpenAI({
             apiKey: process.env.FIREWORKS_API_KEY,
             baseURL: FIREWORKS_BASE_URL,
-            timeout: parseInt(process.env.FIREWORKS_TIMEOUT_SECONDS ?? process.env.OPEN_AI_TIMEOUT_SECONDS ?? "30") * 1000,
+            timeout: getTimeoutMs(process.env.FIREWORKS_TIMEOUT_SECONDS, process.env.OPEN_AI_TIMEOUT_SECONDS),
         });
     }
     return fireworksClient;
