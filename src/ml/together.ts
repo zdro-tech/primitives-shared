@@ -26,7 +26,6 @@ export const getTogetherClient = (): OpenAI => {
 };
 
 export const defaultTogetherSettings = {
-    temperature: 0.4,
     n: 1,
     max_completion_tokens: 8192,
 } as ChatCompletionCreateParamsNonStreaming;
@@ -47,15 +46,19 @@ export const createTogetherChatCompletion = async (
 export const newTogetherCompletion = async (
     messages: ChatCompletionMessageParam[],
     model: string,
-    mode?: string
+    mode?: string,
+    modelSettings: Partial<ChatCompletionCreateParamsNonStreaming> = {}
 ): Promise<ChatCompletion.Choice[]> =>
-    await createTogetherChatCompletion({ ...defaultTogetherSettings, model, messages }, mode);
+    await createTogetherChatCompletion({ ...defaultTogetherSettings, ...modelSettings, model, messages }, mode);
 
 export const newTogetherKimiK25Completion = async (
     messages: ChatCompletionMessageParam[],
     mode?: string
 ): Promise<ChatCompletion.Choice[]> =>
-    await newTogetherCompletion(messages, "moonshotai/Kimi-K2.5", mode);
+    await newTogetherCompletion(messages, "moonshotai/Kimi-K2.5", mode, {
+        temperature: 1.0,
+        top_p: 0.95,
+    });
 
 export const newTogetherGlm51Completion = async (
     messages: ChatCompletionMessageParam[],
@@ -73,4 +76,8 @@ export const newTogetherGptOss120bCompletion = async (
     messages: ChatCompletionMessageParam[],
     mode?: string
 ): Promise<ChatCompletion.Choice[]> =>
-    await newTogetherCompletion(messages, "openai/gpt-oss-120b", mode);
+    await newTogetherCompletion(messages, "openai/gpt-oss-120b", mode, {
+        temperature: 1.0,
+        top_p: 1.0,
+        reasoning_effort: "medium",
+    } as Partial<ChatCompletionCreateParamsNonStreaming>);

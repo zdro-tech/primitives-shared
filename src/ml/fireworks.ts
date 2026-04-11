@@ -26,7 +26,6 @@ export const getFireworksClient = (): OpenAI => {
 };
 
 export const defaultFireworksSettings = {
-    temperature: 0.4,
     n: 1,
     max_completion_tokens: 8192,
 } as ChatCompletionCreateParamsNonStreaming;
@@ -63,12 +62,6 @@ export const newFireworksKimiK25Completion = async (
     mode?: string
 ): Promise<ChatCompletion.Choice[]> =>
     await newFireworksCompletion(messages, "accounts/fireworks/models/kimi-k2p5", mode);
-
-export const newFireworksKimiK2Completion = async (
-    messages: ChatCompletionMessageParam[],
-    mode?: string
-): Promise<ChatCompletion.Choice[]> =>
-    await newFireworksCompletion(messages, "accounts/fireworks/models/kimi-k2-instruct-0905", mode);
 
 export const newFireworksGlm51Completion = async (
     messages: ChatCompletionMessageParam[],

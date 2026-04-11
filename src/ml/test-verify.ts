@@ -1,10 +1,10 @@
-import { ExecutionModel, processMessages } from './ml-basics.js';
+import { ExecutionModel, processRawMessages, processMessages } from './ml-basics.js';
 import { logger } from '../logger/logger.js';
 import { ChatCompletionMessageParam } from "openai/resources/index";
 import dotenv from 'dotenv';
 import path from 'path';
 
-// Load env 
+// Load env
 dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 // Fallback if .env is in parent
 dotenv.config({ path: path.resolve(process.cwd(), '../.env') });
@@ -17,20 +17,13 @@ const runVerification = async () => {
 
     const modelFamilies: Record<string, ExecutionModel[]> = {
         'openai': [
-            ExecutionModel.GPT5_2,
-            ExecutionModel.GPT5_MINI,
-            ExecutionModel.GPT5_NANO,
-            ExecutionModel.GPT4_1,
-            ExecutionModel.GPT4_1_MINI,
-            ExecutionModel.GPT4_1_NANO,
-            ExecutionModel.O3,
-            ExecutionModel.O4_MINI,
+            ExecutionModel.GPT5_4,
+            ExecutionModel.GPT5_4_MINI,
+            ExecutionModel.GPT5_4_NANO,
         ],
         'anthropic': [
             ExecutionModel.CLAUDE_OPUS_4_6,
             ExecutionModel.CLAUDE_SONNET_4_6,
-            ExecutionModel.CLAUDE_SONNET_4_5,
-            ExecutionModel.CLAUDE_HAIKU_4_5,
         ],
         'google': [
             ExecutionModel.GEMINI_3_1_PRO,
@@ -38,14 +31,11 @@ const runVerification = async () => {
             ExecutionModel.GEMINI_3_FLASH
         ],
         'groq': [
-            ExecutionModel.GROQ_LLAMA_3_3_70B_VERSATILE,
             ExecutionModel.GROQ_GPT_OSS_120B,
-            ExecutionModel.GROQ_KIMI_K2_0905,
         ],
         'fireworks': [
             ExecutionModel.FIREWORKS_DEEPSEEK_V3P1,
             ExecutionModel.FIREWORKS_KIMI_K2P5,
-            ExecutionModel.FIREWORKS_KIMI_K2_0905,
             ExecutionModel.FIREWORKS_GLM_5P1,
             ExecutionModel.FIREWORKS_GPT_OSS_120B,
             ExecutionModel.FIREWORKS_MINIMAX_M2P5,
@@ -77,10 +67,10 @@ const runVerification = async () => {
     }
 
     let failed = false;
-    const latencies: Array<{ model: ExecutionModel; jsonMs?: number }> = [];
+    const latencies: Array<{ model: ExecutionModel; jsonMs?: number; rawMs?: number }> = [];
 
     for (const model of modelsToTest) {
-        const modelLatencies: { model: ExecutionModel; jsonMs?: number } = { model };
+        const modelLatencies: { model: ExecutionModel; jsonMs?: number; rawMs?: number } = { model };
         latencies.push(modelLatencies);
 
         console.log(`\nTesting model: ${model}`);
@@ -107,12 +97,36 @@ const runVerification = async () => {
             }
             failed = true;
         }
+
+        // Test: processRawMessages (Raw Mode)
+        try {
+            console.log(`  2. processRawMessages (Raw)...`);
+            const messagesRaw = [{ role: 'user', content: 'Return the exact marker raw_check and then one short sentence. Do not use JSON.' }] as ChatCompletionMessageParam[];
+            const start = Date.now();
+            const result = await processRawMessages(messagesRaw, "english", model, "raw");
+            const duration = Date.now() - start;
+            modelLatencies.rawMs = duration;
+
+            if (result && result.includes("raw_check")) {
+                console.log(`     ✅ Success (${duration}ms)`);
+            } else {
+                console.log(`     ⚠️  Success but unexpected output: "${result}" (${duration}ms)`);
+                failed = true;
+            }
+        } catch (error: any) {
+            console.error(`     ❌ Failed: ${error.message}`);
+            if (error.response?.data) {
+                console.error(`        Response: ${JSON.stringify(error.response.data)}`);
+            }
+            failed = true;
+        }
     }
 
     console.log("\nLatency summary:");
     for (const latency of latencies) {
         const jsonLatency = latency.jsonMs === undefined ? "failed" : `${latency.jsonMs}ms`;
-        console.log(`  ${latency.model}: json=${jsonLatency}`);
+        const rawLatency = latency.rawMs === undefined ? "failed" : `${latency.rawMs}ms`;
+        console.log(`  ${latency.model}: json=${jsonLatency}, raw=${rawLatency}`);
     }
 
     if (failed) {

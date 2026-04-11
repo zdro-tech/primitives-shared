@@ -17,7 +17,6 @@ export const getTogetherClient = () => {
     return togetherClient;
 };
 export const defaultTogetherSettings = {
-    temperature: 0.4,
     n: 1,
     max_completion_tokens: 8192,
 };
@@ -30,8 +29,15 @@ export const createTogetherChatCompletion = async (params, mode = "json") => {
         return reply?.choices;
     }, retryOptions);
 };
-export const newTogetherCompletion = async (messages, model, mode) => await createTogetherChatCompletion({ ...defaultTogetherSettings, model, messages }, mode);
-export const newTogetherKimiK25Completion = async (messages, mode) => await newTogetherCompletion(messages, "moonshotai/Kimi-K2.5", mode);
+export const newTogetherCompletion = async (messages, model, mode, modelSettings = {}) => await createTogetherChatCompletion({ ...defaultTogetherSettings, ...modelSettings, model, messages }, mode);
+export const newTogetherKimiK25Completion = async (messages, mode) => await newTogetherCompletion(messages, "moonshotai/Kimi-K2.5", mode, {
+    temperature: 1.0,
+    top_p: 0.95,
+});
 export const newTogetherGlm51Completion = async (messages, mode) => await newTogetherCompletion(messages, "zai-org/GLM-5.1", mode);
 export const newTogetherMiniMaxM25Completion = async (messages, mode) => await newTogetherCompletion(messages, "MiniMaxAI/MiniMax-M2.5", mode);
-export const newTogetherGptOss120bCompletion = async (messages, mode) => await newTogetherCompletion(messages, "openai/gpt-oss-120b", mode);
+export const newTogetherGptOss120bCompletion = async (messages, mode) => await newTogetherCompletion(messages, "openai/gpt-oss-120b", mode, {
+    temperature: 1.0,
+    top_p: 1.0,
+    reasoning_effort: "medium",
+});

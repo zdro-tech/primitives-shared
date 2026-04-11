@@ -1,40 +1,25 @@
-import { newO3MiniCompletition, newO3MiniHighCompletition, newGPT52Completition, newGPT52MiniCompletition, visionCompletion, newGPT52CodexCompletion, newGPT5NanoCompletion, newO3Completition, newO4MiniCompletition, newGPT41Completition, newGPT41MiniCompletition, newGPT41NanoCompletion } from "./openai.js";
+import { newGPT54Completion, newGPT54MiniCompletion, newGPT54NanoCompletion, visionCompletion } from "./openai.js";
 import { logger } from "../logger/logger.js";
 import { MessageAuthor } from "../types/chat-message.js";
 import { newClaudeCompletion } from "./anthropic-claude.js";
-import { newGroqCompletion, newGroqGptOss120bCompletion, newGroqKimiK2Completion } from "./groq.js";
+import { newGroqGptOss120bCompletion } from "./groq.js";
 import { newGemini31ProCompletion, newGemini3ProCompletion, newGemini3FlashCompletion } from "./gcp-ml.js";
-import { newFireworksDeepseekV3p1Completion, newFireworksGlm51Completion, newFireworksGptOss120bCompletion, newFireworksKimiK25Completion, newFireworksKimiK2Completion, newFireworksMiniMaxM25Completion } from "./fireworks.js";
+import { newFireworksDeepseekV3p1Completion, newFireworksGlm51Completion, newFireworksGptOss120bCompletion, newFireworksKimiK25Completion, newFireworksMiniMaxM25Completion } from "./fireworks.js";
 import { newTogetherGlm51Completion, newTogetherGptOss120bCompletion, newTogetherKimiK25Completion, newTogetherMiniMaxM25Completion } from "./together.js";
 export var ExecutionModel;
 (function (ExecutionModel) {
-    // OpenAI GPT-5 models (latest)
-    ExecutionModel["GPT5_2"] = "gpt-5.2";
-    ExecutionModel["GPT5_2_CODEX"] = "gpt-5.2-codex";
-    ExecutionModel["GPT5_MINI"] = "gpt-5-mini";
-    ExecutionModel["GPT5_NANO"] = "gpt-5-nano";
-    // OpenAI GPT-4.1 models (latest)
-    ExecutionModel["GPT4_1"] = "gpt-4.1";
-    ExecutionModel["GPT4_1_MINI"] = "gpt-4.1-mini";
-    ExecutionModel["GPT4_1_NANO"] = "gpt-4.1-nano";
-    // OpenAI reasoning models (latest)
-    ExecutionModel["O3"] = "o3";
-    ExecutionModel["O3_MINI"] = "o3-mini";
-    ExecutionModel["O3_MINI_HIGH"] = "o3-mini-high";
-    ExecutionModel["O4_MINI"] = "o4-mini";
+    // OpenAI GPT-5.4 models
+    ExecutionModel["GPT5_4"] = "gpt-5.4";
+    ExecutionModel["GPT5_4_MINI"] = "gpt-5.4-mini";
+    ExecutionModel["GPT5_4_NANO"] = "gpt-5.4-nano";
     // Anthropic Claude models (latest)
     ExecutionModel["CLAUDE_OPUS_4_6"] = "claude-opus-4-6";
     ExecutionModel["CLAUDE_SONNET_4_6"] = "claude-sonnet-4-6";
-    ExecutionModel["CLAUDE_SONNET_4_5"] = "claude-sonnet-4-5";
-    ExecutionModel["CLAUDE_HAIKU_4_5"] = "claude-haiku-4-5";
     // Groq models (latest)
-    ExecutionModel["GROQ_LLAMA_3_3_70B_VERSATILE"] = "llama-3.3-70b-versatile";
     ExecutionModel["GROQ_GPT_OSS_120B"] = "openai/gpt-oss-120b";
-    ExecutionModel["GROQ_KIMI_K2_0905"] = "moonshotai/kimi-k2-instruct-0905";
     // Fireworks models
     ExecutionModel["FIREWORKS_DEEPSEEK_V3P1"] = "accounts/fireworks/models/deepseek-v3p1";
     ExecutionModel["FIREWORKS_KIMI_K2P5"] = "accounts/fireworks/models/kimi-k2p5";
-    ExecutionModel["FIREWORKS_KIMI_K2_0905"] = "accounts/fireworks/models/kimi-k2-instruct-0905";
     ExecutionModel["FIREWORKS_GLM_5P1"] = "accounts/fireworks/models/glm-5p1";
     ExecutionModel["FIREWORKS_GPT_OSS_120B"] = "accounts/fireworks/models/gpt-oss-120b";
     ExecutionModel["FIREWORKS_MINIMAX_M2P5"] = "accounts/fireworks/models/minimax-m2p5";
@@ -54,52 +39,15 @@ export const anyOfModels = (array) => {
 };
 export const newMLCompletion = async (messages, model, mode = "json") => {
     try {
-        // OpenAI GPT-5 models (latest)
-        if (model === ExecutionModel.GPT5_2) {
-            return await newGPT52Completition(messages, mode);
+        // OpenAI GPT-5.4 models
+        if (model === ExecutionModel.GPT5_4) {
+            return await newGPT54Completion(messages, mode);
         }
-        if (model === ExecutionModel.GPT5_2_CODEX) {
-            return await newGPT52CodexCompletion(messages, mode);
+        if (model === ExecutionModel.GPT5_4_MINI) {
+            return await newGPT54MiniCompletion(messages, mode);
         }
-        if (model === ExecutionModel.GPT5_MINI) {
-            return await newGPT52MiniCompletition(messages, mode);
-        }
-        if (model === ExecutionModel.GPT5_NANO) {
-            return await newGPT5NanoCompletion(messages, mode);
-        }
-        if (model === ExecutionModel.GPT4_1) {
-            return await newGPT41Completition(messages, mode);
-        }
-        if (model === ExecutionModel.GPT4_1_MINI) {
-            return await newGPT41MiniCompletition(messages, mode);
-        }
-        if (model === ExecutionModel.GPT4_1_NANO) {
-            return await newGPT41NanoCompletion(messages, mode);
-        }
-        // --- New completions for GPT-5.2-codex and GPT-5-nano ---
-        // These should be implemented in openai.js
-        // Example stub implementations below (replace with real API logic as needed):
-        // In openai.js:
-        // export const newGPT52CodexCompletion = async (messages, mode) => {
-        //     // Implement actual API call for gpt-5.2-codex
-        //     return await newGPT52Completition(messages, mode);
-        // };
-        // export const newGPT5NanoCompletion = async (messages, mode) => {
-        //     // Implement actual API call for gpt-5-nano
-        //     return await newGPT52MiniCompletition(messages, mode);
-        // };
-        // OpenAI reasoning models (latest)
-        if (model === ExecutionModel.O3) {
-            return await newO3Completition(messages, mode);
-        }
-        if (model === ExecutionModel.O3_MINI) {
-            return await newO3MiniCompletition(messages, mode);
-        }
-        if (model === ExecutionModel.O3_MINI_HIGH) {
-            return await newO3MiniHighCompletition(messages, mode);
-        }
-        if (model === ExecutionModel.O4_MINI) {
-            return await newO4MiniCompletition(messages, mode);
+        if (model === ExecutionModel.GPT5_4_NANO) {
+            return await newGPT54NanoCompletion(messages, mode);
         }
         // Anthropic Claude models (latest)
         if (model === ExecutionModel.CLAUDE_OPUS_4_6) {
@@ -108,21 +56,9 @@ export const newMLCompletion = async (messages, model, mode = "json") => {
         if (model === ExecutionModel.CLAUDE_SONNET_4_6) {
             return await newClaudeCompletion(messages, ExecutionModel.CLAUDE_SONNET_4_6, mode);
         }
-        if (model === ExecutionModel.CLAUDE_SONNET_4_5) {
-            return await newClaudeCompletion(messages, ExecutionModel.CLAUDE_SONNET_4_5, mode);
-        }
-        if (model === ExecutionModel.CLAUDE_HAIKU_4_5) {
-            return await newClaudeCompletion(messages, ExecutionModel.CLAUDE_HAIKU_4_5, mode);
-        }
         // Groq models (latest)
-        if (model === ExecutionModel.GROQ_LLAMA_3_3_70B_VERSATILE) {
-            return await newGroqCompletion(messages, ExecutionModel.GROQ_LLAMA_3_3_70B_VERSATILE, mode);
-        }
         if (model === ExecutionModel.GROQ_GPT_OSS_120B) {
             return await newGroqGptOss120bCompletion(messages, mode);
-        }
-        if (model === ExecutionModel.GROQ_KIMI_K2_0905) {
-            return await newGroqKimiK2Completion(messages, mode);
         }
         // Fireworks models
         if (model === ExecutionModel.FIREWORKS_DEEPSEEK_V3P1) {
@@ -130,9 +66,6 @@ export const newMLCompletion = async (messages, model, mode = "json") => {
         }
         if (model === ExecutionModel.FIREWORKS_KIMI_K2P5) {
             return await newFireworksKimiK25Completion(messages, mode);
-        }
-        if (model === ExecutionModel.FIREWORKS_KIMI_K2_0905) {
-            return await newFireworksKimiK2Completion(messages, mode);
         }
         if (model === ExecutionModel.FIREWORKS_GLM_5P1) {
             return await newFireworksGlm51Completion(messages, mode);
@@ -176,14 +109,14 @@ export const newMLCompletion = async (messages, model, mode = "json") => {
             logger.error(`Error in in falling back competion to Anthropic ${model} with fallback`, e);
         }
         try {
-            return await newGemini31ProCompletion(messages, mode);
+            return await newGPT54MiniCompletion(messages, mode);
         }
         catch (e) {
             logger.error(`Error in in falling back competion to GCP ${model} with fallback`, e);
         }
     }
-    // Final fallback: use GPT-5.2 (most robust)
-    return await newGPT52Completition(messages, mode);
+    // Final fallback
+    return await newGemini31ProCompletion(messages, mode);
 };
 export const processRawMessages = async (messages, language, model, mode = "json") => {
     return cleanFirstCompletion(await newMLCompletion(messages, model, mode));

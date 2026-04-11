@@ -18,8 +18,13 @@ export const defaultGroqSettings = {
     max_completion_tokens: 8192,
 };
 
-export const newGroqCompletion = async (messages: Array<ChatCompletionMessageParam>, model: string, mode?: string): Promise<ChatCompletion.Choice[]> => {
-    const settings = { ...defaultGroqSettings as any, messages: messages as any, model: model };
+export const newGroqCompletion = async (
+    messages: Array<ChatCompletionMessageParam>,
+    model: string,
+    mode?: string,
+    modelSettings: Record<string, unknown> = {}
+): Promise<ChatCompletion.Choice[]> => {
+    const settings = { ...defaultGroqSettings as any, ...modelSettings, messages: messages as any, model: model };
     if (mode === 'json') {
         settings.response_format = { type: 'json_object' };
     }
@@ -28,9 +33,10 @@ export const newGroqCompletion = async (messages: Array<ChatCompletionMessagePar
 }
 
 export const newGroqGptOss120bCompletion = async (messages: Array<ChatCompletionMessageParam>, mode?: string): Promise<ChatCompletion.Choice[]> => {
-    return await newGroqCompletion(messages, "openai/gpt-oss-120b", mode);
-}
-
-export const newGroqKimiK2Completion = async (messages: Array<ChatCompletionMessageParam>, mode?: string): Promise<ChatCompletion.Choice[]> => {
-    return await newGroqCompletion(messages, "moonshotai/kimi-k2-instruct-0905", mode);
+    return await newGroqCompletion(messages, "openai/gpt-oss-120b", mode, {
+        temperature: 0.6,
+        top_p: 0.95,
+        reasoning_effort: "medium",
+        include_reasoning: false,
+    });
 }

@@ -13,8 +13,8 @@ export const defaultGroqSettings = {
     temperature: 0.4,
     max_completion_tokens: 8192,
 };
-export const newGroqCompletion = async (messages, model, mode) => {
-    const settings = { ...defaultGroqSettings, messages: messages, model: model };
+export const newGroqCompletion = async (messages, model, mode, modelSettings = {}) => {
+    const settings = { ...defaultGroqSettings, ...modelSettings, messages: messages, model: model };
     if (mode === 'json') {
         settings.response_format = { type: 'json_object' };
     }
@@ -22,8 +22,10 @@ export const newGroqCompletion = async (messages, model, mode) => {
     return reply?.choices;
 };
 export const newGroqGptOss120bCompletion = async (messages, mode) => {
-    return await newGroqCompletion(messages, "openai/gpt-oss-120b", mode);
-};
-export const newGroqKimiK2Completion = async (messages, mode) => {
-    return await newGroqCompletion(messages, "moonshotai/kimi-k2-instruct-0905", mode);
+    return await newGroqCompletion(messages, "openai/gpt-oss-120b", mode, {
+        temperature: 0.6,
+        top_p: 0.95,
+        reasoning_effort: "medium",
+        include_reasoning: false,
+    });
 };
