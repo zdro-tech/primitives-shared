@@ -41,6 +41,12 @@ const runVerification = async () => {
             ExecutionModel.GROQ_LLAMA_3_3_70B_VERSATILE,
             ExecutionModel.GROQ_GPT_OSS_120B,
             ExecutionModel.GROQ_KIMI_K2_0905,
+        ],
+        'fireworks': [
+            ExecutionModel.FIREWORKS_DEEPSEEK_V3P1,
+            ExecutionModel.FIREWORKS_KIMI_K2P5,
+            ExecutionModel.FIREWORKS_KIMI_K2_0905,
+            ExecutionModel.FIREWORKS_GLM_5P1,
         ]
     };
 

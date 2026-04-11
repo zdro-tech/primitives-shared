@@ -4,6 +4,7 @@ import { MessageAuthor } from "../types/chat-message.js";
 import { newClaudeCompletion } from "./anthropic-claude.js";
 import { newGroqCompletion, newGroqGptOss120bCompletion, newGroqKimiK2Completion } from "./groq.js";
 import { newGemini31ProCompletion, newGemini3ProCompletion, newGemini3FlashCompletion } from "./gcp-ml.js";
+import { newFireworksDeepseekV3p1Completion, newFireworksGlm51Completion, newFireworksKimiK25Completion, newFireworksKimiK2Completion } from "./fireworks.js";
 export var ExecutionModel;
 (function (ExecutionModel) {
     // OpenAI GPT-5 models (latest)
@@ -29,6 +30,11 @@ export var ExecutionModel;
     ExecutionModel["GROQ_LLAMA_3_3_70B_VERSATILE"] = "llama-3.3-70b-versatile";
     ExecutionModel["GROQ_GPT_OSS_120B"] = "openai/gpt-oss-120b";
     ExecutionModel["GROQ_KIMI_K2_0905"] = "moonshotai/kimi-k2-instruct-0905";
+    // Fireworks models
+    ExecutionModel["FIREWORKS_DEEPSEEK_V3P1"] = "accounts/fireworks/models/deepseek-v3p1";
+    ExecutionModel["FIREWORKS_KIMI_K2P5"] = "accounts/fireworks/models/kimi-k2p5";
+    ExecutionModel["FIREWORKS_KIMI_K2_0905"] = "accounts/fireworks/models/kimi-k2-instruct-0905";
+    ExecutionModel["FIREWORKS_GLM_5P1"] = "accounts/fireworks/models/glm-5p1";
     // Google Gemini 3 models (latest - December 2025)
     ExecutionModel["GEMINI_3_1_PRO"] = "gemini-3.1-pro-preview";
     ExecutionModel["GEMINI_3_PRO"] = "gemini-3-pro-preview";
@@ -109,6 +115,19 @@ export const newMLCompletion = async (messages, model, mode = "json") => {
         }
         if (model === ExecutionModel.GROQ_KIMI_K2_0905) {
             return await newGroqKimiK2Completion(messages, mode);
+        }
+        // Fireworks models
+        if (model === ExecutionModel.FIREWORKS_DEEPSEEK_V3P1) {
+            return await newFireworksDeepseekV3p1Completion(messages, mode);
+        }
+        if (model === ExecutionModel.FIREWORKS_KIMI_K2P5) {
+            return await newFireworksKimiK25Completion(messages, mode);
+        }
+        if (model === ExecutionModel.FIREWORKS_KIMI_K2_0905) {
+            return await newFireworksKimiK2Completion(messages, mode);
+        }
+        if (model === ExecutionModel.FIREWORKS_GLM_5P1) {
+            return await newFireworksGlm51Completion(messages, mode);
         }
         // Google Gemini 3 models (latest)
         if (model === ExecutionModel.GEMINI_3_1_PRO) {
