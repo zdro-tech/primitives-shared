@@ -19,7 +19,7 @@ export const getTogetherClient = (): OpenAI => {
         togetherClient = new OpenAI({
             apiKey: process.env.TOGETHER_API_KEY,
             baseURL: TOGETHER_BASE_URL,
-            timeout: getTimeoutMs(process.env.TOGETHER_TIMEOUT_SECONDS, process.env.OPEN_AI_TIMEOUT_SECONDS),
+            timeout: getTimeoutMs('90'),
         });
     }
     return togetherClient;

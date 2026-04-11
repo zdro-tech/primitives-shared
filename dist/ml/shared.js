@@ -7,7 +7,6 @@ export const retryOptions = {
     numOfAttempts: 2
 };
 export const getTimeoutMs = (specificTimeoutSeconds, fallbackTimeoutSeconds) => {
-    const parsedSeconds = Number.parseInt(specificTimeoutSeconds ?? fallbackTimeoutSeconds ?? "30", 10);
-    const timeoutSeconds = Number.isFinite(parsedSeconds) ? Math.max(parsedSeconds, 30) : 30;
-    return timeoutSeconds * 1000;
+    const timeoutSeconds = Number.parseInt(specificTimeoutSeconds ?? fallbackTimeoutSeconds ?? "30", 10) || 30;
+    return Math.min(timeoutSeconds, 90) * 1000;
 };
