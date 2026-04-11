@@ -75,3 +75,15 @@ export const newFireworksGlm51Completion = async (
     mode?: string
 ): Promise<ChatCompletion.Choice[]> =>
     await newFireworksCompletion(messages, "accounts/fireworks/models/glm-5p1", mode);
+
+export const newFireworksGptOss120bCompletion = async (
+    messages: ChatCompletionMessageParam[],
+    mode?: string
+): Promise<ChatCompletion.Choice[]> =>
+    await newFireworksCompletion(messages, "accounts/fireworks/models/gpt-oss-120b", mode);
+
+export const newFireworksMiniMaxM25Completion = async (
+    messages: ChatCompletionMessageParam[],
+    mode?: string
+): Promise<ChatCompletion.Choice[]> =>
+    await newFireworksCompletion(messages, "accounts/fireworks/models/minimax-m2p5", mode);

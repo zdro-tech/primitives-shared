@@ -1,4 +1,4 @@
-import { ExecutionModel, processRawMessages, processMessages } from './ml-basics.js';
+import { ExecutionModel, processMessages } from './ml-basics.js';
 import { logger } from '../logger/logger.js';
 import { ChatCompletionMessageParam } from "openai/resources/index";
 import dotenv from 'dotenv';
@@ -47,6 +47,14 @@ const runVerification = async () => {
             ExecutionModel.FIREWORKS_KIMI_K2P5,
             ExecutionModel.FIREWORKS_KIMI_K2_0905,
             ExecutionModel.FIREWORKS_GLM_5P1,
+            ExecutionModel.FIREWORKS_GPT_OSS_120B,
+            ExecutionModel.FIREWORKS_MINIMAX_M2P5,
+        ],
+        'together': [
+            ExecutionModel.TOGETHER_KIMI_K2P5,
+            ExecutionModel.TOGETHER_GLM_5P1,
+            ExecutionModel.TOGETHER_MINIMAX_M2P5,
+            ExecutionModel.TOGETHER_GPT_OSS_120B,
         ]
     };
 
@@ -69,21 +77,28 @@ const runVerification = async () => {
     }
 
     let failed = false;
+    const latencies: Array<{ model: ExecutionModel; jsonMs?: number }> = [];
 
     for (const model of modelsToTest) {
+        const modelLatencies: { model: ExecutionModel; jsonMs?: number } = { model };
+        latencies.push(modelLatencies);
+
         console.log(`\nTesting model: ${model}`);
 
-        // Test 1: processRawMessages (Text Mode)
+        // Test: processMessages (JSON Mode)
         try {
-            console.log(`  1. processRawMessages (Text)...`);
-            const messagesText = [{ role: 'user', content: 'Say "text_check" and nothing else.' }] as ChatCompletionMessageParam[];
+            console.log(`  1. processMessages (JSON)...`);
+            const messagesJson = [{ role: 'user', content: 'Please return a JSON object with a single field named "status" set to the value "json_check". This is a verification test.' }] as ChatCompletionMessageParam[];
             const start = Date.now();
-            const result = await processRawMessages(messagesText, "english", model, "text");
+            const result = await processMessages<{ status: string }>(messagesJson, "english", model, "json");
             const duration = Date.now() - start;
-            if (result && result.includes("text_check")) {
+            modelLatencies.jsonMs = duration;
+
+            if (result && result.status === "json_check") {
                 console.log(`     ✅ Success (${duration}ms)`);
             } else {
-                console.log(`     ⚠️  Success but unexpected output: "${result}" (${duration}ms)`);
+                console.log(`     ⚠️  Success but unexpected output: ${JSON.stringify(result)} (${duration}ms)`);
+                failed = true;
             }
         } catch (error: any) {
             console.error(`     ❌ Failed: ${error.message}`);
@@ -92,28 +107,12 @@ const runVerification = async () => {
             }
             failed = true;
         }
+    }
 
-        // Test 2: processMessages (JSON Mode)
-        try {
-            console.log(`  2. processMessages (JSON)...`);
-            const messagesJson = [{ role: 'user', content: 'Please return a JSON object with a single field named "status" set to the value "json_check". This is a verification test.' }] as ChatCompletionMessageParam[];
-            const start = Date.now();
-            const result = await processMessages<{ status: string }>(messagesJson, "english", model, "json");
-            const duration = Date.now() - start;
-
-            if (result && result.status === "json_check") {
-                console.log(`     ✅ Success (${duration}ms)`);
-            } else {
-                console.log(`     ⚠️  Success but unexpected output: ${JSON.stringify(result)} (${duration}ms)`);
-            }
-        } catch (error: any) {
-            console.error(`     ❌ Failed: ${error.message}`);
-            if (error.response?.data) {
-                console.error(`        Response: ${JSON.stringify(error.response.data)}`);
-            }
-            // Don't fail the whole suite if just JSON parsing is flaky on some models, but log it.
-            // failed = true; 
-        }
+    console.log("\nLatency summary:");
+    for (const latency of latencies) {
+        const jsonLatency = latency.jsonMs === undefined ? "failed" : `${latency.jsonMs}ms`;
+        console.log(`  ${latency.model}: json=${jsonLatency}`);
     }
 
     if (failed) {

@@ -24,6 +24,12 @@ export declare enum ExecutionModel {
     FIREWORKS_KIMI_K2P5 = "accounts/fireworks/models/kimi-k2p5",
     FIREWORKS_KIMI_K2_0905 = "accounts/fireworks/models/kimi-k2-instruct-0905",
     FIREWORKS_GLM_5P1 = "accounts/fireworks/models/glm-5p1",
+    FIREWORKS_GPT_OSS_120B = "accounts/fireworks/models/gpt-oss-120b",
+    FIREWORKS_MINIMAX_M2P5 = "accounts/fireworks/models/minimax-m2p5",
+    TOGETHER_KIMI_K2P5 = "moonshotai/Kimi-K2.5",
+    TOGETHER_GLM_5P1 = "zai-org/GLM-5.1",
+    TOGETHER_MINIMAX_M2P5 = "MiniMaxAI/MiniMax-M2.5",
+    TOGETHER_GPT_OSS_120B = "together/openai/gpt-oss-120b",
     GEMINI_3_1_PRO = "gemini-3.1-pro-preview",
     GEMINI_3_PRO = "gemini-3-pro-preview",
     GEMINI_3_FLASH = "gemini-3-flash-preview"

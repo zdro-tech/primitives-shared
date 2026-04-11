@@ -36,3 +36,5 @@ export const newFireworksDeepseekV3p1Completion = async (messages, mode) => awai
 export const newFireworksKimiK25Completion = async (messages, mode) => await newFireworksCompletion(messages, "accounts/fireworks/models/kimi-k2p5", mode);
 export const newFireworksKimiK2Completion = async (messages, mode) => await newFireworksCompletion(messages, "accounts/fireworks/models/kimi-k2-instruct-0905", mode);
 export const newFireworksGlm51Completion = async (messages, mode) => await newFireworksCompletion(messages, "accounts/fireworks/models/glm-5p1", mode);
+export const newFireworksGptOss120bCompletion = async (messages, mode) => await newFireworksCompletion(messages, "accounts/fireworks/models/gpt-oss-120b", mode);
+export const newFireworksMiniMaxM25Completion = async (messages, mode) => await newFireworksCompletion(messages, "accounts/fireworks/models/minimax-m2p5", mode);

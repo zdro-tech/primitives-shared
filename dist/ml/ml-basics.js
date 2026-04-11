@@ -4,7 +4,8 @@ import { MessageAuthor } from "../types/chat-message.js";
 import { newClaudeCompletion } from "./anthropic-claude.js";
 import { newGroqCompletion, newGroqGptOss120bCompletion, newGroqKimiK2Completion } from "./groq.js";
 import { newGemini31ProCompletion, newGemini3ProCompletion, newGemini3FlashCompletion } from "./gcp-ml.js";
-import { newFireworksDeepseekV3p1Completion, newFireworksGlm51Completion, newFireworksKimiK25Completion, newFireworksKimiK2Completion } from "./fireworks.js";
+import { newFireworksDeepseekV3p1Completion, newFireworksGlm51Completion, newFireworksGptOss120bCompletion, newFireworksKimiK25Completion, newFireworksKimiK2Completion, newFireworksMiniMaxM25Completion } from "./fireworks.js";
+import { newTogetherGlm51Completion, newTogetherGptOss120bCompletion, newTogetherKimiK25Completion, newTogetherMiniMaxM25Completion } from "./together.js";
 export var ExecutionModel;
 (function (ExecutionModel) {
     // OpenAI GPT-5 models (latest)
@@ -35,6 +36,13 @@ export var ExecutionModel;
     ExecutionModel["FIREWORKS_KIMI_K2P5"] = "accounts/fireworks/models/kimi-k2p5";
     ExecutionModel["FIREWORKS_KIMI_K2_0905"] = "accounts/fireworks/models/kimi-k2-instruct-0905";
     ExecutionModel["FIREWORKS_GLM_5P1"] = "accounts/fireworks/models/glm-5p1";
+    ExecutionModel["FIREWORKS_GPT_OSS_120B"] = "accounts/fireworks/models/gpt-oss-120b";
+    ExecutionModel["FIREWORKS_MINIMAX_M2P5"] = "accounts/fireworks/models/minimax-m2p5";
+    // Together AI models
+    ExecutionModel["TOGETHER_KIMI_K2P5"] = "moonshotai/Kimi-K2.5";
+    ExecutionModel["TOGETHER_GLM_5P1"] = "zai-org/GLM-5.1";
+    ExecutionModel["TOGETHER_MINIMAX_M2P5"] = "MiniMaxAI/MiniMax-M2.5";
+    ExecutionModel["TOGETHER_GPT_OSS_120B"] = "together/openai/gpt-oss-120b";
     // Google Gemini 3 models (latest - December 2025)
     ExecutionModel["GEMINI_3_1_PRO"] = "gemini-3.1-pro-preview";
     ExecutionModel["GEMINI_3_PRO"] = "gemini-3-pro-preview";
@@ -128,6 +136,25 @@ export const newMLCompletion = async (messages, model, mode = "json") => {
         }
         if (model === ExecutionModel.FIREWORKS_GLM_5P1) {
             return await newFireworksGlm51Completion(messages, mode);
+        }
+        if (model === ExecutionModel.FIREWORKS_GPT_OSS_120B) {
+            return await newFireworksGptOss120bCompletion(messages, mode);
+        }
+        if (model === ExecutionModel.FIREWORKS_MINIMAX_M2P5) {
+            return await newFireworksMiniMaxM25Completion(messages, mode);
+        }
+        // Together AI models
+        if (model === ExecutionModel.TOGETHER_KIMI_K2P5) {
+            return await newTogetherKimiK25Completion(messages, mode);
+        }
+        if (model === ExecutionModel.TOGETHER_GLM_5P1) {
+            return await newTogetherGlm51Completion(messages, mode);
+        }
+        if (model === ExecutionModel.TOGETHER_MINIMAX_M2P5) {
+            return await newTogetherMiniMaxM25Completion(messages, mode);
+        }
+        if (model === ExecutionModel.TOGETHER_GPT_OSS_120B) {
+            return await newTogetherGptOss120bCompletion(messages, mode);
         }
         // Google Gemini 3 models (latest)
         if (model === ExecutionModel.GEMINI_3_1_PRO) {
