@@ -6,6 +6,7 @@ import { newGroqGptOss120bCompletion } from "./groq.js";
 import { newGemini31ProCompletion, newGemini3ProCompletion, newGemini3FlashCompletion } from "./gcp-ml.js";
 import { newFireworksDeepseekV3p1Completion, newFireworksGlm51Completion, newFireworksGptOss120bCompletion, newFireworksKimiK25Completion, newFireworksMiniMaxM25Completion } from "./fireworks.js";
 import { newTogetherGlm51Completion, newTogetherGptOss120bCompletion, newTogetherKimiK25Completion, newTogetherMiniMaxM25Completion } from "./together.js";
+import { newBasetenGlm5Completion, newBasetenKimiK25Completion } from "./baseten.js";
 export var ExecutionModel;
 (function (ExecutionModel) {
     // OpenAI GPT-5.4 models
@@ -28,6 +29,9 @@ export var ExecutionModel;
     ExecutionModel["TOGETHER_GLM_5P1"] = "zai-org/GLM-5.1";
     ExecutionModel["TOGETHER_MINIMAX_M2P5"] = "MiniMaxAI/MiniMax-M2.5";
     ExecutionModel["TOGETHER_GPT_OSS_120B"] = "together/openai/gpt-oss-120b";
+    // Baseten model APIs
+    ExecutionModel["BASETEN_KIMI_K2P5"] = "baseten/moonshotai/Kimi-K2.5";
+    ExecutionModel["BASETEN_GLM_5"] = "baseten/zai-org/GLM-5";
     // Google Gemini 3 models (latest - December 2025)
     ExecutionModel["GEMINI_3_1_PRO"] = "gemini-3.1-pro-preview";
     ExecutionModel["GEMINI_3_PRO"] = "gemini-3-pro-preview";
@@ -88,6 +92,13 @@ export const newMLCompletion = async (messages, model, mode = "json") => {
         }
         if (model === ExecutionModel.TOGETHER_GPT_OSS_120B) {
             return await newTogetherGptOss120bCompletion(messages, mode);
+        }
+        // Baseten model APIs
+        if (model === ExecutionModel.BASETEN_KIMI_K2P5) {
+            return await newBasetenKimiK25Completion(messages, mode);
+        }
+        if (model === ExecutionModel.BASETEN_GLM_5) {
+            return await newBasetenGlm5Completion(messages, mode);
         }
         // Google Gemini 3 models (latest)
         if (model === ExecutionModel.GEMINI_3_1_PRO) {
@@ -153,8 +164,11 @@ const extractFromMarkdown = (text) => {
     const match = text.match(/```(?:json|markdown)?\s*([\s\S]*?)\s*```/);
     return match && match[1] ? match[1].trim() : text;
 };
+const removeTerminalMarkers = (text) => {
+    return text.replace(/\s*\[EOS\]\s*$/i, "").trim();
+};
 export const parseFirstCompletion = (choices) => {
-    const stringifiedJson = extractFromMarkdown(choices[0]?.message?.content ?? "{}");
+    const stringifiedJson = removeTerminalMarkers(extractFromMarkdown(choices[0]?.message?.content ?? "{}"));
     try {
         return JSON.parse(stringifiedJson);
     }
@@ -164,7 +178,7 @@ export const parseFirstCompletion = (choices) => {
     }
 };
 const cleanFirstCompletion = (choices) => {
-    return extractFromMarkdown(choices[0]?.message?.content ?? "");
+    return removeTerminalMarkers(extractFromMarkdown(choices[0]?.message?.content ?? ""));
 };
 export const getMessageRole = (message) => {
     return [MessageAuthor.Bot, MessageAuthor.Doctor].includes(message.author) ? "assistant" : "user";

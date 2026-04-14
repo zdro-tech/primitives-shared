@@ -45,6 +45,10 @@ const runVerification = async () => {
             ExecutionModel.TOGETHER_GLM_5P1,
             ExecutionModel.TOGETHER_MINIMAX_M2P5,
             ExecutionModel.TOGETHER_GPT_OSS_120B,
+        ],
+        'baseten': [
+            ExecutionModel.BASETEN_KIMI_K2P5,
+            ExecutionModel.BASETEN_GLM_5,
         ]
     };
 

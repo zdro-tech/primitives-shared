@@ -17,6 +17,8 @@ export declare enum ExecutionModel {
     TOGETHER_GLM_5P1 = "zai-org/GLM-5.1",
     TOGETHER_MINIMAX_M2P5 = "MiniMaxAI/MiniMax-M2.5",
     TOGETHER_GPT_OSS_120B = "together/openai/gpt-oss-120b",
+    BASETEN_KIMI_K2P5 = "baseten/moonshotai/Kimi-K2.5",
+    BASETEN_GLM_5 = "baseten/zai-org/GLM-5",
     GEMINI_3_1_PRO = "gemini-3.1-pro-preview",
     GEMINI_3_PRO = "gemini-3-pro-preview",
     GEMINI_3_FLASH = "gemini-3-flash-preview"
