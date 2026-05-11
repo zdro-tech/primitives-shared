@@ -4,9 +4,9 @@ import { MessageAuthor } from "../types/chat-message.js";
 import { newClaudeCompletion } from "./anthropic-claude.js";
 import { newGroqGptOss120bCompletion } from "./groq.js";
 import { newGemini31ProCompletion, newGemini3ProCompletion, newGemini3FlashCompletion } from "./gcp-ml.js";
-import { newFireworksDeepseekV3p1Completion, newFireworksGlm51Completion, newFireworksGptOss120bCompletion, newFireworksKimiK25Completion, newFireworksMiniMaxM25Completion } from "./fireworks.js";
-import { newTogetherGlm51Completion, newTogetherGptOss120bCompletion, newTogetherKimiK25Completion, newTogetherMiniMaxM25Completion } from "./together.js";
-import { newBasetenGlm5Completion, newBasetenKimiK25Completion } from "./baseten.js";
+import { newFireworksDeepseekV3p1Completion, newFireworksGlm51Completion, newFireworksGptOss120bCompletion, newFireworksMiniMaxM25Completion } from "./fireworks.js";
+import { newTogetherGlm51Completion, newTogetherGptOss120bCompletion, newTogetherMiniMaxM25Completion } from "./together.js";
+import { newBasetenGlm5Completion, newBasetenKimiK26Completion } from "./baseten.js";
 export var ExecutionModel;
 (function (ExecutionModel) {
     // OpenAI GPT-5.4 models
@@ -14,23 +14,21 @@ export var ExecutionModel;
     ExecutionModel["GPT5_4_MINI"] = "gpt-5.4-mini";
     ExecutionModel["GPT5_4_NANO"] = "gpt-5.4-nano";
     // Anthropic Claude models (latest)
-    ExecutionModel["CLAUDE_OPUS_4_6"] = "claude-opus-4-6";
+    ExecutionModel["CLAUDE_OPUS_4_7"] = "claude-opus-4-7";
     ExecutionModel["CLAUDE_SONNET_4_6"] = "claude-sonnet-4-6";
     // Groq models (latest)
     ExecutionModel["GROQ_GPT_OSS_120B"] = "openai/gpt-oss-120b";
     // Fireworks models
     ExecutionModel["FIREWORKS_DEEPSEEK_V3P1"] = "accounts/fireworks/models/deepseek-v3p1";
-    ExecutionModel["FIREWORKS_KIMI_K2P5"] = "accounts/fireworks/models/kimi-k2p5";
     ExecutionModel["FIREWORKS_GLM_5P1"] = "accounts/fireworks/models/glm-5p1";
     ExecutionModel["FIREWORKS_GPT_OSS_120B"] = "accounts/fireworks/models/gpt-oss-120b";
     ExecutionModel["FIREWORKS_MINIMAX_M2P5"] = "accounts/fireworks/models/minimax-m2p5";
     // Together AI models
-    ExecutionModel["TOGETHER_KIMI_K2P5"] = "moonshotai/Kimi-K2.5";
     ExecutionModel["TOGETHER_GLM_5P1"] = "zai-org/GLM-5.1";
     ExecutionModel["TOGETHER_MINIMAX_M2P5"] = "MiniMaxAI/MiniMax-M2.5";
     ExecutionModel["TOGETHER_GPT_OSS_120B"] = "together/openai/gpt-oss-120b";
     // Baseten model APIs
-    ExecutionModel["BASETEN_KIMI_K2P5"] = "baseten/moonshotai/Kimi-K2.5";
+    ExecutionModel["BASETEN_KIMI_K2P6"] = "moonshotai/Kimi-K2.6";
     ExecutionModel["BASETEN_GLM_5"] = "baseten/zai-org/GLM-5";
     // Google Gemini 3 models (latest - December 2025)
     ExecutionModel["GEMINI_3_1_PRO"] = "gemini-3.1-pro-preview";
@@ -54,8 +52,8 @@ export const newMLCompletion = async (messages, model, mode = "json") => {
             return await newGPT54NanoCompletion(messages, mode);
         }
         // Anthropic Claude models (latest)
-        if (model === ExecutionModel.CLAUDE_OPUS_4_6) {
-            return await newClaudeCompletion(messages, ExecutionModel.CLAUDE_OPUS_4_6, mode);
+        if (model === ExecutionModel.CLAUDE_OPUS_4_7) {
+            return await newClaudeCompletion(messages, ExecutionModel.CLAUDE_OPUS_4_7, mode);
         }
         if (model === ExecutionModel.CLAUDE_SONNET_4_6) {
             return await newClaudeCompletion(messages, ExecutionModel.CLAUDE_SONNET_4_6, mode);
@@ -68,9 +66,6 @@ export const newMLCompletion = async (messages, model, mode = "json") => {
         if (model === ExecutionModel.FIREWORKS_DEEPSEEK_V3P1) {
             return await newFireworksDeepseekV3p1Completion(messages, mode);
         }
-        if (model === ExecutionModel.FIREWORKS_KIMI_K2P5) {
-            return await newFireworksKimiK25Completion(messages, mode);
-        }
         if (model === ExecutionModel.FIREWORKS_GLM_5P1) {
             return await newFireworksGlm51Completion(messages, mode);
         }
@@ -81,9 +76,6 @@ export const newMLCompletion = async (messages, model, mode = "json") => {
             return await newFireworksMiniMaxM25Completion(messages, mode);
         }
         // Together AI models
-        if (model === ExecutionModel.TOGETHER_KIMI_K2P5) {
-            return await newTogetherKimiK25Completion(messages, mode);
-        }
         if (model === ExecutionModel.TOGETHER_GLM_5P1) {
             return await newTogetherGlm51Completion(messages, mode);
         }
@@ -94,8 +86,8 @@ export const newMLCompletion = async (messages, model, mode = "json") => {
             return await newTogetherGptOss120bCompletion(messages, mode);
         }
         // Baseten model APIs
-        if (model === ExecutionModel.BASETEN_KIMI_K2P5) {
-            return await newBasetenKimiK25Completion(messages, mode);
+        if (model === ExecutionModel.BASETEN_KIMI_K2P6) {
+            return await newBasetenKimiK26Completion(messages, mode);
         }
         if (model === ExecutionModel.BASETEN_GLM_5) {
             return await newBasetenGlm5Completion(messages, mode);

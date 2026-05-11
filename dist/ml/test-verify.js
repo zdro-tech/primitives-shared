@@ -15,7 +15,7 @@ const runVerification = async () => {
             ExecutionModel.GPT5_4_NANO,
         ],
         'anthropic': [
-            ExecutionModel.CLAUDE_OPUS_4_6,
+            ExecutionModel.CLAUDE_OPUS_4_7,
             ExecutionModel.CLAUDE_SONNET_4_6,
         ],
         'google': [
@@ -28,19 +28,17 @@ const runVerification = async () => {
         ],
         'fireworks': [
             ExecutionModel.FIREWORKS_DEEPSEEK_V3P1,
-            ExecutionModel.FIREWORKS_KIMI_K2P5,
             ExecutionModel.FIREWORKS_GLM_5P1,
             ExecutionModel.FIREWORKS_GPT_OSS_120B,
             ExecutionModel.FIREWORKS_MINIMAX_M2P5,
         ],
         'together': [
-            ExecutionModel.TOGETHER_KIMI_K2P5,
             ExecutionModel.TOGETHER_GLM_5P1,
             ExecutionModel.TOGETHER_MINIMAX_M2P5,
             ExecutionModel.TOGETHER_GPT_OSS_120B,
         ],
         'baseten': [
-            ExecutionModel.BASETEN_KIMI_K2P5,
+            ExecutionModel.BASETEN_KIMI_K2P6,
             ExecutionModel.BASETEN_GLM_5,
         ]
     };

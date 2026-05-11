@@ -55,11 +55,11 @@ export const newBasetenCompletion = async (
 ): Promise<ChatCompletion.Choice[]> =>
     await createBasetenChatCompletion({ ...defaultBasetenSettings, ...modelSettings, model, messages }, mode);
 
-export const newBasetenKimiK25Completion = async (
+export const newBasetenKimiK26Completion = async (
     messages: ChatCompletionMessageParam[],
     mode?: string
 ): Promise<ChatCompletion.Choice[]> =>
-    await newBasetenCompletion(messages, "moonshotai/Kimi-K2.5", mode, {
+    await newBasetenCompletion(messages, "moonshotai/Kimi-K2.6", mode, {
         temperature: 1.0,
         top_p: 0.95,
     });

@@ -57,11 +57,6 @@ export const newFireworksDeepseekV3p1Completion = async (
 ): Promise<ChatCompletion.Choice[]> =>
     await newFireworksCompletion(messages, "accounts/fireworks/models/deepseek-v3p1", mode);
 
-export const newFireworksKimiK25Completion = async (
-    messages: ChatCompletionMessageParam[],
-    mode?: string
-): Promise<ChatCompletion.Choice[]> =>
-    await newFireworksCompletion(messages, "accounts/fireworks/models/kimi-k2p5", mode);
 
 export const newFireworksGlm51Completion = async (
     messages: ChatCompletionMessageParam[],

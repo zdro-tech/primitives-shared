@@ -51,14 +51,6 @@ export const newTogetherCompletion = async (
 ): Promise<ChatCompletion.Choice[]> =>
     await createTogetherChatCompletion({ ...defaultTogetherSettings, ...modelSettings, model, messages }, mode);
 
-export const newTogetherKimiK25Completion = async (
-    messages: ChatCompletionMessageParam[],
-    mode?: string
-): Promise<ChatCompletion.Choice[]> =>
-    await newTogetherCompletion(messages, "moonshotai/Kimi-K2.5", mode, {
-        temperature: 1.0,
-        top_p: 0.95,
-    });
 
 export const newTogetherGlm51Completion = async (
     messages: ChatCompletionMessageParam[],

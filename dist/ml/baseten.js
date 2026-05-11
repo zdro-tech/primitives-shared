@@ -34,7 +34,7 @@ export const createBasetenChatCompletion = async (params, mode = "json") => {
     }, retryOptions);
 };
 export const newBasetenCompletion = async (messages, model, mode, modelSettings = {}) => await createBasetenChatCompletion({ ...defaultBasetenSettings, ...modelSettings, model, messages }, mode);
-export const newBasetenKimiK25Completion = async (messages, mode) => await newBasetenCompletion(messages, "moonshotai/Kimi-K2.5", mode, {
+export const newBasetenKimiK26Completion = async (messages, mode) => await newBasetenCompletion(messages, "moonshotai/Kimi-K2.6", mode, {
     temperature: 1.0,
     top_p: 0.95,
 });
