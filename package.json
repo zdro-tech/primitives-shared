@@ -52,7 +52,7 @@
     "@opentelemetry/resources": "^2.5.0",
     "@opentelemetry/sdk-trace-node": "^2.5.0",
     "@opentelemetry/semantic-conventions": "^1.39.0",
-    "@socket.io/redis-streams-adapter": "^0.2.3",
+    "@socket.io/redis-streams-adapter": "^0.3.1",
     "@tinyhttp/content-disposition": "^2.2.4",
     "axios": "^1.15.2",
     "cookie-parser": "^1.4.7",
