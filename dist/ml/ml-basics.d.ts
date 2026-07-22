@@ -2,24 +2,9 @@ import { ChatCompletionMessageParam, ChatCompletion } from "openai/resources/ind
 import { ChatMessage } from "../types/chat-message.js";
 import { Message } from "openai/resources/beta/threads/index.mjs";
 export declare enum ExecutionModel {
-    GPT5_4 = "gpt-5.4",
-    GPT5_4_MINI = "gpt-5.4-mini",
-    GPT5_4_NANO = "gpt-5.4-nano",
-    CLAUDE_OPUS_4_7 = "claude-opus-4-7",
-    CLAUDE_SONNET_4_6 = "claude-sonnet-4-6",
-    GROQ_GPT_OSS_120B = "openai/gpt-oss-120b",
-    FIREWORKS_DEEPSEEK_V3P1 = "accounts/fireworks/models/deepseek-v3p1",
-    FIREWORKS_GLM_5P1 = "accounts/fireworks/models/glm-5p1",
-    FIREWORKS_GPT_OSS_120B = "accounts/fireworks/models/gpt-oss-120b",
-    FIREWORKS_MINIMAX_M2P5 = "accounts/fireworks/models/minimax-m2p5",
-    TOGETHER_GLM_5P1 = "zai-org/GLM-5.1",
-    TOGETHER_MINIMAX_M2P5 = "MiniMaxAI/MiniMax-M2.5",
-    TOGETHER_GPT_OSS_120B = "together/openai/gpt-oss-120b",
-    BASETEN_KIMI_K2P6 = "moonshotai/Kimi-K2.6",
-    BASETEN_GLM_5 = "baseten/zai-org/GLM-5",
-    GEMINI_3_1_PRO = "gemini-3.1-pro-preview",
-    GEMINI_3_PRO = "gemini-3-pro-preview",
-    GEMINI_3_FLASH = "gemini-3-flash-preview"
+    OPENROUTER_GPT_OSS_120B = "openrouter/openai/gpt-oss-120b",
+    OPENROUTER_GEMMA_4_31B = "openrouter/google/gemma-4-31b-it",
+    OPENROUTER_KIMI_K2P6 = "openrouter/moonshotai/kimi-k2.6"
 }
 export declare const anyOfModels: (array: ExecutionModel[]) => ExecutionModel;
 export declare const newMLCompletion: (messages: Array<ChatCompletionMessageParam>, model: ExecutionModel, mode?: string) => Promise<ChatCompletion.Choice[]>;

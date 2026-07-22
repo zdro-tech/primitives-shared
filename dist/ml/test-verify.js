@@ -9,37 +9,10 @@ const runVerification = async () => {
     console.log("Starting Verification (Exposed APIs)...");
     const families = process.argv.slice(2);
     const modelFamilies = {
-        'openai': [
-            ExecutionModel.GPT5_4,
-            ExecutionModel.GPT5_4_MINI,
-            ExecutionModel.GPT5_4_NANO,
-        ],
-        'anthropic': [
-            ExecutionModel.CLAUDE_OPUS_4_7,
-            ExecutionModel.CLAUDE_SONNET_4_6,
-        ],
-        'google': [
-            ExecutionModel.GEMINI_3_1_PRO,
-            ExecutionModel.GEMINI_3_PRO,
-            ExecutionModel.GEMINI_3_FLASH
-        ],
-        'groq': [
-            ExecutionModel.GROQ_GPT_OSS_120B,
-        ],
-        'fireworks': [
-            ExecutionModel.FIREWORKS_DEEPSEEK_V3P1,
-            ExecutionModel.FIREWORKS_GLM_5P1,
-            ExecutionModel.FIREWORKS_GPT_OSS_120B,
-            ExecutionModel.FIREWORKS_MINIMAX_M2P5,
-        ],
-        'together': [
-            ExecutionModel.TOGETHER_GLM_5P1,
-            ExecutionModel.TOGETHER_MINIMAX_M2P5,
-            ExecutionModel.TOGETHER_GPT_OSS_120B,
-        ],
-        'baseten': [
-            ExecutionModel.BASETEN_KIMI_K2P6,
-            ExecutionModel.BASETEN_GLM_5,
+        'openrouter': [
+            ExecutionModel.OPENROUTER_GPT_OSS_120B,
+            ExecutionModel.OPENROUTER_GEMMA_4_31B,
+            ExecutionModel.OPENROUTER_KIMI_K2P6,
         ]
     };
     let modelsToTest = [];
