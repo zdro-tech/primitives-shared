@@ -1,13 +1,15 @@
 import { visionCompletion } from "./openai.js";
 import { logger } from "../logger/logger.js";
 import { MessageAuthor } from "../types/chat-message.js";
-import { newOpenrouterGemma431bCompletion, newOpenrouterGptOss120bCompletion, newOpenrouterKimiK26Completion } from "./openrouter.js";
+import { newOpenrouterGemma431bCompletion, newOpenrouterGlm52Completion, newOpenrouterGptOss120bCompletion, newOpenrouterKimiK26Completion, newOpenrouterKimiK3Completion } from "./openrouter.js";
 export var ExecutionModel;
 (function (ExecutionModel) {
     // OpenRouter models — each pinned to its top-3 throughput providers (primary + 2 fallbacks).
     ExecutionModel["OPENROUTER_GPT_OSS_120B"] = "openrouter/openai/gpt-oss-120b";
     ExecutionModel["OPENROUTER_GEMMA_4_31B"] = "openrouter/google/gemma-4-31b-it";
     ExecutionModel["OPENROUTER_KIMI_K2P6"] = "openrouter/moonshotai/kimi-k2.6";
+    ExecutionModel["OPENROUTER_KIMI_K3"] = "openrouter/moonshotai/kimi-k3";
+    ExecutionModel["OPENROUTER_GLM_5_2"] = "openrouter/z-ai/glm-5.2";
 })(ExecutionModel || (ExecutionModel = {}));
 export const anyOfModels = (array) => {
     const randomIndex = Math.floor(Math.random() * array.length);
@@ -24,6 +26,12 @@ export const newMLCompletion = async (messages, model, mode = "json") => {
         }
         if (model === ExecutionModel.OPENROUTER_KIMI_K2P6) {
             return await newOpenrouterKimiK26Completion(messages, mode);
+        }
+        if (model === ExecutionModel.OPENROUTER_KIMI_K3) {
+            return await newOpenrouterKimiK3Completion(messages, mode);
+        }
+        if (model === ExecutionModel.OPENROUTER_GLM_5_2) {
+            return await newOpenrouterGlm52Completion(messages, mode);
         }
     }
     catch (e) {

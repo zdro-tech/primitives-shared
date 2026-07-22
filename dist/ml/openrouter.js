@@ -54,3 +54,15 @@ export const newOpenrouterKimiK26Completion = async (messages, mode) => await ne
     top_p: 0.95,
     ...providerOrder(["WandB", "Together", "ModelRun"]),
 });
+// Kimi K3 — newer/stronger than K2.6, but as of 2026-07-22 only Moonshot AI (first-party,
+// ~28 t/s) hosts it on OpenRouter, so there are no throughput fallbacks yet and it can be
+// rate-limited upstream. allow_fallbacks stays on to auto-widen once others pick it up.
+export const newOpenrouterKimiK3Completion = async (messages, mode) => await newOpenrouterCompletion(messages, "moonshotai/kimi-k3", mode, {
+    temperature: 1.0,
+    top_p: 0.95,
+    ...providerOrder(["Moonshot AI"]),
+});
+// GLM-5.2 — Wafer (106 t/s) -> Cloudflare (85) -> WandB (81).
+export const newOpenrouterGlm52Completion = async (messages, mode) => await newOpenrouterCompletion(messages, "z-ai/glm-5.2", mode, {
+    ...providerOrder(["Wafer", "Cloudflare", "WandB"]),
+});

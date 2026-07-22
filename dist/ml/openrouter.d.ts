@@ -7,4 +7,6 @@ export declare const newOpenrouterCompletion: (messages: ChatCompletionMessagePa
 export declare const newOpenrouterGptOss120bCompletion: (messages: ChatCompletionMessageParam[], mode?: string) => Promise<ChatCompletion.Choice[]>;
 export declare const newOpenrouterGemma431bCompletion: (messages: ChatCompletionMessageParam[], mode?: string) => Promise<ChatCompletion.Choice[]>;
 export declare const newOpenrouterKimiK26Completion: (messages: ChatCompletionMessageParam[], mode?: string) => Promise<ChatCompletion.Choice[]>;
+export declare const newOpenrouterKimiK3Completion: (messages: ChatCompletionMessageParam[], mode?: string) => Promise<ChatCompletion.Choice[]>;
+export declare const newOpenrouterGlm52Completion: (messages: ChatCompletionMessageParam[], mode?: string) => Promise<ChatCompletion.Choice[]>;
 //# sourceMappingURL=openrouter.d.ts.map

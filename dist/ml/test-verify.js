@@ -13,6 +13,8 @@ const runVerification = async () => {
             ExecutionModel.OPENROUTER_GPT_OSS_120B,
             ExecutionModel.OPENROUTER_GEMMA_4_31B,
             ExecutionModel.OPENROUTER_KIMI_K2P6,
+            ExecutionModel.OPENROUTER_KIMI_K3,
+            ExecutionModel.OPENROUTER_GLM_5_2,
         ]
     };
     let modelsToTest = [];
