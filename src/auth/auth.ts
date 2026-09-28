@@ -1,6 +1,6 @@
 import axios from "axios";
 import jwt from 'jsonwebtoken';
-import jwkToPem from 'jwk-to-pem';
+import { createPublicKey } from 'crypto';
 
 const base64UrlDecode = (input: string): string => {
   const base64 = input.replace(/-/g, '+').replace(/_/g, '/');
@@ -40,8 +40,8 @@ export const parseToken = async (token: string, jwks: any): Promise<AccessToken>
   if (!jwk) {
     throw new Error('JWK not found for token');
   }
-  const pem = jwkToPem(jwk);
-  return jwt.verify(token, pem, { algorithms: ['RS256'] }) as AccessToken;
+  const publicKey = createPublicKey({ key: jwk, format: 'jwk' });
+  return jwt.verify(token, publicKey, { algorithms: ['RS256'] }) as AccessToken;
 };
 
 export const getJwks = async (awsRegion: string, userPoolID: string) => {
