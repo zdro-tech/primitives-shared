@@ -1,7 +1,7 @@
 import { visionCompletion } from "./openai.js";
 import { logger } from "../logger/logger.js";
 import { MessageAuthor } from "../types/chat-message.js";
-import { newOpenrouterGemma431bCompletion, newOpenrouterGlm52Completion, newOpenrouterGptOss120bCompletion, newOpenrouterKimiK26Completion, newOpenrouterKimiK3Completion } from "./openrouter.js";
+import { newOpenrouterDeepseekV41FlashCompletion, newOpenrouterGemma431bCompletion, newOpenrouterGlm52Completion, newOpenrouterGlm53Completion, newOpenrouterGptOss120bCompletion, newOpenrouterKimiK26Completion, newOpenrouterKimiK3Completion } from "./openrouter.js";
 export var ExecutionModel;
 (function (ExecutionModel) {
     // OpenRouter models — each pinned to its top-3 throughput providers (primary + 2 fallbacks).
@@ -10,35 +10,54 @@ export var ExecutionModel;
     ExecutionModel["OPENROUTER_KIMI_K2P6"] = "openrouter/moonshotai/kimi-k2.6";
     ExecutionModel["OPENROUTER_KIMI_K3"] = "openrouter/moonshotai/kimi-k3";
     ExecutionModel["OPENROUTER_GLM_5_2"] = "openrouter/z-ai/glm-5.2";
+    ExecutionModel["OPENROUTER_GLM_5_3"] = "openrouter/z-ai/glm-5.3";
+    ExecutionModel["OPENROUTER_DEEPSEEK_V4P1_FLASH"] = "openrouter/deepseek/deepseek-v4.1-flash";
 })(ExecutionModel || (ExecutionModel = {}));
 export const anyOfModels = (array) => {
     const randomIndex = Math.floor(Math.random() * array.length);
     return array[randomIndex];
 };
+const completions = {
+    [ExecutionModel.OPENROUTER_GPT_OSS_120B]: newOpenrouterGptOss120bCompletion,
+    [ExecutionModel.OPENROUTER_GEMMA_4_31B]: newOpenrouterGemma431bCompletion,
+    [ExecutionModel.OPENROUTER_KIMI_K2P6]: newOpenrouterKimiK26Completion,
+    [ExecutionModel.OPENROUTER_KIMI_K3]: newOpenrouterKimiK3Completion,
+    [ExecutionModel.OPENROUTER_GLM_5_2]: newOpenrouterGlm52Completion,
+    [ExecutionModel.OPENROUTER_GLM_5_3]: newOpenrouterGlm53Completion,
+    [ExecutionModel.OPENROUTER_DEEPSEEK_V4P1_FLASH]: newOpenrouterDeepseekV41FlashCompletion,
+};
+// Tried in order after the requested model. Three different model families on different
+// hosts, so a single deprecation or provider outage cannot take out the whole chain.
+const FALLBACK_MODELS = [
+    ExecutionModel.OPENROUTER_GLM_5_3,
+    ExecutionModel.OPENROUTER_DEEPSEEK_V4P1_FLASH,
+    ExecutionModel.OPENROUTER_GPT_OSS_120B,
+];
+// A reply the caller cannot parse counts as a failure of that model, so the next one gets a turn.
+const assertUsableCompletion = (choices, mode) => {
+    const content = choices?.[0]?.message?.content;
+    if (!content?.trim()) {
+        throw new Error("Empty completion");
+    }
+    if (mode === "json") {
+        parseJsonContent(content);
+    }
+};
 export const newMLCompletion = async (messages, model, mode = "json") => {
-    try {
-        // OpenRouter models — provider-level throughput fallback handled inside each call.
-        if (model === ExecutionModel.OPENROUTER_GPT_OSS_120B) {
-            return await newOpenrouterGptOss120bCompletion(messages, mode);
+    const chain = [model, ...FALLBACK_MODELS.filter(fallback => fallback !== model)];
+    let lastError;
+    for (const candidate of chain) {
+        try {
+            const choices = await completions[candidate](messages, mode);
+            assertUsableCompletion(choices, mode);
+            return choices;
         }
-        if (model === ExecutionModel.OPENROUTER_GEMMA_4_31B) {
-            return await newOpenrouterGemma431bCompletion(messages, mode);
-        }
-        if (model === ExecutionModel.OPENROUTER_KIMI_K2P6) {
-            return await newOpenrouterKimiK26Completion(messages, mode);
-        }
-        if (model === ExecutionModel.OPENROUTER_KIMI_K3) {
-            return await newOpenrouterKimiK3Completion(messages, mode);
-        }
-        if (model === ExecutionModel.OPENROUTER_GLM_5_2) {
-            return await newOpenrouterGlm52Completion(messages, mode);
+        catch (e) {
+            lastError = e;
+            logger.error(`Error in newMLCompletion ${candidate}`, e);
         }
     }
-    catch (e) {
-        logger.error(`Error in newMLCompletion ${model}`, e);
-    }
-    // Final fallback: GPT-OSS-120B (Cerebras primary + Bedrock/Groq fallbacks).
-    return await newOpenrouterGptOss120bCompletion(messages, mode);
+    throw lastError;
 };
 export const processRawMessages = async (messages, language, model, mode = "json") => {
     return cleanFirstCompletion(await newMLCompletion(messages, model, mode));
@@ -78,13 +97,45 @@ const extractFromMarkdown = (text) => {
 const removeTerminalMarkers = (text) => {
     return text.replace(/\s*\[EOS\]\s*$/i, "").trim();
 };
-export const parseFirstCompletion = (choices) => {
-    const stringifiedJson = removeTerminalMarkers(extractFromMarkdown(choices[0]?.message?.content ?? "{}"));
+// Models occasionally wrap the JSON in prose ("Sure, here it is: {...}"), so when the whole
+// reply does not parse, take the first embedded object or array that does.
+const embeddedJson = (text) => {
+    for (let start = 0; start < text.length; start++) {
+        const closer = text[start] === "{" ? "}" : text[start] === "[" ? "]" : undefined;
+        if (!closer) {
+            continue;
+        }
+        for (let end = text.lastIndexOf(closer); end > start; end = text.lastIndexOf(closer, end - 1)) {
+            try {
+                return JSON.parse(text.slice(start, end + 1));
+            }
+            catch {
+                // keep shrinking
+            }
+        }
+    }
+    return undefined;
+};
+const parseJsonContent = (content) => {
+    const stringifiedJson = removeTerminalMarkers(extractFromMarkdown(content));
     try {
         return JSON.parse(stringifiedJson);
     }
     catch (e) {
-        logger.error(`JSON parse crash: ${stringifiedJson} and choices were`, choices);
+        const embedded = embeddedJson(stringifiedJson);
+        if (embedded === undefined) {
+            throw e;
+        }
+        return embedded;
+    }
+};
+export const parseFirstCompletion = (choices) => {
+    const content = choices[0]?.message?.content ?? "{}";
+    try {
+        return parseJsonContent(content);
+    }
+    catch (e) {
+        logger.error(`JSON parse crash: ${content} and choices were`, choices);
         throw e;
     }
 };

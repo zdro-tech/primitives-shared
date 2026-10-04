@@ -1,4 +1,4 @@
-import { ExecutionModel, processRawMessages, processMessages } from './ml-basics.js';
+import { ExecutionModel, processRawMessages, processMessages, parseFirstCompletion } from './ml-basics.js';
 import { logger } from '../logger/logger.js';
 import { ChatCompletionMessageParam } from "openai/resources/index";
 import dotenv from 'dotenv';
@@ -22,7 +22,12 @@ const runVerification = async () => {
             ExecutionModel.OPENROUTER_KIMI_K2P6,
             ExecutionModel.OPENROUTER_KIMI_K3,
             ExecutionModel.OPENROUTER_GLM_5_2,
-        ]
+            ExecutionModel.OPENROUTER_GLM_5_3,
+            ExecutionModel.OPENROUTER_DEEPSEEK_V4P1_FLASH,
+        ],
+        // A model id that is not registered behaves like a retired one: the first call fails
+        // and the answer has to come from the fallback chain.
+        'fallback': ["openrouter/retired/model" as ExecutionModel]
     };
 
     let modelsToTest: ExecutionModel[] = [];
@@ -44,6 +49,16 @@ const runVerification = async () => {
     }
 
     let failed = false;
+
+    console.log("\nTesting JSON extraction from a reply with prose around it");
+    const wrapped = parseFirstCompletion([{ message: { content: 'Widzę, że ma Pan też receptę.\n\n{"q": "Czy prosi Pan o odnowienie obu leków?"}' } }] as any);
+    if (wrapped?.q === "Czy prosi Pan o odnowienie obu leków?") {
+        console.log("     ✅ Success");
+    } else {
+        console.log(`     ❌ Unexpected output: ${JSON.stringify(wrapped)}`);
+        failed = true;
+    }
+
     const latencies: Array<{ model: ExecutionModel; jsonMs?: number; rawMs?: number }> = [];
 
     for (const model of modelsToTest) {

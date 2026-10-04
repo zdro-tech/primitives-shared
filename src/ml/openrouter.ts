@@ -33,9 +33,14 @@ export const defaultOpenrouterSettings = {
 // OpenRouter's non-standard `provider` field lets us pin an explicit upstream order:
 // a primary provider plus two fallbacks, chosen by measured output throughput (t/s)
 // for each specific model. allow_fallbacks keeps us up if all three are unavailable.
-// Rankings captured 2026-07-22 from GET /models/{id}/endpoints (throughput_last_30m.p50).
+// The quantization filter applies to those automatic fallbacks too, so a request never
+// lands on a 4-bit endpoint. "unknown" stays allowed: most first-tier hosts don't report it.
+// Rankings captured early October 2026 from GET /models/{id}/endpoints (throughput_last_30m.p50),
+// restricted to endpoints that pass the quantization filter and support response_format.
+const HIGH_PRECISION_QUANTIZATIONS = ["fp8", "fp16", "bf16", "fp32", "unknown"];
+
 const providerOrder = (order: string[]) => ({
-    provider: { order, allow_fallbacks: true },
+    provider: { order, allow_fallbacks: true, quantizations: HIGH_PRECISION_QUANTIZATIONS },
 });
 
 export const createOpenrouterChatCompletion = async (
@@ -60,7 +65,7 @@ export const newOpenrouterCompletion = async (
 ): Promise<ChatCompletion.Choice[]> =>
     await createOpenrouterChatCompletion({ ...defaultOpenrouterSettings, ...modelSettings, model, messages }, mode);
 
-// GPT-OSS-120B — Groq primary (best latency), then by throughput: Cerebras (478 t/s) -> Amazon Bedrock (347).
+// GPT-OSS-120B — Cerebras (673 t/s) -> Groq (250) -> DeepInfra (140).
 export const newOpenrouterGptOss120bCompletion = async (
     messages: ChatCompletionMessageParam[],
     mode?: string
@@ -68,19 +73,19 @@ export const newOpenrouterGptOss120bCompletion = async (
     await newOpenrouterCompletion(messages, "openai/gpt-oss-120b", mode, {
         temperature: 0.6,
         top_p: 0.95,
-        ...providerOrder(["Groq", "Cerebras", "Amazon Bedrock"]),
+        ...providerOrder(["Cerebras", "Groq", "DeepInfra"]),
     } as unknown as Partial<ChatCompletionCreateParamsNonStreaming>);
 
-// Gemma 4 31B — primary Cerebras (177 t/s) -> SambaNova (94) -> ModelRun (71).
+// Gemma 4 31B — Friendli (69 t/s) -> SiliconFlow (27) -> Parasail (18). The faster hosts are 4-bit.
 export const newOpenrouterGemma431bCompletion = async (
     messages: ChatCompletionMessageParam[],
     mode?: string
 ): Promise<ChatCompletion.Choice[]> =>
     await newOpenrouterCompletion(messages, "google/gemma-4-31b-it", mode, {
-        ...providerOrder(["Cerebras", "SambaNova", "ModelRun"]),
+        ...providerOrder(["Friendli", "SiliconFlow", "Parasail"]),
     } as unknown as Partial<ChatCompletionCreateParamsNonStreaming>);
 
-// Kimi K2.6 — primary WandB (164 t/s) -> Together (109) -> ModelRun (81).
+// Kimi K2.6 — Crusoe (74 t/s) -> Novita (55) -> Phala (54). Superseded by GLM-5.3.
 export const newOpenrouterKimiK26Completion = async (
     messages: ChatCompletionMessageParam[],
     mode?: string
@@ -88,12 +93,10 @@ export const newOpenrouterKimiK26Completion = async (
     await newOpenrouterCompletion(messages, "moonshotai/kimi-k2.6", mode, {
         temperature: 1.0,
         top_p: 0.95,
-        ...providerOrder(["WandB", "Together", "ModelRun"]),
+        ...providerOrder(["Crusoe", "Novita", "Phala"]),
     } as unknown as Partial<ChatCompletionCreateParamsNonStreaming>);
 
-// Kimi K3 — newer/stronger than K2.6, but as of 2026-07-22 only Moonshot AI (first-party,
-// ~28 t/s) hosts it on OpenRouter, so there are no throughput fallbacks yet and it can be
-// rate-limited upstream. allow_fallbacks stays on to auto-widen once others pick it up.
+// Kimi K3 — roughly GLM-5.3 quality at ~4x the output price; kept as an option only.
 export const newOpenrouterKimiK3Completion = async (
     messages: ChatCompletionMessageParam[],
     mode?: string
@@ -104,11 +107,32 @@ export const newOpenrouterKimiK3Completion = async (
         ...providerOrder(["Moonshot AI"]),
     } as unknown as Partial<ChatCompletionCreateParamsNonStreaming>);
 
-// GLM-5.2 — Wafer (106 t/s) -> Cloudflare (85) -> WandB (81).
+// GLM-5.2 — Wafer -> Cloudflare.
 export const newOpenrouterGlm52Completion = async (
     messages: ChatCompletionMessageParam[],
     mode?: string
 ): Promise<ChatCompletion.Choice[]> =>
     await newOpenrouterCompletion(messages, "z-ai/glm-5.2", mode, {
-        ...providerOrder(["Wafer", "Cloudflare", "WandB"]),
+        ...providerOrder(["Wafer", "Cloudflare"]),
+    } as unknown as Partial<ChatCompletionCreateParamsNonStreaming>);
+
+// GLM-5.3 — Friendli (136 t/s) -> Together (131) -> Modal (113).
+// Reasoning is mandatory and defaults to max effort (~12s and ~1200 reasoning tokens for a
+// one-line reply); low effort answers in 2-4s.
+export const newOpenrouterGlm53Completion = async (
+    messages: ChatCompletionMessageParam[],
+    mode?: string
+): Promise<ChatCompletion.Choice[]> =>
+    await newOpenrouterCompletion(messages, "z-ai/glm-5.3", mode, {
+        reasoning: { effort: "low" },
+        ...providerOrder(["Friendli", "Together", "Modal"]),
+    } as unknown as Partial<ChatCompletionCreateParamsNonStreaming>);
+
+// DeepSeek V4.1 Flash — Together (231 t/s) -> BaseTen (193) -> Modal (141).
+export const newOpenrouterDeepseekV41FlashCompletion = async (
+    messages: ChatCompletionMessageParam[],
+    mode?: string
+): Promise<ChatCompletion.Choice[]> =>
+    await newOpenrouterCompletion(messages, "deepseek/deepseek-v4.1-flash", mode, {
+        ...providerOrder(["Together", "BaseTen", "Modal"]),
     } as unknown as Partial<ChatCompletionCreateParamsNonStreaming>);

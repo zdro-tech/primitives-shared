@@ -1,4 +1,4 @@
-import { ExecutionModel, processRawMessages, processMessages } from './ml-basics.js';
+import { ExecutionModel, processRawMessages, processMessages, parseFirstCompletion } from './ml-basics.js';
 import dotenv from 'dotenv';
 import path from 'path';
 // Load env
@@ -15,7 +15,12 @@ const runVerification = async () => {
             ExecutionModel.OPENROUTER_KIMI_K2P6,
             ExecutionModel.OPENROUTER_KIMI_K3,
             ExecutionModel.OPENROUTER_GLM_5_2,
-        ]
+            ExecutionModel.OPENROUTER_GLM_5_3,
+            ExecutionModel.OPENROUTER_DEEPSEEK_V4P1_FLASH,
+        ],
+        // A model id that is not registered behaves like a retired one: the first call fails
+        // and the answer has to come from the fallback chain.
+        'fallback': ["openrouter/retired/model"]
     };
     let modelsToTest = [];
     if (families.length > 0) {
@@ -36,6 +41,15 @@ const runVerification = async () => {
         process.exit(1);
     }
     let failed = false;
+    console.log("\nTesting JSON extraction from a reply with prose around it");
+    const wrapped = parseFirstCompletion([{ message: { content: 'Widzę, że ma Pan też receptę.\n\n{"q": "Czy prosi Pan o odnowienie obu leków?"}' } }]);
+    if (wrapped?.q === "Czy prosi Pan o odnowienie obu leków?") {
+        console.log("     ✅ Success");
+    }
+    else {
+        console.log(`     ❌ Unexpected output: ${JSON.stringify(wrapped)}`);
+        failed = true;
+    }
     const latencies = [];
     for (const model of modelsToTest) {
         const modelLatencies = { model };
