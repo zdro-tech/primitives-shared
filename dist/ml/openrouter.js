@@ -57,10 +57,10 @@ export const newOpenrouterGptOss120bCompletion = async (messages, mode) => await
     top_p: 0.95,
     ...providerOrder(["Cerebras", "Groq", "Crusoe", "DeepInfra"]),
 });
-// Gemma 4 31B — Crusoe -> DeepInfra -> Parasail -> Novita, ordered by latency and uptime
-// (all ~15-20 t/s). The faster hosts are 4-bit or keep data.
+// Gemma 4 31B — DeepInfra -> Parasail -> Novita -> Crusoe, ordered by measured latency and
+// success rate (Crusoe was rate-limited upstream in every test). The faster hosts are 4-bit or keep data.
 export const newOpenrouterGemma431bCompletion = async (messages, mode) => await newOpenrouterCompletion(messages, "google/gemma-4-31b-it", mode, {
-    ...providerOrder(["Crusoe", "DeepInfra", "Parasail", "Novita"]),
+    ...providerOrder(["DeepInfra", "Parasail", "Novita", "Crusoe"]),
 });
 // Kimi K2.6 — Novita (64 t/s) -> Phala (42) -> Crusoe (17). Superseded by GLM-5.3.
 // No other ZDR, non-4-bit host supports json_object.
@@ -70,34 +70,36 @@ export const newOpenrouterKimiK26Completion = async (messages, mode) => await ne
     ...providerOrder(["Novita", "Phala", "Crusoe"]),
 });
 // Kimi K3 — roughly GLM-5.3 quality at ~4x the output price; kept as an option only.
-// Fireworks (94 t/s) -> Together (51) -> Wafer (50) -> Morph (47).
+// Morph (~10s per JSON reply) -> Together (~35s) -> Fireworks (~36s) -> Wafer (~46s).
 export const newOpenrouterKimiK3Completion = async (messages, mode) => await newOpenrouterCompletion(messages, "moonshotai/kimi-k3", mode, {
     temperature: 1.0,
     top_p: 0.95,
-    ...providerOrder(["Fireworks", "Together", "Wafer", "Morph"]),
+    ...providerOrder(["Morph", "Together", "Fireworks", "Wafer"]),
 });
-// GLM-5.2 — Wafer (120 t/s) -> BaseTen (127) -> Together (91) -> Relace (111).
+// GLM-5.2 — Together (~1.6s per JSON reply) -> Wafer (~8s) -> BaseTen -> Relace (both often rate-limited).
 export const newOpenrouterGlm52Completion = async (messages, mode) => await newOpenrouterCompletion(messages, "z-ai/glm-5.2", mode, {
-    ...providerOrder(["Wafer", "BaseTen", "Together", "Relace"]),
+    ...providerOrder(["Together", "Wafer", "BaseTen", "Relace"]),
 });
-// GLM-5.3 — Fireworks (129 t/s) -> Modal (106) -> Wafer (88) -> Parasail (92) -> Together (136).
-// Together is last: it ranked fastest but timed out or took 10-90s in repeated tests.
+// GLM-5.3 — Wafer (~2.8s per JSON reply) -> Parasail (~3.2s) -> Together (~1.7s) -> Modal (~5.6s) -> Fireworks (~8.3s).
+// Together is fastest at the median but has stalled for 10-90s in earlier tests, so the steadier hosts go first.
 // Friendli keeps data, so it is not ZDR-eligible.
 // Reasoning is mandatory and defaults to max effort (~12s and ~1200 reasoning tokens for a
 // one-line reply); low effort answers in 2-4s.
 export const newOpenrouterGlm53Completion = async (messages, mode) => await newOpenrouterCompletion(messages, "z-ai/glm-5.3", mode, {
     reasoning: { effort: "low" },
-    ...providerOrder(["Fireworks", "Modal", "Wafer", "Parasail", "Together"]),
+    ...providerOrder(["Wafer", "Parasail", "Together", "Modal", "Fireworks"]),
 });
-// DeepSeek V4.1 Flash — Together (229 t/s) -> BaseTen (167) -> Modal (188) -> Parasail (201) -> CoreWeave (164).
+// DeepSeek V4.1 Flash — Together (~5.8s per JSON reply) -> BaseTen (~8.5s) -> Parasail (~8.6s) -> CoreWeave (~13.6s)
+// -> Modal (rate-limited upstream in every test).
 export const newOpenrouterDeepseekV41FlashCompletion = async (messages, mode) => await newOpenrouterCompletion(messages, "deepseek/deepseek-v4.1-flash", mode, {
-    ...providerOrder(["Together", "BaseTen", "Modal", "Parasail", "CoreWeave"]),
+    ...providerOrder(["Together", "BaseTen", "Parasail", "CoreWeave", "Modal"]),
 });
 // Same model with reasoning switched off, for short extraction and classification calls
 // where latency matters most (~0.8s; reasoning adds ~300 tokens per reply).
+// Together (~1.7s) -> BaseTen (~2.6s) -> CoreWeave (~3.2s) -> Parasail (~5.4s) -> Modal.
 export const newOpenrouterDeepseekV41FlashNoReasoningCompletion = async (messages, mode) => await newOpenrouterCompletion(messages, "deepseek/deepseek-v4.1-flash", mode, {
     reasoning: { enabled: false },
-    ...providerOrder(["Together", "BaseTen", "Modal", "Parasail", "CoreWeave"]),
+    ...providerOrder(["Together", "BaseTen", "CoreWeave", "Parasail", "Modal"]),
 });
 // Same model and vectors as OpenAI's text-embedding-3-large, served by Azure under ZDR.
 export const createOpenrouterEmbeddings = async (input, model) => await backOff(async () => {
