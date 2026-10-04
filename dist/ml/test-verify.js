@@ -17,6 +17,7 @@ const runVerification = async () => {
             ExecutionModel.OPENROUTER_GLM_5_2,
             ExecutionModel.OPENROUTER_GLM_5_3,
             ExecutionModel.OPENROUTER_DEEPSEEK_V4P1_FLASH,
+            ExecutionModel.OPENROUTER_DEEPSEEK_V4P1_FLASH_NO_REASONING,
         ],
         // A model id that is not registered behaves like a retired one: the first call fails
         // and the answer has to come from the fallback chain.

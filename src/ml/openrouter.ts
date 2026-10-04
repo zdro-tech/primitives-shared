@@ -136,3 +136,14 @@ export const newOpenrouterDeepseekV41FlashCompletion = async (
     await newOpenrouterCompletion(messages, "deepseek/deepseek-v4.1-flash", mode, {
         ...providerOrder(["Together", "BaseTen", "Modal"]),
     } as unknown as Partial<ChatCompletionCreateParamsNonStreaming>);
+
+// Same model with reasoning switched off, for short extraction and classification calls
+// where latency matters most (~0.8s; reasoning adds ~300 tokens per reply).
+export const newOpenrouterDeepseekV41FlashNoReasoningCompletion = async (
+    messages: ChatCompletionMessageParam[],
+    mode?: string
+): Promise<ChatCompletion.Choice[]> =>
+    await newOpenrouterCompletion(messages, "deepseek/deepseek-v4.1-flash", mode, {
+        reasoning: { enabled: false },
+        ...providerOrder(["Together", "BaseTen", "Modal"]),
+    } as unknown as Partial<ChatCompletionCreateParamsNonStreaming>);

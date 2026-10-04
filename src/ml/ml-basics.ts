@@ -4,7 +4,7 @@ import { logger } from "../logger/logger.js";
 
 import { ChatMessage, FileData, MessageAuthor } from "../types/chat-message.js";
 import { Message, TextContentBlock } from "openai/resources/beta/threads/index.mjs";
-import { newOpenrouterDeepseekV41FlashCompletion, newOpenrouterGemma431bCompletion, newOpenrouterGlm52Completion, newOpenrouterGlm53Completion, newOpenrouterGptOss120bCompletion, newOpenrouterKimiK26Completion, newOpenrouterKimiK3Completion } from "./openrouter.js";
+import { newOpenrouterDeepseekV41FlashCompletion, newOpenrouterDeepseekV41FlashNoReasoningCompletion, newOpenrouterGemma431bCompletion, newOpenrouterGlm52Completion, newOpenrouterGlm53Completion, newOpenrouterGptOss120bCompletion, newOpenrouterKimiK26Completion, newOpenrouterKimiK3Completion } from "./openrouter.js";
 
 export enum ExecutionModel {
     // OpenRouter models — each pinned to its top-3 throughput providers (primary + 2 fallbacks).
@@ -15,6 +15,7 @@ export enum ExecutionModel {
     OPENROUTER_GLM_5_2 = "openrouter/z-ai/glm-5.2",
     OPENROUTER_GLM_5_3 = "openrouter/z-ai/glm-5.3",
     OPENROUTER_DEEPSEEK_V4P1_FLASH = "openrouter/deepseek/deepseek-v4.1-flash",
+    OPENROUTER_DEEPSEEK_V4P1_FLASH_NO_REASONING = "openrouter/deepseek/deepseek-v4.1-flash:no-reasoning",
 }
 
 
@@ -33,6 +34,7 @@ const completions: Record<ExecutionModel, Completion> = {
     [ExecutionModel.OPENROUTER_GLM_5_2]: newOpenrouterGlm52Completion,
     [ExecutionModel.OPENROUTER_GLM_5_3]: newOpenrouterGlm53Completion,
     [ExecutionModel.OPENROUTER_DEEPSEEK_V4P1_FLASH]: newOpenrouterDeepseekV41FlashCompletion,
+    [ExecutionModel.OPENROUTER_DEEPSEEK_V4P1_FLASH_NO_REASONING]: newOpenrouterDeepseekV41FlashNoReasoningCompletion,
 };
 
 // Tried in order after the requested model. Three different model families on different

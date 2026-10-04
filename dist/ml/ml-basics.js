@@ -1,7 +1,7 @@
 import { visionCompletion } from "./openai.js";
 import { logger } from "../logger/logger.js";
 import { MessageAuthor } from "../types/chat-message.js";
-import { newOpenrouterDeepseekV41FlashCompletion, newOpenrouterGemma431bCompletion, newOpenrouterGlm52Completion, newOpenrouterGlm53Completion, newOpenrouterGptOss120bCompletion, newOpenrouterKimiK26Completion, newOpenrouterKimiK3Completion } from "./openrouter.js";
+import { newOpenrouterDeepseekV41FlashCompletion, newOpenrouterDeepseekV41FlashNoReasoningCompletion, newOpenrouterGemma431bCompletion, newOpenrouterGlm52Completion, newOpenrouterGlm53Completion, newOpenrouterGptOss120bCompletion, newOpenrouterKimiK26Completion, newOpenrouterKimiK3Completion } from "./openrouter.js";
 export var ExecutionModel;
 (function (ExecutionModel) {
     // OpenRouter models — each pinned to its top-3 throughput providers (primary + 2 fallbacks).
@@ -12,6 +12,7 @@ export var ExecutionModel;
     ExecutionModel["OPENROUTER_GLM_5_2"] = "openrouter/z-ai/glm-5.2";
     ExecutionModel["OPENROUTER_GLM_5_3"] = "openrouter/z-ai/glm-5.3";
     ExecutionModel["OPENROUTER_DEEPSEEK_V4P1_FLASH"] = "openrouter/deepseek/deepseek-v4.1-flash";
+    ExecutionModel["OPENROUTER_DEEPSEEK_V4P1_FLASH_NO_REASONING"] = "openrouter/deepseek/deepseek-v4.1-flash:no-reasoning";
 })(ExecutionModel || (ExecutionModel = {}));
 export const anyOfModels = (array) => {
     const randomIndex = Math.floor(Math.random() * array.length);
@@ -25,6 +26,7 @@ const completions = {
     [ExecutionModel.OPENROUTER_GLM_5_2]: newOpenrouterGlm52Completion,
     [ExecutionModel.OPENROUTER_GLM_5_3]: newOpenrouterGlm53Completion,
     [ExecutionModel.OPENROUTER_DEEPSEEK_V4P1_FLASH]: newOpenrouterDeepseekV41FlashCompletion,
+    [ExecutionModel.OPENROUTER_DEEPSEEK_V4P1_FLASH_NO_REASONING]: newOpenrouterDeepseekV41FlashNoReasoningCompletion,
 };
 // Tried in order after the requested model. Three different model families on different
 // hosts, so a single deprecation or provider outage cannot take out the whole chain.

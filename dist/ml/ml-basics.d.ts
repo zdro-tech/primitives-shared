@@ -8,7 +8,8 @@ export declare enum ExecutionModel {
     OPENROUTER_KIMI_K3 = "openrouter/moonshotai/kimi-k3",
     OPENROUTER_GLM_5_2 = "openrouter/z-ai/glm-5.2",
     OPENROUTER_GLM_5_3 = "openrouter/z-ai/glm-5.3",
-    OPENROUTER_DEEPSEEK_V4P1_FLASH = "openrouter/deepseek/deepseek-v4.1-flash"
+    OPENROUTER_DEEPSEEK_V4P1_FLASH = "openrouter/deepseek/deepseek-v4.1-flash",
+    OPENROUTER_DEEPSEEK_V4P1_FLASH_NO_REASONING = "openrouter/deepseek/deepseek-v4.1-flash:no-reasoning"
 }
 export declare const anyOfModels: (array: ExecutionModel[]) => ExecutionModel;
 export declare const newMLCompletion: (messages: Array<ChatCompletionMessageParam>, model: ExecutionModel, mode?: string) => Promise<ChatCompletion.Choice[]>;
