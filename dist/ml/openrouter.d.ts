@@ -2,6 +2,11 @@ import OpenAI from "openai";
 import { ChatCompletion, ChatCompletionCreateParamsNonStreaming, ChatCompletionMessageParam } from "openai/resources/index";
 export declare const getOpenrouterClient: () => OpenAI;
 export declare const defaultOpenrouterSettings: ChatCompletionCreateParamsNonStreaming;
+export declare const privateRouting: {
+    zdr: boolean;
+    data_collection: string;
+    allow_fallbacks: boolean;
+};
 export declare const createOpenrouterChatCompletion: (params: ChatCompletionCreateParamsNonStreaming, mode?: string) => Promise<ChatCompletion.Choice[]>;
 export declare const newOpenrouterCompletion: (messages: ChatCompletionMessageParam[], model: string, mode?: string, modelSettings?: Partial<ChatCompletionCreateParamsNonStreaming>) => Promise<ChatCompletion.Choice[]>;
 export declare const newOpenrouterGptOss120bCompletion: (messages: ChatCompletionMessageParam[], mode?: string) => Promise<ChatCompletion.Choice[]>;
@@ -12,4 +17,5 @@ export declare const newOpenrouterGlm52Completion: (messages: ChatCompletionMess
 export declare const newOpenrouterGlm53Completion: (messages: ChatCompletionMessageParam[], mode?: string) => Promise<ChatCompletion.Choice[]>;
 export declare const newOpenrouterDeepseekV41FlashCompletion: (messages: ChatCompletionMessageParam[], mode?: string) => Promise<ChatCompletion.Choice[]>;
 export declare const newOpenrouterDeepseekV41FlashNoReasoningCompletion: (messages: ChatCompletionMessageParam[], mode?: string) => Promise<ChatCompletion.Choice[]>;
+export declare const createOpenrouterEmbeddings: (input: string | string[], model: string) => Promise<number[][]>;
 //# sourceMappingURL=openrouter.d.ts.map

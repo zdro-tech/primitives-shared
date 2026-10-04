@@ -20,19 +20,28 @@ export const defaultOpenrouterSettings = {
     n: 1,
     max_completion_tokens: 8192,
 };
-// OpenRouter's non-standard `provider` field lets us pin an explicit upstream order:
-// a primary provider plus two fallbacks, chosen by measured output throughput (t/s)
-// for each specific model. allow_fallbacks keeps us up if all three are unavailable.
-// The quantization filter applies to those automatic fallbacks too, so a request never
-// lands on a 4-bit endpoint. "unknown" stays allowed: most first-tier hosts don't report it.
-// Rankings captured early October 2026 from GET /models/{id}/endpoints (throughput_last_30m.p50),
-// restricted to endpoints that pass the quantization filter and support response_format.
+// OpenRouter's non-standard `provider` field pins an explicit allowlist: a primary provider
+// plus at least three fallbacks, chosen by time to first token, output throughput and uptime
+// for each specific model. Requests never leave that list (allow_fallbacks: false) and only
+// reach endpoints that retain no prompts or completions (zdr) and never train on them
+// (data_collection: deny); model-level fallbacks in ml-basics cover a full outage.
+// The quantization filter keeps requests off 4-bit endpoints. "unknown" stays allowed: most
+// first-tier hosts don't report it.
+// Rankings captured early October 2026 from GET /models/{id}/endpoints (throughput_last_30m.p50,
+// latency_last_30m.p50), restricted to endpoints listed by GET /endpoints/zdr that pass the
+// quantization filter and support response_format.
 const HIGH_PRECISION_QUANTIZATIONS = ["fp8", "fp16", "bf16", "fp32", "unknown"];
+export const privateRouting = {
+    zdr: true,
+    data_collection: "deny",
+    allow_fallbacks: false,
+};
 const providerOrder = (order) => ({
-    provider: { order, allow_fallbacks: true, quantizations: HIGH_PRECISION_QUANTIZATIONS },
+    provider: { ...privateRouting, order, only: order, quantizations: HIGH_PRECISION_QUANTIZATIONS },
 });
 export const createOpenrouterChatCompletion = async (params, mode = "json") => {
-    const settings = { ...params };
+    const provider = params.provider;
+    const settings = { ...params, provider: { ...provider, ...privateRouting } };
     if (mode === "json") {
         settings.response_format = { type: "json_object" };
     }
@@ -42,46 +51,60 @@ export const createOpenrouterChatCompletion = async (params, mode = "json") => {
     }, retryOptions);
 };
 export const newOpenrouterCompletion = async (messages, model, mode, modelSettings = {}) => await createOpenrouterChatCompletion({ ...defaultOpenrouterSettings, ...modelSettings, model, messages }, mode);
-// GPT-OSS-120B — Cerebras (673 t/s) -> Groq (250) -> DeepInfra (140).
+// GPT-OSS-120B — Cerebras (538 t/s) -> Groq (306) -> Crusoe (149) -> DeepInfra (96).
 export const newOpenrouterGptOss120bCompletion = async (messages, mode) => await newOpenrouterCompletion(messages, "openai/gpt-oss-120b", mode, {
     temperature: 0.6,
     top_p: 0.95,
-    ...providerOrder(["Cerebras", "Groq", "DeepInfra"]),
+    ...providerOrder(["Cerebras", "Groq", "Crusoe", "DeepInfra"]),
 });
-// Gemma 4 31B — Friendli (69 t/s) -> SiliconFlow (27) -> Parasail (18). The faster hosts are 4-bit.
+// Gemma 4 31B — Crusoe -> DeepInfra -> Parasail -> Novita, ordered by latency and uptime
+// (all ~15-20 t/s). The faster hosts are 4-bit or keep data.
 export const newOpenrouterGemma431bCompletion = async (messages, mode) => await newOpenrouterCompletion(messages, "google/gemma-4-31b-it", mode, {
-    ...providerOrder(["Friendli", "SiliconFlow", "Parasail"]),
+    ...providerOrder(["Crusoe", "DeepInfra", "Parasail", "Novita"]),
 });
-// Kimi K2.6 — Crusoe (74 t/s) -> Novita (55) -> Phala (54). Superseded by GLM-5.3.
+// Kimi K2.6 — Novita (64 t/s) -> Phala (42) -> Crusoe (17). Superseded by GLM-5.3.
+// No other ZDR, non-4-bit host supports json_object.
 export const newOpenrouterKimiK26Completion = async (messages, mode) => await newOpenrouterCompletion(messages, "moonshotai/kimi-k2.6", mode, {
     temperature: 1.0,
     top_p: 0.95,
-    ...providerOrder(["Crusoe", "Novita", "Phala"]),
+    ...providerOrder(["Novita", "Phala", "Crusoe"]),
 });
 // Kimi K3 — roughly GLM-5.3 quality at ~4x the output price; kept as an option only.
+// Fireworks (94 t/s) -> Together (51) -> Wafer (50) -> Morph (47).
 export const newOpenrouterKimiK3Completion = async (messages, mode) => await newOpenrouterCompletion(messages, "moonshotai/kimi-k3", mode, {
     temperature: 1.0,
     top_p: 0.95,
-    ...providerOrder(["Moonshot AI"]),
+    ...providerOrder(["Fireworks", "Together", "Wafer", "Morph"]),
 });
-// GLM-5.2 — Wafer -> Cloudflare.
+// GLM-5.2 — Wafer (120 t/s) -> BaseTen (127) -> Together (91) -> Relace (111).
 export const newOpenrouterGlm52Completion = async (messages, mode) => await newOpenrouterCompletion(messages, "z-ai/glm-5.2", mode, {
-    ...providerOrder(["Wafer", "Cloudflare"]),
+    ...providerOrder(["Wafer", "BaseTen", "Together", "Relace"]),
 });
-// GLM-5.3 — Friendli (136 t/s) -> Together (131) -> Modal (113).
+// GLM-5.3 — Fireworks (129 t/s) -> Modal (106) -> Wafer (88) -> Parasail (92) -> Together (136).
+// Together is last: it ranked fastest but timed out or took 10-90s in repeated tests.
+// Friendli keeps data, so it is not ZDR-eligible.
 // Reasoning is mandatory and defaults to max effort (~12s and ~1200 reasoning tokens for a
 // one-line reply); low effort answers in 2-4s.
 export const newOpenrouterGlm53Completion = async (messages, mode) => await newOpenrouterCompletion(messages, "z-ai/glm-5.3", mode, {
     reasoning: { effort: "low" },
-    ...providerOrder(["Friendli", "Together", "Modal"]),
+    ...providerOrder(["Fireworks", "Modal", "Wafer", "Parasail", "Together"]),
 });
-// DeepSeek V4.1 Flash — Together (231 t/s) -> BaseTen (193) -> Modal (141).
+// DeepSeek V4.1 Flash — Together (229 t/s) -> BaseTen (167) -> Modal (188) -> Parasail (201) -> CoreWeave (164).
 export const newOpenrouterDeepseekV41FlashCompletion = async (messages, mode) => await newOpenrouterCompletion(messages, "deepseek/deepseek-v4.1-flash", mode, {
-    ...providerOrder(["Together", "BaseTen", "Modal"]),
+    ...providerOrder(["Together", "BaseTen", "Modal", "Parasail", "CoreWeave"]),
 });
 // Same model with reasoning switched off, for short extraction and classification calls
 // where latency matters most (~0.8s; reasoning adds ~300 tokens per reply).
 export const newOpenrouterDeepseekV41FlashNoReasoningCompletion = async (messages, mode) => await newOpenrouterCompletion(messages, "deepseek/deepseek-v4.1-flash", mode, {
     reasoning: { enabled: false },
-    ...providerOrder(["Together", "BaseTen", "Modal"]),
+    ...providerOrder(["Together", "BaseTen", "Modal", "Parasail", "CoreWeave"]),
 });
+// Same model and vectors as OpenAI's text-embedding-3-large, served by Azure under ZDR.
+export const createOpenrouterEmbeddings = async (input, model) => await backOff(async () => {
+    const reply = await getOpenrouterClient().embeddings.create({
+        model: `openai/${model}`,
+        input,
+        provider: { ...privateRouting, only: ["Azure"] },
+    });
+    return reply?.data.map(item => item.embedding);
+}, retryOptions);

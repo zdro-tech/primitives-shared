@@ -1,6 +1,7 @@
 import OpenAI from 'openai';
 import { getTimeoutMs, retryOptions } from './shared.js';
 import { backOff } from 'exponential-backoff';
+import { createOpenrouterEmbeddings } from './openrouter.js';
 let openAIClient;
 export const getOpenAIClient = () => {
     if (!process.env.OPENAI_API_KEY) {
@@ -18,9 +19,10 @@ export const defaultOpenAISettings = {
     temperature: 0.4,
     n: 1,
     max_completion_tokens: 8192,
+    store: false,
 };
 export const createChatCompletion = async (params, mode = 'json') => {
-    const settings = { ...params };
+    const settings = { ...params, store: false };
     if (mode === 'json') {
         settings.response_format = { type: 'json_object' };
     }
@@ -33,7 +35,4 @@ export const newGPT54Completion = async (messages, mode) => await createChatComp
 export const newGPT54MiniCompletion = async (messages, mode) => await createChatCompletion({ model: "gpt-5.4-mini", messages, max_completion_tokens: 8192 }, mode);
 export const newGPT54NanoCompletion = async (messages, mode) => await createChatCompletion({ model: "gpt-5.4-nano", messages, max_completion_tokens: 8192 }, mode);
 export const visionCompletion = async (messages) => await createChatCompletion({ model: "gpt-5.4", messages, max_completion_tokens: 8192 });
-export const createEmbeddings = async (input, model = "text-embedding-3-small") => {
-    const reply = await getOpenAIClient().embeddings.create({ model, input });
-    return reply?.data.map(item => item.embedding);
-};
+export const createEmbeddings = async (input, model = "text-embedding-3-small") => await createOpenrouterEmbeddings(input, model);

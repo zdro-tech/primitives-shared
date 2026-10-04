@@ -3,6 +3,7 @@ import { ChatCompletionCreateParamsNonStreaming } from 'openai/resources/index.m
 import { getTimeoutMs, retryOptions } from './shared.js';
 import { ChatCompletionMessageParam, ChatCompletion, ChatCompletionMessage } from "openai/resources/index";
 import { backOff } from 'exponential-backoff';
+import { createOpenrouterEmbeddings } from './openrouter.js';
 
 let openAIClient: OpenAI;
 export const getOpenAIClient = () => {
@@ -22,10 +23,11 @@ export const defaultOpenAISettings = {
   temperature: 0.4,
   n: 1,
   max_completion_tokens: 8192,
+  store: false,
 } as ChatCompletionCreateParamsNonStreaming;
 
 export const createChatCompletion = async (params: ChatCompletionCreateParamsNonStreaming, mode = 'json'): Promise<ChatCompletion.Choice[]> => {
-  const settings = { ...params };
+  const settings = { ...params, store: false };
   if (mode === 'json') {
     settings.response_format = { type: 'json_object' };
   }
@@ -58,7 +60,5 @@ export const visionCompletion = async (
 ): Promise<ChatCompletion.Choice[]> =>
   await createChatCompletion({ model: "gpt-5.4", messages, max_completion_tokens: 8192 });
 
-export const createEmbeddings = async (input: string | string[], model = "text-embedding-3-small"): Promise<number[][]> => {
-  const reply = await getOpenAIClient().embeddings.create({ model, input });
-  return reply?.data.map(item => item.embedding);
-};
+export const createEmbeddings = async (input: string | string[], model = "text-embedding-3-small"): Promise<number[][]> =>
+  await createOpenrouterEmbeddings(input, model);
