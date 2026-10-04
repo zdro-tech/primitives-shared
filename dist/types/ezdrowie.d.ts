@@ -118,6 +118,7 @@ export interface HL7ServiceRecipient {
     streetName: string;
     houseNumber: string;
     unitId?: string;
+    patientId?: string;
 }
 export interface HL7PrescriptionSearchCriteria {
     prescriptionIssuanceDateTo?: string;
@@ -191,6 +192,7 @@ export interface HL7EffectiveTime {
 }
 export interface HL7Dosage {
     doseQuantity?: number;
+    doseQuantityUnit?: string;
     rateQuantityUnit?: string;
     rateQuantityValue?: number;
     maxDoseQuantity?: number;

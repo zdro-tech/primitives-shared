@@ -6,6 +6,7 @@ export interface ShrankMedicinalProduct {
     pharmaceuticalFormName: string;
     activeSubstanceName: string;
     atcCode: string;
+    doseUnit?: string | null;
     productVariations: ShrankMedicinalProductVariations[];
 }
 export interface ShrankMedicinalProductVariations {

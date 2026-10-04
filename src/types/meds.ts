@@ -6,6 +6,7 @@ export interface ShrankMedicinalProduct {
     pharmaceuticalFormName: string;
     activeSubstanceName: string;
     atcCode: string;
+    doseUnit?: string | null; // unit for the dose on a prescription, e.g. "tabl.", "ml"; null when unknown
     productVariations: ShrankMedicinalProductVariations[];
 }
 

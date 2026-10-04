@@ -130,6 +130,7 @@ export interface HL7ServiceRecipient {
     streetName: string;
     houseNumber: string;
     unitId?: string;
+    patientId?: string; // our own patient identifier, sent next to PESEL
 }
 
 export interface HL7PrescriptionSearchCriteria {
@@ -213,6 +214,7 @@ export interface HL7EffectiveTime {
 
 export interface HL7Dosage {
     doseQuantity?: number;  //num of medication unit (i.e tablets) per 1 intake (określa ilość leku, którą pacjent powinien brać przy jednym podaniu)
+    doseQuantityUnit?: string; // unit of doseQuantity as printed on the prescription, e.g. "tabl.", "ml"; "szt." when absent
     rateQuantityUnit?: string; //injection speed (eg. inhales)
     rateQuantityValue?: number;  //injection speed (eg. 8)
     maxDoseQuantity?: number; //maximum quantity of medication unit
