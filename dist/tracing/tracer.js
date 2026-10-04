@@ -5,7 +5,8 @@ import { NodeTracerProvider, SimpleSpanProcessor } from '@opentelemetry/sdk-trac
 import { ExpressInstrumentation } from '@opentelemetry/instrumentation-express';
 import { SpanStatusCode } from '@opentelemetry/api';
 import { registerInstrumentations } from '@opentelemetry/instrumentation';
-import { TraceExporter } from '@google-cloud/opentelemetry-cloud-trace-exporter';
+import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
+import { GoogleAuth } from 'google-auth-library';
 import { SocketIoInstrumentation } from '@opentelemetry/instrumentation-socket.io';
 const appName = process.env.K_SERVICE || 'local';
 const appVersion = process.env.K_REVISION || 'local';
@@ -16,14 +17,25 @@ export const defaultAttributes = {
 export const defaultHook = (span, hookInfo) => {
     span.setAttributes(defaultAttributes);
 };
+const isProduction = process.env.NODE_ENV === 'production';
+const auth = new GoogleAuth({ scopes: 'https://www.googleapis.com/auth/cloud-platform' });
 const getSpanProcessors = () => {
-    if (process.env.NODE_ENV === 'production') {
-        return [new SimpleSpanProcessor(new TraceExporter())];
+    if (isProduction) {
+        return [new SimpleSpanProcessor(new OTLPTraceExporter({
+                url: 'https://telemetry.googleapis.com/v1/traces',
+                headers: async () => Object.fromEntries((await auth.getRequestHeaders()).entries()),
+            }))];
     }
     return [];
 };
+const getResourceAttributes = () => {
+    if (isProduction) {
+        return { ...defaultAttributes, 'gcp.project_id': auth.getProjectId().catch(() => undefined) };
+    }
+    return defaultAttributes;
+};
 export const traceProvider = new NodeTracerProvider({
-    resource: resourceFromAttributes(defaultAttributes),
+    resource: resourceFromAttributes(getResourceAttributes()),
     spanProcessors: getSpanProcessors(),
 });
 traceProvider.register();
